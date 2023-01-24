@@ -255,6 +255,10 @@ export const getNetworkSettings = (): NetworkSettings => {
         realtimeSyncFrequencySeconds: 10,
         realtimeSyncMaxBlockLag: 128,
         backfillBlockBatchSize: 512,
+        mintsAsSalesBlacklist: [
+          // Uniswap V3: Positions NFT
+          "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+        ],
         coingecko: {
           networkId: "optimistic-ethereum",
         },

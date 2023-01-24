@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { config } from "@/config/index";
 import { encrypt } from "@/common/utils";
 
 export class Assets {
@@ -8,7 +7,7 @@ export class Assets {
       return undefined;
     }
 
-    const baseUrl = `https://api${config.chainId == 1 ? "" : "-goerli"}.reservoir.tools/assets/v1?`;
+    const baseUrl = `${process.env.RESERVOIR_API_BASE}/assets/v1?`;
 
     if (_.isArray(assets)) {
       const assetsResult = [];

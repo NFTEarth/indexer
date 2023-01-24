@@ -18,6 +18,7 @@ export const config = {
     process.env.TRACE_NETWORK_HTTP_URL ?? process.env.BASE_NETWORK_HTTP_URL
   ),
   openseaIndexerApiBaseUrl: String(process.env.OPENSEA_INDEXER_API_BASE_URL),
+  simpleHashIndexerApiBaseUrl: String(process.env.SIMPLEHASH_INDEXER_API_BASE_URL),
 
   // When running in liquidity-only mode, all metadata processes are disabled
   liquidityOnly: !process.env.METADATA_API_BASE_URL,
@@ -77,6 +78,7 @@ export const config = {
   x2y2ApiKey: String(process.env.X2Y2_API_KEY),
   cbApiKey: String(process.env.CB_API_KEY),
   infinityApiKey: String(process.env.INFINITY_API_KEY),
+  simpleHashApiKey: String(process.env.SIMPLEHASH_API_KEY),
 
   railwayStaticUrl: String(process.env.RAILWAY_STATIC_URL || ""),
 
