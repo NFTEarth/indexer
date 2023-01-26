@@ -259,6 +259,11 @@ export const getNetworkSettings = (): NetworkSettings => {
           // Uniswap V3: Positions NFT
           "0xc36442b4a4522e871399cd717abdd847ab11fe88",
         ],
+        supportedBidCurrencies: {
+          ...defaultNetworkSettings.supportedBidCurrencies,
+          // OP
+          "0x4200000000000000000000000000000000000042": true,
+        },
         coingecko: {
           networkId: "optimistic-ethereum",
         },
