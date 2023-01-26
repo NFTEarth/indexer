@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { encrypt } from "@/common/utils";
+import { config } from "@/config/index";
 
 export class Assets {
   public static getLocalAssetsLink(assets: string | string[]) {
@@ -7,7 +8,7 @@ export class Assets {
       return undefined;
     }
 
-    const baseUrl = `${process.env.RESERVOIR_API_BASE}/assets/v1?`;
+    const baseUrl = `${config.reservoirAPIBase}/assets/v1?`;
 
     if (_.isArray(assets)) {
       const assetsResult = [];

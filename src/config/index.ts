@@ -3,6 +3,8 @@ export const config = {
   port: Number(process.env.PORT),
   chainId: Number(process.env.CHAIN_ID),
 
+  reservoirAPIBase: String(process.env.RESERVOIR_API_BASE),
+
   adminApiKey: String(process.env.ADMIN_API_KEY),
   bullmqAdminPassword: String(process.env.BULLMQ_ADMIN_PASSWORD),
   arweaveRelayerKey: process.env.ARWEAVE_RELAYER_KEY
