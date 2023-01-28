@@ -48,6 +48,18 @@ export const getMarketplaces: RouteOptions = {
   handler: async () => {
     const marketplaces: Marketplace[] = [
       {
+        name: "NFTEarth",
+        imageUrl: "https://nftearth.exchange/nftearth-icon.png",
+        fee: {
+          percent: 1,
+          bps: 100,
+        },
+        feeBps: 0.01,
+        orderbook: "nftearth",
+        orderKind: "nftearth",
+        listingEnabled: true,
+      },
+      {
         name: "Reservoir",
         imageUrl: "https://api.reservoir.tools/redirect/sources/reservoir/logo/v2",
         fee: {
@@ -57,7 +69,7 @@ export const getMarketplaces: RouteOptions = {
         feeBps: 0,
         orderbook: "reservoir",
         orderKind: "seaport",
-        listingEnabled: true,
+        listingEnabled: false,
       },
       {
         name: "OpenSea",
@@ -122,6 +134,10 @@ export const getMarketplaces: RouteOptions = {
         }
         case 5: {
           listableOrderbooks = ["reservoir", "opensea", "looks-rare"];
+          break;
+        }
+        case 10: {
+          listableOrderbooks = ["nftearth", "opensea", "quixotic"];
           break;
         }
       }
