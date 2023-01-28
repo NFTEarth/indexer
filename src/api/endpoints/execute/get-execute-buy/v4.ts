@@ -4,7 +4,6 @@ import { AddressZero } from "@ethersproject/constants";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
 import * as Sdk from "@reservoir0x/sdk";
-import { ListingDetails } from "@reservoir0x/sdk/dist/router/v5/types";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
@@ -164,7 +163,7 @@ export const getExecuteBuyV4Options: RouteOptions = {
       const sources = await Sources.getInstance();
 
       // Keep track of the listings and path to fill
-      const listingDetails: ListingDetails[] = [];
+      const listingDetails: any[] = [];
       const path: {
         orderId: string;
         contract: string;

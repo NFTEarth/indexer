@@ -68,7 +68,7 @@ export class Exchange {
       // Fill non-bundle orders
       order = order as Order;
 
-      const info = order.getInfo();
+      let info = order.getInfo();
       if (!info) {
         throw new Error("Could not get order info");
       }

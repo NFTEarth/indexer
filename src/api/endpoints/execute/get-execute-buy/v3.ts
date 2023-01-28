@@ -4,7 +4,6 @@ import { AddressZero } from "@ethersproject/constants";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
 import * as Sdk from "@reservoir0x/sdk";
-import { ListingDetails } from "@reservoir0x/sdk/dist/router/v5/types";
 import Joi from "joi";
 
 import { redb } from "@/common/db";
@@ -164,7 +163,7 @@ export const getExecuteBuyV3Options: RouteOptions = {
         query.quantity = 1;
       }
 
-      const listingDetails: ListingDetails[] = [];
+      const listingDetails: any[] = [];
       for (const token of tokens) {
         const [contract, tokenId] = token.split(":");
 
