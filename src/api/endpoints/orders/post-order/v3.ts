@@ -41,6 +41,7 @@ export const postOrderV3Options: RouteOptions = {
             "zeroex-v4",
             "seaport",
             "seaport-forward",
+            "nftearth",
             "x2y2",
             "universe",
             "forward",
@@ -51,8 +52,8 @@ export const postOrderV3Options: RouteOptions = {
       }),
       orderbook: Joi.string()
         .lowercase()
-        .valid("reservoir", "opensea", "looks-rare", "x2y2", "universe", "infinity")
-        .default("reservoir"),
+        .valid("nftearth", "reservoir", "opensea", "looks-rare", "x2y2", "universe", "infinity")
+        .default("nftearth"),
       orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
       source: Joi.string().pattern(regex.domain).description("The source domain"),
       attribute: Joi.object({
@@ -304,6 +305,48 @@ export const postOrderV3Options: RouteOptions = {
           };
 
           const [result] = await orders.seaport.save([orderInfo]);
+
+          if (result.status === "already-exists") {
+            return { message: "Success", orderId: result.id };
+          }
+
+          if (result.status !== "success") {
+            const error = Boom.badRequest(result.status);
+            error.output.payload.orderId = result.id;
+            throw error;
+          }
+
+          if (orderbook === "opensea") {
+            await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
+
+            logger.info(
+              `post-order-${version}-handler`,
+              `orderbook: ${orderbook}, orderData: ${JSON.stringify(order.data)}, orderId: ${
+                result.id
+              }`
+            );
+          }
+
+          return { message: "Success", orderId: result.id };
+        }
+
+        case "nftearth": {
+          if (!["nftearth", "reservoir", "opensea"].includes(orderbook)) {
+            throw new Error("Unknown orderbook");
+          }
+
+          const orderInfo: orders.seaport.OrderInfo = {
+            kind: "full",
+            orderParams: order.data,
+            isReservoir: orderbook === "reservoir",
+            metadata: {
+              schema,
+              source: orderbook === "reservoir" ? source : undefined,
+              target: orderbook,
+            },
+          };
+
+          const [result] = await orders.nftearth.save([orderInfo]);
 
           if (result.status === "already-exists") {
             return { message: "Success", orderId: result.id };

@@ -9,7 +9,7 @@ import { PartialOrderComponents } from "@/orderbook/orders/seaport/index";
 import * as NFTEarth from "../../../nftearth";
 
 export const offChainCheck = async (
-  order: Sdk.Seaport.Order,
+  order: NFTEarth.Order,
   options?: {
     // Some NFTs pre-approve common exchanges so that users don't
     // spend gas approving them. In such cases we will be missing

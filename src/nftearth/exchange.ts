@@ -441,7 +441,7 @@ export class Exchange {
               Addresses.ConduitController[this.chainId],
               conduitKey,
               // https://github.com/ProjectOpenSea/seaport/blob/0a8e82ce7262b5ce0e67fa98a2131fd4c47c84e9/contracts/conduit/ConduitController.sol#L493
-              "0x023d904f2503c37127200ca07b976c3a53cc562623f67023115bf311f5805059",
+              "0xeaac5702377b8965e2d398fbf4db18a8dcb71133ee9ff60ab0d41c36d3c44703",
             ]
           ).slice(-40);
   }

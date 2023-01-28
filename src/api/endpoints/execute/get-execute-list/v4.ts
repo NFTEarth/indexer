@@ -14,6 +14,8 @@ import { regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
 
+import * as NFTEarth from "../../../../nftearth";
+
 // LooksRare
 import * as looksRareSellToken from "@/orderbook/orders/looks-rare/build/sell/token";
 import * as looksRareCheck from "@/orderbook/orders/looks-rare/check";
@@ -21,6 +23,10 @@ import * as looksRareCheck from "@/orderbook/orders/looks-rare/check";
 // Seaport
 import * as seaportSellToken from "@/orderbook/orders/seaport/build/sell/token";
 import * as seaportCheck from "@/orderbook/orders/seaport/check";
+
+// NFTEarth
+import * as nftearthSellToken from "@/orderbook/orders/nftearth/build/sell/token";
+import * as nftearthCheck from "@/orderbook/orders/nftearth/check";
 
 // X2Y2
 import * as x2y2SellToken from "@/orderbook/orders/x2y2/build/sell/token";
@@ -87,16 +93,17 @@ export const getExecuteListV4Options: RouteOptions = {
               "zeroex-v4",
               "seaport",
               "seaport-forward",
+              "nftearth",
               "x2y2",
               "universe",
               "infinity"
             )
-            .default("seaport")
+            .default("nftearth")
             .description("Exchange protocol used to create order. Example: `seaport`"),
           orderbook: Joi.string()
-            .valid("opensea", "looks-rare", "reservoir", "x2y2", "universe", "infinity")
-            .default("reservoir")
-            .description("Orderbook where order is placed. Example: `Reservoir`"),
+            .valid("nftearth", "opensea", "looks-rare", "reservoir", "x2y2", "universe", "infinity")
+            .default("nftearth")
+            .description("Orderbook where order is placed. Example: `nftearth`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
           automatedRoyalties: Joi.boolean()
             .default(true)
@@ -410,6 +417,87 @@ export const getExecuteListV4Options: RouteOptions = {
                   }
 
                   const exchange = new Sdk.Seaport.Exchange(config.chainId);
+                  const info = order.getInfo()!;
+
+                  const kind = order.params.kind?.startsWith("erc721") ? "erc721" : "erc1155";
+                  approvalTx = (
+                    kind === "erc721"
+                      ? new Sdk.Common.Helpers.Erc721(baseProvider, info.contract)
+                      : new Sdk.Common.Helpers.Erc1155(baseProvider, info.contract)
+                  ).approveTransaction(maker, exchange.deriveConduit(order.params.conduitKey));
+
+                  break;
+                }
+              }
+            }
+
+            steps[0].items.push({
+              status: approvalTx ? "incomplete" : "complete",
+              data: approvalTx,
+              orderIndex: i,
+            });
+            steps[1].items.push({
+              status: "incomplete",
+              data: {
+                sign: order.getSignatureData(),
+                post: {
+                  endpoint: "/order/v3",
+                  method: "POST",
+                  body: {
+                    order: {
+                      kind: params.orderKind,
+                      data: {
+                        ...order.params,
+                      },
+                    },
+                    orderbook: params.orderbook,
+                    orderbookApiKey: params.orderbookApiKey,
+                    source,
+                  },
+                },
+              },
+              orderIndex: i,
+            });
+
+            // Go on with the next listing
+            continue;
+          }
+
+          case "nftearth": {
+            if (!["nftearth", "opensea"].includes(params.orderbook)) {
+              throw Boom.badRequest("Only `nftearth` and `opensea` are supported as orderbooks");
+            }
+
+            const order = await nftearthSellToken.build({
+              ...params,
+              maker,
+              contract,
+              tokenId,
+              source,
+              orderType: undefined,
+            });
+            if (!order) {
+              throw Boom.internal("Failed to generate order");
+            }
+
+            // Will be set if an approval is needed before listing
+            let approvalTx: TxData | undefined;
+
+            // Check the order's fillability
+            try {
+              await nftearthCheck.offChainCheck(order, { onChainApprovalRecheck: true });
+            } catch (error: any) {
+              switch (error.message) {
+                case "no-balance-no-approval":
+                case "no-balance": {
+                  // We cannot do anything if the user doesn't own the listed token
+                  throw Boom.badData("Maker does not own the listed token");
+                }
+
+                case "no-approval": {
+                  // Generate an approval transaction
+
+                  const exchange = new NFTEarth.Exchange(config.chainId);
                   const info = order.getInfo()!;
 
                   const kind = order.params.kind?.startsWith("erc721") ? "erc721" : "erc1155";
