@@ -17,6 +17,7 @@ import * as infinity from "@/events-sync/data/infinity";
 import * as quixotic from "@/events-sync/data/quixotic";
 import * as rarible from "@/events-sync/data/rarible";
 import * as seaport from "@/events-sync/data/seaport";
+import * as nftearth from "@/events-sync/data/nftearth";
 import * as sudoswap from "@/events-sync/data/sudoswap";
 import * as universe from "@/events-sync/data/universe";
 import * as wyvernV2 from "@/events-sync/data/wyvern-v2";
@@ -51,6 +52,7 @@ export type EventKind =
   | "nouns"
   | "quixotic"
   | "seaport"
+  | "nftearth"
   | "sudoswap"
   | "wyvern"
   | "x2y2"
@@ -99,6 +101,9 @@ export type EventSubKind =
   | "seaport-order-cancelled"
   | "seaport-order-filled"
   | "seaport-counter-incremented"
+  | "nftearth-order-cancelled"
+  | "nftearth-order-filled"
+  | "nftearth-counter-incremented"
   | "rarible-match"
   | "rarible-cancel"
   | "element-erc721-sell-order-filled"
@@ -201,6 +206,9 @@ export const getEventData = (eventSubKinds?: EventSubKind[]) => {
       seaport.counterIncremented,
       seaport.orderCancelled,
       seaport.orderFulfilled,
+      nftearth.counterIncremented,
+      nftearth.orderCancelled,
+      nftearth.orderFulfilled,
       wyvernV2.ordersMatched,
       wyvernV23.ordersMatched,
       zeroExV4.erc721OrderCancelled,
@@ -349,6 +357,12 @@ const internalGetEventData = (subKind: EventSubKind): EventData | undefined => {
       return seaport.orderCancelled;
     case "seaport-order-filled":
       return seaport.orderFulfilled;
+    case "nftearth-counter-incremented":
+      return nftearth.counterIncremented;
+    case "nftearth-order-cancelled":
+      return nftearth.orderCancelled;
+    case "nftearth-order-filled":
+      return nftearth.orderFulfilled;
     case "rarible-match":
       return rarible.match;
     case "rarible-cancel":

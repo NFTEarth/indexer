@@ -7,6 +7,7 @@ export * as forward from "@/orderbook/orders/forward";
 export * as foundation from "@/orderbook/orders/foundation";
 export * as looksRare from "@/orderbook/orders/looks-rare";
 export * as seaport from "@/orderbook/orders/seaport";
+export * as nftearth from "@/orderbook/orders/nftearth";
 export * as sudoswap from "@/orderbook/orders/sudoswap";
 export * as x2y2 from "@/orderbook/orders/x2y2";
 export * as zeroExV4 from "@/orderbook/orders/zeroex-v4";
@@ -41,6 +42,7 @@ export type OrderKind =
   | "foundation"
   | "x2y2"
   | "seaport"
+  | "nftearth"
   | "rarible"
   | "element-erc721"
   | "element-erc1155"
@@ -116,6 +118,8 @@ export const getOrderSourceByOrderKind = async (
         return sources.getOrInsert("foundation.app");
       case "looks-rare":
         return sources.getOrInsert("looksrare.org");
+      case "nftearth":
+        return sources.getOrInsert("nftearth.exchange");
       case "seaport":
       case "wyvern-v2":
       case "wyvern-v2.3":
@@ -186,7 +190,15 @@ export const generateListingDetailsV5 = (
     tokenId: string;
     amount?: number;
   }
-): SdkTypesV5.ListingDetails => {
+): {
+  amount: number;
+  contractKind: "erc721" | "erc1155";
+  tokenId: string;
+  kind: string;
+  contract: string;
+  currency: string;
+  order: any;
+} => {
   const common = {
     contractKind: token.kind,
     contract: token.contract,
@@ -241,6 +253,29 @@ export const generateListingDetailsV5 = (
       if (order.rawData) {
         return {
           kind: "seaport",
+          ...common,
+          order: new Sdk.Seaport.Order(config.chainId, order.rawData),
+        };
+      } else {
+        // Sorry for all the below `any` types
+        return {
+          // eslint-disable-next-line
+          kind: "seaport-partial" as any,
+          ...common,
+          order: {
+            contract: token.contract,
+            tokenId: token.tokenId,
+            id: order.id,
+            // eslint-disable-next-line
+          } as any,
+        };
+      }
+    }
+
+    case "nftearth": {
+      if (order.rawData) {
+        return {
+          kind: "nftearth",
           ...common,
           order: new Sdk.Seaport.Order(config.chainId, order.rawData),
         };

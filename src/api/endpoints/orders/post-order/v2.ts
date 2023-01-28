@@ -210,7 +210,7 @@ export const postOrderV2Options: RouteOptions = {
         }
 
         case "seaport-partial": {
-          if (!["reservoir"].includes(orderbook)) {
+          if (!["reservoir", "nftearth"].includes(orderbook)) {
             throw new Error("Unsupported orderbook");
           }
 
