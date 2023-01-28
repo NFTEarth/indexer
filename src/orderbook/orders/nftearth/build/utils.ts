@@ -77,14 +77,9 @@ export const getBuildInfo = async (
     paymentToken = Sdk.Common.Addresses.Weth[config.chainId];
   }
 
-  if (options.orderbook === "opensea") {
-    pausableZone = Sdk.Seaport.Addresses.PausableZone[config.chainId] ?? AddressZero;
-    conduitKey = Sdk.Seaport.Addresses.OpenseaConduitKey[config.chainId] ?? HashZero;
-  }
-
   if (options.orderbook === "nftearth") {
     pausableZone = NFTEarth.Addresses.PausableZone[config.chainId] ?? AddressZero;
-    conduitKey = NFTEarth.Addresses.OpenseaConduitKey[config.chainId] ?? HashZero;
+    conduitKey = NFTEarth.Addresses.SeaportConduitKey[config.chainId] ?? HashZero;
   }
 
   const buildParams: BaseBuildParams = {

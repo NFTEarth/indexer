@@ -119,7 +119,7 @@ export const start = async (): Promise<void> => {
           },
         },
         schemes: ["https", "http"],
-        host: config.reservoirAPIBase,
+        host: config.reservoirAPIBase.replace(/^https?:\/\//, ""),
         cors: true,
         tryItOutEnabled: true,
         documentationPath: "/",

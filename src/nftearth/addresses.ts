@@ -23,10 +23,10 @@ export const CancelXZone: ChainIdToAddress = {
   [Network.EthereumGoerli]: "0x601d58906d22ce2fabdfb112e15e515557aa191c",
 };
 
-export const OpenseaConduitKey: ChainIdToAddress = {
+export const SeaportConduitKey: ChainIdToAddress = {
   [Network.Optimism]: "CD0B087E113152324FCA962488B4D9BEB6F4CAF6F100000000000000000000F1",
 };
 
-export const OpenseaConduit: ChainIdToAddress = {
+export const SeaportConduit: ChainIdToAddress = {
   [Network.Optimism]: "0xfa29f9a402157672c2f608d193526a00c6b429af",
 };
