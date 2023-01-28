@@ -69,7 +69,7 @@ export const getMarketplaces: RouteOptions = {
         feeBps: 0,
         orderbook: "reservoir",
         orderKind: "seaport",
-        listingEnabled: false,
+        listingEnabled: true,
       },
       {
         name: "OpenSea",
