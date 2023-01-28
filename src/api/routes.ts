@@ -289,6 +289,12 @@ export const setupRoutes = (server: Server) => {
 
   server.route({
     method: "POST",
+    path: "/admin/verified-collection",
+    options: adminEndpoints.postVerifiedCollection,
+  });
+
+  server.route({
+    method: "POST",
     path: "/admin/routers",
     options: adminEndpoints.postRoutersOptions,
   });

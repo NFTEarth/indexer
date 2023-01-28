@@ -15,6 +15,7 @@ export class CollectionsDataSource extends BaseDataSource {
           collections.id,
           collections.slug,
           collections.name,
+          collections.verified,
           (collections.metadata ->> 'description')::TEXT AS "description",
           collections.contract,
           collections.token_count,
