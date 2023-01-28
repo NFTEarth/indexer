@@ -137,7 +137,7 @@ export const getMarketplaces: RouteOptions = {
           break;
         }
         case 10: {
-          listableOrderbooks = ["nftearth", "reservoir", "opensea"];
+          listableOrderbooks = ["nftearth"];
           break;
         }
       }
