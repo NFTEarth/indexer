@@ -92,17 +92,16 @@ export class Sources {
   public static getDefaultSource(): SourcesEntity {
     return new SourcesEntity({
       id: 0,
-      domain: "reservoir.tools",
-      domainHash: "0x1d4da48b",
+      domain: "nftearth.exchange",
+      domainHash: "a8f071677a",
       address: AddressZero,
-      name: "Reservoir",
+      name: "NFTEarth",
       metadata: {
-        icon: "https://www.reservoir.market/reservoir.svg",
-        tokenUrlMainnet: "https://www.reservoir.market/${contract}/${tokenId}",
-        tokenUrlRinkeby: "https://dev.reservoir.market/${contract}/${tokenId}",
+        icon: "https://nftearth.exchange/nftearth-icon.png",
+        tokenUrlOptimism: "https://nftearth.exchange/${contract}/${tokenId}",
       },
       optimized: true,
-      createdAt: "2022-02-05 04:50:47.191 +0200",
+      createdAt: "2023-01-29 20:51:06.23 +0700",
     });
   }
 
@@ -363,6 +362,17 @@ export class Sources {
       if (sourceEntity.metadata.tokenUrlMainnet && contract && tokenId) {
         sourceEntity.metadata.url = _.replace(
           sourceEntity.metadata.tokenUrlMainnet,
+          "${contract}",
+          contract
+        );
+
+        return _.replace(sourceEntity.metadata.url, "${tokenId}", tokenId);
+      }
+    }
+    if (config.chainId == 10) {
+      if (sourceEntity.metadata.tokenUrlOptimism && contract && tokenId) {
+        sourceEntity.metadata.url = _.replace(
+          sourceEntity.metadata.tokenUrlOptimism,
           "${contract}",
           contract
         );
