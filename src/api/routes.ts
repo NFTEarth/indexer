@@ -169,6 +169,12 @@ export const setupRoutes = (server: Server) => {
 
   server.route({
     method: "POST",
+    path: "/admin/update-api-key-permissions",
+    options: adminEndpoints.postUpdateApiKeyPermissions,
+  });
+
+  server.route({
+    method: "POST",
     path: "/admin/refresh-collection-flags",
     options: adminEndpoints.postRefreshCollectionFlagsOptions,
   });

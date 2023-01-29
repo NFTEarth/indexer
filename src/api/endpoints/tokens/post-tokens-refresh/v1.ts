@@ -29,6 +29,9 @@ export const postTokensRefreshV1Options: RouteOptions = {
     },
   },
   validate: {
+    headers: Joi.object({
+      "x-api-key": Joi.string(),
+    }).options({ allowUnknown: true }),
     payload: Joi.object({
       token: Joi.string()
         .lowercase()
@@ -56,6 +59,7 @@ export const postTokensRefreshV1Options: RouteOptions = {
   handler: async (request: Request) => {
     const payload = request.payload as any;
 
+    logger.info("token-refrsh-api-key", request.headers["x-api-key"]);
     // How many minutes to enforce between each refresh
     const refreshCoolDownMin = 60;
     let overrideCoolDown = false;

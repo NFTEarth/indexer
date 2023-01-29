@@ -8,6 +8,7 @@ export type ApiKeyUpdateParams = {
   website?: string;
   tier?: number;
   active?: boolean;
+  permissions?: Record<string, unknown>;
 };
 
 export type ApiKeyEntityParams = {
