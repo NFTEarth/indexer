@@ -215,6 +215,7 @@ export const save = async (
         } else if (error.message === "no-balance") {
           fillabilityStatus = "no-balance";
         } else {
+          logger.error("handle-order-offchain-check", error.message);
           return results.push({
             id,
             status: "not-fillable",
