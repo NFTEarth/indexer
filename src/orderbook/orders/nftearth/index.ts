@@ -942,12 +942,12 @@ export const save = async (
         {
           bps: 250,
           kind: "marketplace",
-          recipient: "0x0000a26b00c1f0df003000390027140000faa719",
+          recipient: "0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b",
         },
       ];
 
       if (collection) {
-        const royalties = collection.new_royalties?.["nftearth"] ?? [];
+        const royalties = collection.new_royalties?.["opensea"] ?? [];
         for (const royalty of royalties) {
           feeBps += royalty.bps;
 

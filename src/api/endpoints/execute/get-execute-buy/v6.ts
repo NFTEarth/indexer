@@ -669,8 +669,8 @@ export const getExecuteBuyV6Options: RouteOptions = {
           forceRouter: payload.forceRouter,
           directFillingData: {
             conduitKey:
-              config.chainId === 1
-                ? "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000"
+              config.chainId === 10
+                ? "0xcd0b087e113152324fca962488b4d9beb6f4caf6f100000000000000000000f1"
                 : undefined,
           },
           relayer: payload.relayer,
