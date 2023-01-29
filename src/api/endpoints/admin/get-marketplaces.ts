@@ -51,10 +51,10 @@ export const getMarketplaces: RouteOptions = {
         name: "NFTEarth",
         imageUrl: "https://nftearth.exchange/nftearth-icon.png",
         fee: {
-          percent: 1,
-          bps: 100,
+          percent: 2.5,
+          bps: 250,
         },
-        feeBps: 0.01,
+        feeBps: 0.025,
         orderbook: "nftearth",
         orderKind: "nftearth",
         listingEnabled: true,
@@ -69,7 +69,7 @@ export const getMarketplaces: RouteOptions = {
         feeBps: 0,
         orderbook: "reservoir",
         orderKind: "seaport",
-        listingEnabled: true,
+        listingEnabled: false,
       },
       {
         name: "OpenSea",

@@ -13,6 +13,8 @@ import { baseProvider } from "@/common/provider";
 import { bn, regex } from "@/common/utils";
 import { config } from "@/config/index";
 
+import * as NFTEarth from "../../../../nftearth";
+
 // LooksRare
 import * as looksRareBuyToken from "@/orderbook/orders/looks-rare/build/buy/token";
 import * as looksRareBuyCollection from "@/orderbook/orders/looks-rare/build/buy/collection";
@@ -21,6 +23,11 @@ import * as looksRareBuyCollection from "@/orderbook/orders/looks-rare/build/buy
 import * as seaportBuyAttribute from "@/orderbook/orders/seaport/build/buy/attribute";
 import * as seaportBuyToken from "@/orderbook/orders/seaport/build/buy/token";
 import * as seaportBuyCollection from "@/orderbook/orders/seaport/build/buy/collection";
+
+// NFTEarth
+import * as nftearthBuyAttribute from "@/orderbook/orders/nftearth/build/buy/attribute";
+import * as nftearthBuyToken from "@/orderbook/orders/nftearth/build/buy/token";
+import * as nftearthBuyCollection from "@/orderbook/orders/nftearth/build/buy/collection";
 
 // X2Y2
 import * as x2y2BuyCollection from "@/orderbook/orders/x2y2/build/buy/collection";
@@ -98,11 +105,20 @@ export const getExecuteBidV4Options: RouteOptions = {
             .description("Amount bidder is willing to offer in wei. Example: `1000000000000000000`")
             .required(),
           orderKind: Joi.string()
-            .valid("zeroex-v4", "seaport", "looks-rare", "x2y2", "universe", "forward", "infinity")
+            .valid(
+              "zeroex-v4",
+              "seaport",
+              "nftearth",
+              "looks-rare",
+              "x2y2",
+              "universe",
+              "forward",
+              "infinity"
+            )
             .default("seaport")
             .description("Exchange protocol used to create order. Example: `seaport`"),
           orderbook: Joi.string()
-            .valid("reservoir", "opensea", "looks-rare", "x2y2", "universe", "infinity")
+            .valid("reservoir", "opensea", "nftearth", "looks-rare", "x2y2", "universe", "infinity")
             .default("reservoir")
             .description("Orderbook where order is placed. Example: `Reservoir`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
@@ -244,7 +260,7 @@ export const getExecuteBidV4Options: RouteOptions = {
 
         if (!token) {
           // TODO: Re-enable collection/attribute bids on external orderbooks
-          if (!["reservoir", "opensea"].includes(params.orderbook)) {
+          if (!["nftearth", "reservoir", "opensea"].includes(params.orderbook)) {
             throw Boom.badRequest("Only single-token bids are supported on external orderbooks");
           } else if (params.orderbook === "opensea" && attributeKey && attributeValue) {
             throw Boom.badRequest("Attribute bids are not supported on `opensea` orderbook");
@@ -281,6 +297,104 @@ export const getExecuteBidV4Options: RouteOptions = {
         }
 
         switch (params.orderKind) {
+          case "nftearth": {
+            if (!["nftearth"].includes(params.orderbook)) {
+              throw Boom.badRequest("Only `nftearth` are supported as orderbooks");
+            }
+
+            let order: NFTEarth.Order;
+            if (token) {
+              const [contract, tokenId] = token.split(":");
+              order = await nftearthBuyToken.build({
+                ...params,
+                maker,
+                contract,
+                tokenId,
+                source,
+              });
+            } else if (tokenSetId || (collection && attributeKey && attributeValue)) {
+              order = await nftearthBuyAttribute.build({
+                ...params,
+                maker,
+                collection,
+                attributes: [
+                  {
+                    key: attributeKey,
+                    value: attributeValue,
+                  },
+                ],
+                source,
+              });
+            } else if (collection) {
+              order = await nftearthBuyCollection.build({
+                ...params,
+                maker,
+                collection,
+                source,
+              });
+            } else {
+              throw Boom.internal("Wrong metadata");
+            }
+
+            const exchange = new NFTEarth.Exchange(config.chainId);
+            const conduit = exchange.deriveConduit(order.params.conduitKey);
+
+            // Check the maker's approval
+            let approvalTx: TxData | undefined;
+            const currencyApproval = await currency.getAllowance(maker, conduit);
+            if (bn(currencyApproval).lt(order.getMatchingPrice())) {
+              approvalTx = currency.approveTransaction(maker, conduit);
+            }
+
+            steps[1].items.push({
+              status: !wrapEthTx ? "complete" : "incomplete",
+              data: wrapEthTx,
+              orderIndex: i,
+            });
+            steps[2].items.push({
+              status: !approvalTx ? "complete" : "incomplete",
+              data: approvalTx,
+              orderIndex: i,
+            });
+            steps[3].items.push({
+              status: "incomplete",
+              data: {
+                sign: order.getSignatureData(),
+                post: {
+                  endpoint: "/order/v3",
+                  method: "POST",
+                  body: {
+                    order: {
+                      kind: "nftearth",
+                      data: {
+                        ...order.params,
+                      },
+                    },
+                    tokenSetId,
+                    attribute:
+                      collection && attributeKey && attributeValue
+                        ? {
+                            collection,
+                            key: attributeKey,
+                            value: attributeValue,
+                          }
+                        : undefined,
+                    collection:
+                      collection && !attributeKey && !attributeValue ? collection : undefined,
+                    isNonFlagged: params.excludeFlaggedTokens,
+                    orderbook: params.orderbook,
+                    orderbookApiKey: params.orderbookApiKey,
+                    source,
+                  },
+                },
+              },
+              orderIndex: i,
+            });
+
+            // Go on with the next bid
+            continue;
+          }
+
           case "seaport": {
             if (!["reservoir", "opensea"].includes(params.orderbook)) {
               throw Boom.badRequest("Only `reservoir` and `opensea` are supported as orderbooks");

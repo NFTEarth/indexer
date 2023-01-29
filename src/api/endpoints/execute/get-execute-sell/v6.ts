@@ -36,6 +36,7 @@ export const getExecuteSellV6Options: RouteOptions = {
         kind: Joi.string()
           .lowercase()
           .valid(
+            "nftearth",
             "opensea",
             "looks-rare",
             "zeroex-v4",

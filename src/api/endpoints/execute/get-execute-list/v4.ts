@@ -464,8 +464,8 @@ export const getExecuteListV4Options: RouteOptions = {
           }
 
           case "nftearth": {
-            if (!["nftearth", "opensea"].includes(params.orderbook)) {
-              throw Boom.badRequest("Only `nftearth` and `opensea` are supported as orderbooks");
+            if (!["nftearth"].includes(params.orderbook)) {
+              throw Boom.badRequest("Only `nftearth` are supported as orderbooks");
             }
 
             const order = await nftearthSellToken.build({

@@ -1,10 +1,10 @@
-import * as Sdk from "@reservoir0x/sdk";
-import { BaseBuilder } from "@reservoir0x/sdk/dist/seaport/builders/base";
+import { BaseBuilder } from "../../../../../nftearth/builders/base";
+import { Builders } from "../../../../../nftearth";
 
 import { redb } from "@/common/db";
 import { toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
-import * as utils from "@/orderbook/orders/seaport/build/utils";
+import * as utils from "@/orderbook/orders/nftearth/build/utils";
 
 interface BuildOrderOptions extends utils.BaseOrderBuildOptions {
   contract: string;
@@ -36,7 +36,7 @@ export const build = async (options: BuildOrderOptions) => {
 
   const buildInfo = await utils.getBuildInfo(options, collectionResult.collection_id, "buy");
 
-  const builder: BaseBuilder = new Sdk.Seaport.Builders.SingleToken(config.chainId);
+  const builder: BaseBuilder = new Builders.SingleToken(config.chainId);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (buildInfo.params as any).tokenId = options.tokenId;

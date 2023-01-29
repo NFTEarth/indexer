@@ -10,6 +10,8 @@ import { logger } from "@/common/logger";
 import { bn, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 
+import * as NFTEarth from "../../../../nftearth";
+
 const version = "v1";
 
 export const getExecuteCancelV1Options: RouteOptions = {
@@ -110,6 +112,41 @@ export const getExecuteCancelV1Options: RouteOptions = {
 
           // Generate exchange-specific cancellation transaction.
           const exchange = new Sdk.Seaport.Exchange(config.chainId);
+          const cancelTx = exchange.cancelOrderTx(query.maker, order);
+
+          const steps = generateSteps(order.getInfo()!.side);
+          return {
+            steps: [
+              {
+                ...steps[0],
+                status: "incomplete",
+                data: {
+                  ...cancelTx,
+                  maxFeePerGas: query.maxFeePerGas
+                    ? bn(query.maxFeePerGas).toHexString()
+                    : undefined,
+                  maxPriorityFeePerGas: query.maxPriorityFeePerGas
+                    ? bn(query.maxPriorityFeePerGas).toHexString()
+                    : undefined,
+                },
+              },
+              {
+                ...steps[1],
+                status: "incomplete",
+                data: {
+                  endpoint: `/orders/executed/v1?ids=${order.hash()}`,
+                  method: "GET",
+                },
+              },
+            ],
+          };
+        }
+
+        case "nftearth": {
+          const order = new NFTEarth.Order(config.chainId, orderResult.raw_data);
+
+          // Generate exchange-specific cancellation transaction.
+          const exchange = new NFTEarth.Exchange(config.chainId);
           const cancelTx = exchange.cancelOrderTx(query.maker, order);
 
           const steps = generateSteps(order.getInfo()!.side);

@@ -331,14 +331,14 @@ export const postOrderV3Options: RouteOptions = {
         }
 
         case "nftearth": {
-          if (!["nftearth", "reservoir", "opensea"].includes(orderbook)) {
+          if (!["nftearth"].includes(orderbook)) {
             throw new Error("Unknown orderbook");
           }
 
           const orderInfo: orders.seaport.OrderInfo = {
             kind: "full",
             orderParams: order.data,
-            isReservoir: orderbook === "reservoir",
+            isReservoir: false,
             metadata: {
               schema,
               source: orderbook === "reservoir" ? source : undefined,
@@ -358,16 +358,14 @@ export const postOrderV3Options: RouteOptions = {
             throw error;
           }
 
-          if (orderbook === "opensea") {
-            await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
+          await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
 
-            logger.info(
-              `post-order-${version}-handler`,
-              `orderbook: ${orderbook}, orderData: ${JSON.stringify(order.data)}, orderId: ${
-                result.id
-              }`
-            );
-          }
+          logger.info(
+            `post-order-${version}-handler`,
+            `orderbook: ${orderbook}, orderData: ${JSON.stringify(order.data)}, orderId: ${
+              result.id
+            }`
+          );
 
           return { message: "Success", orderId: result.id };
         }

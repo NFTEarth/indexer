@@ -1,14 +1,14 @@
-import * as Sdk from "@reservoir0x/sdk";
 import { generateMerkleTree } from "@reservoir0x/sdk/dist/common/helpers";
-import { BaseBuilder } from "@reservoir0x/sdk/dist/seaport/builders/base";
+import { BaseBuilder } from "../../../../../nftearth/builders/base";
+import { Builders } from "../../../../../nftearth";
 
 import { redb } from "@/common/db";
 import { redis } from "@/common/redis";
 import { fromBuffer } from "@/common/utils";
 import { config } from "@/config/index";
-import * as utils from "@/orderbook/orders/seaport/build/utils";
+import * as utils from "@/orderbook/orders/nftearth/build/utils";
 import { generateSchemaHash } from "@/orderbook/orders/utils";
-import * as OpenSeaApi from "@/jobs/orderbook/post-order-external/api/opensea";
+import * as NFTEarthApi from "@/jobs/orderbook/post-order-external/api/nftearth";
 
 interface BuildOrderOptions extends utils.BaseOrderBuildOptions {
   collection: string;
@@ -47,10 +47,10 @@ export const build = async (options: BuildOrderOptions) => {
   const collectionIsContractWide = collectionResult.token_set_id?.startsWith("contract:");
   if (!options.excludeFlaggedTokens && collectionIsContractWide) {
     // Use contract-wide order
-    let builder: BaseBuilder = new Sdk.Seaport.Builders.ContractWide(config.chainId);
+    let builder: BaseBuilder = new Builders.ContractWide(config.chainId);
 
-    if (options.orderbook === "opensea" && config.chainId === 1) {
-      const buildCollectionOfferParams = await OpenSeaApi.buildCollectionOffer(
+    if (options.orderbook === "nftearth" && config.chainId === 10) {
+      const buildCollectionOfferParams = await NFTEarthApi.buildCollectionOffer(
         options.maker,
         options.quantity || 1,
         collectionResult.slug
@@ -63,18 +63,18 @@ export const build = async (options: BuildOrderOptions) => {
         (buildInfo.params as any).merkleRoot =
           buildCollectionOfferParams.partialParameters.consideration[0].identifierOrCriteria;
 
-        builder = new Sdk.Seaport.Builders.TokenList(config.chainId);
+        builder = new Builders.TokenList(config.chainId);
       }
     }
 
     return builder?.build(buildInfo.params);
   } else {
     // Use token-list order
-    const builder: BaseBuilder = new Sdk.Seaport.Builders.TokenList(config.chainId);
+    const builder: BaseBuilder = new Builders.TokenList(config.chainId);
 
-    if (options.orderbook === "opensea" && config.chainId === 1) {
+    if (options.orderbook === "nftearth" && config.chainId === 10) {
       // We need to call OpenSea to compute the most up-to-date root of the Merkle Tree (currently only supported on OS production apis)
-      const buildCollectionOfferParams = await OpenSeaApi.buildCollectionOffer(
+      const buildCollectionOfferParams = await NFTEarthApi.buildCollectionOffer(
         options.maker,
         options.quantity || 1,
         collectionResult.slug

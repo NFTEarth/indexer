@@ -209,7 +209,7 @@ export const offChainCheckPartial = async (
   }
 ) => {
   const id = orderParams.hash;
-  const conduitKey = "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000";
+  const conduitKey = "CD0B087E113152324FCA962488B4D9BEB6F4CAF6F100000000000000000000F1";
 
   // Check: order is on a known and valid contract
   const kind = await commonHelpers.getContractKind(orderParams.contract);
