@@ -11,6 +11,29 @@ const PENDING_DATA_KEY = "pending-arweave-data";
 
 // TODO: Add support for relaying token sets
 
+export const addPendingOrdersNFTEarth = async (
+  data: {
+    order: Sdk.NFTEarth.Order | Sdk.NFTEarth.BundleOrder;
+    schemaHash?: string;
+    source?: string;
+  }[]
+) => {
+  if (config.arweaveRelayerKey && data.length) {
+    await redis.rpush(
+      PENDING_DATA_KEY,
+      ...data.map(({ order, schemaHash }) =>
+        JSON.stringify({
+          kind: "nftearth",
+          data: {
+            ...order.params,
+            schemaHash,
+          },
+        })
+      )
+    );
+  }
+};
+
 export const addPendingOrdersSeaport = async (
   data: {
     order: Sdk.Seaport.Order | Sdk.Seaport.BundleOrder;

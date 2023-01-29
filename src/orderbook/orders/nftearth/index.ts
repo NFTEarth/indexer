@@ -18,7 +18,7 @@ import { Sources } from "@/models/sources";
 import { SourcesEntity } from "@/models/sources/sources-entity";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import { DbOrder, OrderMetadata, generateSchemaHash } from "@/orderbook/orders/utils";
-import { offChainCheck, offChainCheckPartial } from "@/orderbook/orders/seaport/check";
+import { offChainCheck, offChainCheckPartial } from "@/orderbook/orders/nftearth/check";
 import * as tokenSet from "@/orderbook/token-sets";
 import { TokenSet } from "@/orderbook/token-sets/token-list";
 import { getUSDAndNativePrices } from "@/utils/prices";
@@ -77,7 +77,7 @@ export const save = async (
   const orderValues: DbOrder[] = [];
 
   const arweaveData: {
-    order: Sdk.Seaport.Order | Sdk.Seaport.BundleOrder;
+    order: Sdk.NFTEarth.Order | Sdk.NFTEarth.BundleOrder;
     schemaHash?: string;
     source?: string;
   }[] = [];
@@ -89,7 +89,7 @@ export const save = async (
     openSeaOrderParams?: PartialOrderComponents
   ) => {
     try {
-      const order = new Sdk.Seaport.Order(config.chainId, orderParams);
+      const order = new Sdk.NFTEarth.Order(config.chainId, orderParams);
       const info = order.getInfo();
       const id = order.hash();
 
@@ -1499,7 +1499,7 @@ export const save = async (
     );
 
     if (relayToArweave) {
-      await arweaveRelay.addPendingOrdersSeaport(arweaveData);
+      await arweaveRelay.addPendingOrdersNFTEarth(arweaveData);
     }
   }
 
