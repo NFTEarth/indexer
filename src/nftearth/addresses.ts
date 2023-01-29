@@ -20,13 +20,13 @@ export const ApprovalOrderZone: ChainIdToAddress = {
 };
 
 export const CancelXZone: ChainIdToAddress = {
-  [Network.EthereumGoerli]: "0x601d58906d22ce2fabdfb112e15e515557aa191c",
+  [Network.EthereumGoerli]: "0x0f9b80fc3c8b9123D0aEf43Df58ebDBC034A8901",
 };
 
 export const SeaportConduitKey: ChainIdToAddress = {
-  [Network.Optimism]: "CD0B087E113152324FCA962488B4D9BEB6F4CAF6F100000000000000000000F1",
+  [Network.Optimism]: "0xcd0b087e113152324fca962488b4d9beb6f4caf6f100000000000000000000f1",
 };
 
 export const SeaportConduit: ChainIdToAddress = {
-  [Network.Optimism]: "0xfa29f9a402157672c2f608d193526a00c6b429af",
+  [Network.Optimism]: "0xFA29f9A402157672C2F608d193526A00C6B429Af",
 };
