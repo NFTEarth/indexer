@@ -4,7 +4,7 @@ import { defaultAbiCoder } from "@ethersproject/abi";
 import { splitSignature } from "@ethersproject/bytes";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
@@ -36,12 +36,12 @@ export const postOrderV3Options: RouteOptions = {
         kind: Joi.string()
           .lowercase()
           .valid(
+            "nftearth",
             "opensea",
             "looks-rare",
             "zeroex-v4",
             "seaport",
             "seaport-forward",
-            "nftearth",
             "x2y2",
             "universe",
             "forward",
@@ -338,10 +338,10 @@ export const postOrderV3Options: RouteOptions = {
           const orderInfo: orders.seaport.OrderInfo = {
             kind: "full",
             orderParams: order.data,
-            isReservoir: false,
+            isReservoir: true,
             metadata: {
               schema,
-              source: orderbook === "reservoir" ? source : undefined,
+              source: orderbook === "nftearth" ? source : undefined,
               target: orderbook,
             },
           };

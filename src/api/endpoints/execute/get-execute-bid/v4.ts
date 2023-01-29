@@ -3,8 +3,8 @@
 import { AddressZero } from "@ethersproject/constants";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
-import { TxData } from "@reservoir0x/sdk/dist/utils";
+import * as Sdk from "@nftearth/sdk";
+import { TxData } from "@nftearth/sdk/dist/utils";
 import Joi from "joi";
 import _ from "lodash";
 
@@ -12,8 +12,6 @@ import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { bn, regex } from "@/common/utils";
 import { config } from "@/config/index";
-
-import * as NFTEarth from "../../../../nftearth";
 
 // LooksRare
 import * as looksRareBuyToken from "@/orderbook/orders/looks-rare/build/buy/token";
@@ -302,7 +300,7 @@ export const getExecuteBidV4Options: RouteOptions = {
               throw Boom.badRequest("Only `nftearth` are supported as orderbooks");
             }
 
-            let order: NFTEarth.Order;
+            let order: Sdk.NFTEarth.Order;
             if (token) {
               const [contract, tokenId] = token.split(":");
               order = await nftearthBuyToken.build({
@@ -336,7 +334,7 @@ export const getExecuteBidV4Options: RouteOptions = {
               throw Boom.internal("Wrong metadata");
             }
 
-            const exchange = new NFTEarth.Exchange(config.chainId);
+            const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
             const conduit = exchange.deriveConduit(order.params.conduitKey);
 
             // Check the maker's approval

@@ -1,5 +1,5 @@
 import { parseUnits } from "@ethersproject/units";
-import { Common, Infinity } from "@reservoir0x/sdk";
+import { Common, Infinity } from "@nftearth/sdk";
 import axios from "axios";
 
 import { config } from "@/config/index";

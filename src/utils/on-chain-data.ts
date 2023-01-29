@@ -1,4 +1,4 @@
-import { Common } from "@reservoir0x/sdk";
+import { Common } from "@nftearth/sdk";
 
 import { baseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";

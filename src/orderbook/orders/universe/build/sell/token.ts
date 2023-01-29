@@ -1,5 +1,5 @@
-import * as Sdk from "@reservoir0x/sdk";
-import { BaseBuilder } from "@reservoir0x/sdk/dist/universe/builders/base";
+import * as Sdk from "@nftearth/sdk";
+import { BaseBuilder } from "@nftearth/sdk/dist/universe/builders/base";
 
 import { redb } from "@/common/db";
 import { logger } from "@/common/logger";

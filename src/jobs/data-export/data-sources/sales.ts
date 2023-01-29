@@ -4,7 +4,7 @@ import { BaseDataSource } from "@/jobs/data-export/data-sources/index";
 import { Sources } from "@/models/sources";
 import crypto from "crypto";
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import { config } from "@/config/index";
 import { getCurrency } from "@/utils/currencies";
 

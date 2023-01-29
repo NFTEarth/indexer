@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { Element } from "@reservoir0x/sdk";
+import { Element } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

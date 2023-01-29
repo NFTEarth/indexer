@@ -1,14 +1,12 @@
 import { AddressZero, HashZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
-import { BaseBuildParams } from "@reservoir0x/sdk/dist/seaport/builders/base";
-import { generateSourceBytes, getRandomBytes } from "@reservoir0x/sdk/dist/utils";
+import * as Sdk from "@nftearth/sdk";
+import { BaseBuildParams } from "@nftearth/sdk/dist/seaport/builders/base";
+import { generateSourceBytes, getRandomBytes } from "@nftearth/sdk/dist/utils";
 
 import { redb } from "@/common/db";
 import { baseProvider } from "@/common/provider";
 import { bn, now } from "@/common/utils";
 import { config } from "@/config/index";
-
-import * as NFTEarth from "../../../../nftearth";
 
 export interface BaseOrderBuildOptions {
   maker: string;
@@ -63,7 +61,7 @@ export const getBuildInfo = async (
     throw new Error("Could not fetch collection");
   }
 
-  const exchange = new NFTEarth.Exchange(config.chainId);
+  const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
 
   let pausableZone = AddressZero;
   let conduitKey = HashZero;
@@ -78,8 +76,8 @@ export const getBuildInfo = async (
   }
 
   if (options.orderbook === "nftearth") {
-    pausableZone = NFTEarth.Addresses.PausableZone[config.chainId] ?? AddressZero;
-    conduitKey = NFTEarth.Addresses.SeaportConduitKey[config.chainId] ?? HashZero;
+    pausableZone = Sdk.NFTEarth.Addresses.PausableZone[config.chainId] ?? AddressZero;
+    conduitKey = Sdk.NFTEarth.Addresses.SeaportConduitKey[config.chainId] ?? HashZero;
   }
 
   const buildParams: BaseBuildParams = {
@@ -109,7 +107,7 @@ export const getBuildInfo = async (
 
   if (options.automatedRoyalties) {
     // Include the royalties
-    const royalties = ["opensea", "nftearth"].includes(options.orderbook)
+    const royalties = ["opensea"].includes(options.orderbook)
       ? collectionResult.new_royalties?.opensea
       : collectionResult.royalties;
     for (const { recipient, bps } of royalties || []) {

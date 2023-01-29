@@ -1,6 +1,6 @@
 import { Interface } from "@ethersproject/abi";
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { getEventData } from "@/events-sync/data";

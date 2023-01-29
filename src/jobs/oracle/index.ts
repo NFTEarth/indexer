@@ -2,7 +2,7 @@ import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { AlchemyProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import axios from "axios";
 import cron from "node-cron";
 

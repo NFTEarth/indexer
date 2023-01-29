@@ -1,7 +1,7 @@
 import { Interface } from "@ethersproject/abi";
 
 import { EventData } from "@/events-sync/data";
-import { Beeple, CryptoArte, CryptoKitties, CryptoVoxels } from "@reservoir0x/sdk";
+import { Beeple, CryptoArte, CryptoKitties, CryptoVoxels } from "@nftearth/sdk";
 import { config } from "@/config/index";
 
 // There are some NFTs which do not strictly adhere to the ERC721

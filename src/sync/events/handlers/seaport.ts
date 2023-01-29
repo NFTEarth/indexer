@@ -1,6 +1,6 @@
 import { Log } from "@ethersproject/abstract-provider";
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";

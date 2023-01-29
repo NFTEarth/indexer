@@ -1,4 +1,4 @@
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { baseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
@@ -6,10 +6,9 @@ import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import * as onChainData from "@/utils/on-chain-data";
 import { PartialOrderComponents } from "@/orderbook/orders/seaport";
-import * as NFTEarth from "../../../nftearth";
 
 export const offChainCheck = async (
-  order: NFTEarth.Order,
+  order: Sdk.NFTEarth.Order,
   options?: {
     // Some NFTs pre-approve common exchanges so that users don't
     // spend gas approving them. In such cases we will be missing
@@ -60,7 +59,7 @@ export const offChainCheck = async (
     throw new Error("cancelled");
   }
 
-  const conduit = new NFTEarth.Exchange(config.chainId).deriveConduit(order.params.conduitKey);
+  const conduit = new Sdk.NFTEarth.Exchange(config.chainId).deriveConduit(order.params.conduitKey);
 
   let hasBalance = true;
   let hasApproval = true;
@@ -166,7 +165,7 @@ export const offChainCheckPartial = async (
     }
   }
 
-  const conduit = new NFTEarth.Exchange(config.chainId).deriveConduit(conduitKey);
+  const conduit = new Sdk.NFTEarth.Exchange(config.chainId).deriveConduit(conduitKey);
 
   let hasBalance = true;
   let hasApproval = true;
@@ -278,7 +277,7 @@ export const offChainCheckBundle = async (
     throw new Error("cancelled");
   }
 
-  const conduit = new NFTEarth.Exchange(config.chainId).deriveConduit(order.params.conduitKey);
+  const conduit = new Sdk.NFTEarth.Exchange(config.chainId).deriveConduit(order.params.conduitKey);
 
   let hasBalance = true;
   let hasApproval = true;

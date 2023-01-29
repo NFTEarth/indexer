@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { Seaport } from "@reservoir0x/sdk";
+import { Seaport } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

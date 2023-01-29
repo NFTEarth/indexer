@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import * as NFTEarth from "../../../nftearth";
+import { NFTEarth } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

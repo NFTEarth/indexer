@@ -2,7 +2,7 @@
 
 import { Request, RouteOptions } from "@hapi/hapi";
 import * as Boom from "@hapi/boom";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import _ from "lodash";
 import Joi from "joi";
 

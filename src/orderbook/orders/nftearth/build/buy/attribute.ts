@@ -1,5 +1,5 @@
-import { BaseBuilder } from "../../../../../nftearth/builders/base";
-import { Builders } from "../../../../../nftearth";
+import * as Sdk from "@nftearth/sdk";
+import { BaseBuilder } from "@nftearth/sdk/dist/nftearth/builders/base";
 
 import { redb } from "@/common/db";
 import { fromBuffer } from "@/common/utils";
@@ -17,7 +17,7 @@ interface BuildOrderOptions extends utils.BaseOrderBuildOptions {
 }
 
 export const build = async (options: BuildOrderOptions) => {
-  const builder: BaseBuilder = new Builders.TokenList(config.chainId);
+  const builder: BaseBuilder = new Sdk.NFTEarth.Builders.TokenList(config.chainId);
 
   if (options.collection && options.attributes) {
     if (options.attributes.length !== 1) {

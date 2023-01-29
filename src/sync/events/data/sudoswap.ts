@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { Sudoswap } from "@reservoir0x/sdk";
+import { Sudoswap } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

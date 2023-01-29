@@ -4,7 +4,7 @@
 // entry in the configuration methods below
 
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { idb } from "@/common/db";
 import { config } from "@/config/index";

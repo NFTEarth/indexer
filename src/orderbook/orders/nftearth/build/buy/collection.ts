@@ -1,6 +1,6 @@
-import { generateMerkleTree } from "@reservoir0x/sdk/dist/common/helpers";
-import { BaseBuilder } from "../../../../../nftearth/builders/base";
-import { Builders } from "../../../../../nftearth";
+import * as Sdk from "@nftearth/sdk";
+import { generateMerkleTree } from "@nftearth/sdk/dist/common/helpers";
+import { BaseBuilder } from "@nftearth/sdk/dist/nftearth/builders/base";
 
 import { redb } from "@/common/db";
 import { redis } from "@/common/redis";
@@ -47,7 +47,7 @@ export const build = async (options: BuildOrderOptions) => {
   const collectionIsContractWide = collectionResult.token_set_id?.startsWith("contract:");
   if (!options.excludeFlaggedTokens && collectionIsContractWide) {
     // Use contract-wide order
-    let builder: BaseBuilder = new Builders.ContractWide(config.chainId);
+    let builder: BaseBuilder = new Sdk.NFTEarth.Builders.ContractWide(config.chainId);
 
     if (options.orderbook === "nftearth" && config.chainId === 10) {
       const buildCollectionOfferParams = await NFTEarthApi.buildCollectionOffer(
@@ -63,14 +63,14 @@ export const build = async (options: BuildOrderOptions) => {
         (buildInfo.params as any).merkleRoot =
           buildCollectionOfferParams.partialParameters.consideration[0].identifierOrCriteria;
 
-        builder = new Builders.TokenList(config.chainId);
+        builder = new Sdk.NFTEarth.Builders.TokenList(config.chainId);
       }
     }
 
     return builder?.build(buildInfo.params);
   } else {
     // Use token-list order
-    const builder: BaseBuilder = new Builders.TokenList(config.chainId);
+    const builder: BaseBuilder = new Sdk.NFTEarth.Builders.TokenList(config.chainId);
 
     if (options.orderbook === "nftearth" && config.chainId === 10) {
       // We need to call OpenSea to compute the most up-to-date root of the Merkle Tree (currently only supported on OS production apis)

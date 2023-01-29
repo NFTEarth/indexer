@@ -1,6 +1,6 @@
-import * as Sdk from "@reservoir0x/sdk";
-import { generateMerkleTree } from "@reservoir0x/sdk/dist/common/helpers";
-import { BaseBuilder } from "@reservoir0x/sdk/dist/forward/builders/base";
+import * as Sdk from "@nftearth/sdk";
+import { generateMerkleTree } from "@nftearth/sdk/dist/common/helpers";
+import { BaseBuilder } from "@nftearth/sdk/dist/forward/builders/base";
 
 import { redb } from "@/common/db";
 import { redis } from "@/common/redis";

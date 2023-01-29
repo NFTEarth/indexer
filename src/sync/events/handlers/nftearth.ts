@@ -1,7 +1,6 @@
 import { Log } from "@ethersproject/abstract-provider";
 import { AddressZero } from "@ethersproject/constants";
-
-import * as NFTEarth from "../../../nftearth";
+import * as Sdk from "@nftearth/sdk";
 
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
@@ -82,7 +81,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
           break;
         }
 
-        const saleInfo = new NFTEarth.Exchange(config.chainId).deriveBasicSale(
+        const saleInfo = new Sdk.NFTEarth.Exchange(config.chainId).deriveBasicSale(
           offer,
           consideration
         );

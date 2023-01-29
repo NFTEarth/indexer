@@ -3,7 +3,7 @@
 import { Interface } from "@ethersproject/abi";
 import { HashZero } from "@ethersproject/constants";
 import { searchForCall } from "@georgeroman/evm-tx-simulator";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 

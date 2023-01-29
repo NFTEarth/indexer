@@ -1,5 +1,5 @@
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import pLimit from "p-limit";
 
 import { idb, pgp } from "@/common/db";

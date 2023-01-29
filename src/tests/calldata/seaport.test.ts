@@ -1,7 +1,7 @@
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 import { config } from "@/config/index";
-import { Seaport } from "@reservoir0x/sdk";
+import { Seaport } from "@nftearth/sdk";
 import { keccak256 } from "ethers/lib/utils";
 import { toUtf8Bytes } from "@ethersproject/strings";
 import { BigNumber } from "ethers";

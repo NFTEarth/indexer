@@ -8,7 +8,7 @@ import { logger } from "@/common/logger";
 import { buildContinuation, formatEth, fromBuffer, regex, splitContinuation } from "@/common/utils";
 import { Sources } from "@/models/sources";
 import { getJoiPriceObject, JoiPrice } from "@/common/joi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import { config } from "@/config/index";
 
 const version = "v2";

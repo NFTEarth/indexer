@@ -4,8 +4,8 @@ import { AddressZero } from "@ethersproject/constants";
 import { joinSignature } from "@ethersproject/bytes";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
-import { TxData } from "@reservoir0x/sdk/dist/utils";
+import * as Sdk from "@nftearth/sdk";
+import { TxData } from "@nftearth/sdk/dist/utils";
 import Joi from "joi";
 
 import { logger } from "@/common/logger";

@@ -20,10 +20,9 @@ export * as nftx from "@/orderbook/orders/nftx";
 export * as manifold from "@/orderbook/orders/manifold";
 
 // Imports
-import * as Sdk from "@reservoir0x/sdk";
-import * as SdkTypesV5 from "@reservoir0x/sdk/dist/router/v5/types";
-import * as SdkTypesV6 from "@reservoir0x/sdk/dist/router/v6/types";
-import * as NFTEarth from "../../nftearth";
+import * as Sdk from "@nftearth/sdk";
+import * as SdkTypesV5 from "@nftearth/sdk/dist/router/v5/types";
+import * as SdkTypesV6 from "@nftearth/sdk/dist/router/v6/types";
 
 import { redb } from "@/common/db";
 import { config } from "@/config/index";
@@ -278,7 +277,7 @@ export const generateListingDetailsV5 = (
         return {
           kind: "nftearth",
           ...common,
-          order: new NFTEarth.Order(config.chainId, order.rawData),
+          order: new Sdk.NFTEarth.Order(config.chainId, order.rawData),
         };
       } else {
         // Sorry for all the below `any` types

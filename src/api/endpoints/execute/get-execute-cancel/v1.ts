@@ -2,15 +2,13 @@
 
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { bn, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
-
-import * as NFTEarth from "../../../../nftearth";
 
 const version = "v1";
 
@@ -143,10 +141,10 @@ export const getExecuteCancelV1Options: RouteOptions = {
         }
 
         case "nftearth": {
-          const order = new NFTEarth.Order(config.chainId, orderResult.raw_data);
+          const order = new Sdk.NFTEarth.Order(config.chainId, orderResult.raw_data);
 
           // Generate exchange-specific cancellation transaction.
-          const exchange = new NFTEarth.Exchange(config.chainId);
+          const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
           const cancelTx = exchange.cancelOrderTx(query.maker, order);
 
           const steps = generateSteps(order.getInfo()!.side);

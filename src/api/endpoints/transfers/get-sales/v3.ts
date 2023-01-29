@@ -2,7 +2,7 @@
 
 import { AddressZero } from "@ethersproject/constants";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import crypto from "crypto";
 import Joi from "joi";
 import _ from "lodash";

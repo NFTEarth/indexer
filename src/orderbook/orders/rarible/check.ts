@@ -1,11 +1,11 @@
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { baseProvider } from "@/common/provider";
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import * as onChainData from "@/utils/on-chain-data";
-import { AssetClass } from "@reservoir0x/sdk/dist/rarible/types";
+import { AssetClass } from "@nftearth/sdk/dist/rarible/types";
 
 export const offChainCheck = async (
   order: Sdk.Rarible.Order,

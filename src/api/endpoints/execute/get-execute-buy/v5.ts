@@ -2,8 +2,8 @@
 
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
-import { ListingDetails } from "@reservoir0x/sdk/dist/router/v6/types";
+import * as Sdk from "@nftearth/sdk";
+import { ListingDetails } from "@nftearth/sdk/dist/router/v6/types";
 import Joi from "joi";
 
 import { inject } from "@/api/index";

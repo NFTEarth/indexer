@@ -2,7 +2,7 @@ import { ridb } from "@/common/db";
 import { Sources } from "@/models/sources";
 import { fromBuffer } from "@/common/utils";
 import { BaseDataSource } from "@/jobs/data-export/data-sources/index";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import { config } from "@/config/index";
 import { getCurrency } from "@/utils/currencies";
 import { AddressZero } from "@ethersproject/constants";

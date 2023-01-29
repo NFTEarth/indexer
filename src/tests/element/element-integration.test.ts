@@ -5,7 +5,7 @@ import { wait } from "../utils/test";
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { Wallet } from "@ethersproject/wallet";
-import { Element, Common } from "@reservoir0x/sdk";
+import { Element, Common } from "@nftearth/sdk";
 import { config } from "@/config/index";
 import { parseEther } from "@ethersproject/units";
 import * as orders from "@/orderbook/orders";

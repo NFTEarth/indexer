@@ -8,7 +8,7 @@ import {
   TraitOfferEventPayload,
 } from "@opensea/stream-js";
 import { WebSocket } from "ws";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import AWS from "aws-sdk";
 
 import { config } from "@/config/index";

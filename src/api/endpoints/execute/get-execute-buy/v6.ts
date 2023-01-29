@@ -3,8 +3,8 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
-import { ListingDetails } from "@reservoir0x/sdk/dist/router/v6/types";
+import * as Sdk from "@nftearth/sdk";
+import { ListingDetails } from "@nftearth/sdk/dist/router/v6/types";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
@@ -19,8 +19,6 @@ import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import * as sudoswap from "@/orderbook/orders/sudoswap";
 import * as nftx from "@/orderbook/orders/nftx";
 import { getCurrency } from "@/utils/currencies";
-
-import * as NFTEarth from "../../../../nftearth";
 
 const version = "v6";
 
@@ -730,7 +728,7 @@ export const getExecuteBuyV6Options: RouteOptions = {
                 "0x1e0049783f008a0085193e00003d00cd54003c71"
               : Sdk.Seaport.Addresses.Exchange[config.chainId];
         } else if (listingDetails.every((d: any) => d.kind === "nftearth")) {
-          conduit = NFTEarth.Addresses.Exchange[config.chainId];
+          conduit = Sdk.NFTEarth.Addresses.Exchange[config.chainId];
         } else if (listingDetails.every((d) => d.kind === "universe")) {
           conduit = Sdk.Universe.Addresses.Exchange[config.chainId];
         } else if (listingDetails.every((d) => d.kind === "rarible")) {

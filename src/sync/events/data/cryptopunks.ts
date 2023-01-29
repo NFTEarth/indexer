@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { CryptoPunks } from "@reservoir0x/sdk";
+import { CryptoPunks } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

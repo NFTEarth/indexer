@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { Quixotic } from "@reservoir0x/sdk";
+import { Quixotic } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

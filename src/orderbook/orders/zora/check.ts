@@ -1,4 +1,4 @@
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { redb } from "@/common/db";
 import { baseProvider } from "@/common/provider";

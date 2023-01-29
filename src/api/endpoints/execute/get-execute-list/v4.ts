@@ -3,8 +3,8 @@
 import { AddressZero } from "@ethersproject/constants";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
-import { TxData } from "@reservoir0x/sdk/dist/utils";
+import * as Sdk from "@nftearth/sdk";
+import { TxData } from "@nftearth/sdk/dist/utils";
 import Joi from "joi";
 import _ from "lodash";
 
@@ -13,8 +13,6 @@ import { baseProvider } from "@/common/provider";
 import { regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
-
-import * as NFTEarth from "../../../../nftearth";
 
 // LooksRare
 import * as looksRareSellToken from "@/orderbook/orders/looks-rare/build/sell/token";
@@ -497,7 +495,7 @@ export const getExecuteListV4Options: RouteOptions = {
                 case "no-approval": {
                   // Generate an approval transaction
 
-                  const exchange = new NFTEarth.Exchange(config.chainId);
+                  const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
                   const info = order.getInfo()!;
 
                   const kind = order.params.kind?.startsWith("erc721") ? "erc721" : "erc1155";

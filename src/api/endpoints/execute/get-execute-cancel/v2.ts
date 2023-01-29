@@ -4,8 +4,8 @@ import { arrayify } from "@ethersproject/bytes";
 import { verifyMessage } from "@ethersproject/wallet";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
-import { TxData } from "@reservoir0x/sdk/dist/utils";
+import * as Sdk from "@nftearth/sdk";
+import { TxData } from "@nftearth/sdk/dist/utils";
 import Joi from "joi";
 
 import { idb, redb } from "@/common/db";
@@ -13,7 +13,6 @@ import { logger } from "@/common/logger";
 import { bn, fromBuffer, regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as orderUpdatesById from "@/jobs/order-updates/by-id-queue";
-import * as NFTEarth from "../../../../nftearth";
 
 const version = "v2";
 
@@ -174,8 +173,8 @@ export const getExecuteCancelV2Options: RouteOptions = {
         }
 
         case "nftearth": {
-          const order = new NFTEarth.Order(config.chainId, orderResult.raw_data);
-          const exchange = new NFTEarth.Exchange(config.chainId);
+          const order = new Sdk.NFTEarth.Order(config.chainId, orderResult.raw_data);
+          const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
 
           cancelTx = exchange.cancelOrderTx(maker, order);
           orderSide = order.getInfo()!.side;

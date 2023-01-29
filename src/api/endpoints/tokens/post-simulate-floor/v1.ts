@@ -2,7 +2,7 @@
 
 import { CallTrace } from "@georgeroman/evm-tx-simulator/dist/types";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";

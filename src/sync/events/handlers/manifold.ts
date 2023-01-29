@@ -1,6 +1,6 @@
 import { Log } from "@ethersproject/abstract-provider";
 import { parseCallTrace } from "@georgeroman/evm-tx-simulator";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { idb } from "@/common/db";
 import { bn } from "@/common/utils";

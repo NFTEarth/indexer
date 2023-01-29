@@ -1,7 +1,7 @@
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
-import { generateMerkleTree } from "@reservoir0x/sdk/dist/common/helpers/merkle";
-import { OrderKind } from "@reservoir0x/sdk/dist/seaport/types";
+import * as Sdk from "@nftearth/sdk";
+import { generateMerkleTree } from "@nftearth/sdk/dist/common/helpers/merkle";
+import { OrderKind } from "@nftearth/sdk/dist/nftearth/types";
 import _ from "lodash";
 import pLimit from "p-limit";
 
@@ -29,7 +29,6 @@ import * as arweaveRelay from "@/jobs/arweave-relay";
 import * as refreshContractCollectionsMetadata from "@/jobs/collection-updates/refresh-contract-collections-metadata-queue";
 import * as flagStatusProcessQueue from "@/jobs/flag-status/process-queue";
 import * as ordersUpdateById from "@/jobs/order-updates/by-id-queue";
-import * as NFTEarth from "../../../nftearth";
 
 export type OrderInfo =
   | {
@@ -171,7 +170,7 @@ export const save = async (
           // No zone
           AddressZero,
           // Pausable zone
-          NFTEarth.Addresses.PausableZone[config.chainId],
+          Sdk.NFTEarth.Addresses.PausableZone[config.chainId],
         ].includes(order.params.zone)
       ) {
         return results.push({

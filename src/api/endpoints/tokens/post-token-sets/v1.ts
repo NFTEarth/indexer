@@ -2,7 +2,7 @@
 
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import { generateMerkleTree } from "@reservoir0x/sdk/dist/common/helpers/merkle";
+import { generateMerkleTree } from "@nftearth/sdk/dist/common/helpers/merkle";
 import Joi from "joi";
 
 import { logger } from "@/common/logger";

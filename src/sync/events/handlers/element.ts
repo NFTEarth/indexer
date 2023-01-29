@@ -1,6 +1,6 @@
 import { defaultAbiCoder } from "@ethersproject/abi";
 import { keccak256 } from "@ethersproject/keccak256";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";

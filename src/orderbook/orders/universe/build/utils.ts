@@ -1,7 +1,7 @@
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { redb } from "@/common/db";
-import { OrderSide } from "@reservoir0x/sdk/dist/universe/types";
+import { OrderSide } from "@nftearth/sdk/dist/universe/types";
 
 export interface BaseOrderBuildOptions {
   maker: string;

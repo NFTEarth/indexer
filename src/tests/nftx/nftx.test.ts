@@ -4,7 +4,7 @@ import { baseProvider } from "@/common/provider";
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import { Common, Nftx } from "@reservoir0x/sdk";
+import { Common, Nftx } from "@nftearth/sdk";
 import { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber, BigNumberish } from "ethers";
 import { bn } from "@/common/utils";

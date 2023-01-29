@@ -1,5 +1,5 @@
 import { Log } from "@ethersproject/abstract-provider";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { getEventData } from "@/events-sync/data";

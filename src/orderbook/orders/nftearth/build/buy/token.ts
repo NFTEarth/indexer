@@ -1,5 +1,5 @@
-import { BaseBuilder } from "../../../../../nftearth/builders/base";
-import { Builders } from "../../../../../nftearth";
+import * as Sdk from "@nftearth/sdk";
+import { BaseBuilder } from "@nftearth/sdk/dist/nftearth/builders/base";
 
 import { redb } from "@/common/db";
 import { toBuffer } from "@/common/utils";
@@ -36,7 +36,7 @@ export const build = async (options: BuildOrderOptions) => {
 
   const buildInfo = await utils.getBuildInfo(options, collectionResult.collection_id, "buy");
 
-  const builder: BaseBuilder = new Builders.SingleToken(config.chainId);
+  const builder: BaseBuilder = new Sdk.NFTEarth.Builders.SingleToken(config.chainId);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (buildInfo.params as any).tokenId = options.tokenId;

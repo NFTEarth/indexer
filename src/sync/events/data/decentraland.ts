@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { Decentraland } from "@reservoir0x/sdk";
+import { Decentraland } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

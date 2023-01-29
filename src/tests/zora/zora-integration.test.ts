@@ -6,7 +6,7 @@ import { keccak256 } from "@ethersproject/solidity";
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { Wallet } from "@ethersproject/wallet";
-import { Zora } from "@reservoir0x/sdk";
+import { Zora } from "@nftearth/sdk";
 import { config } from "@/config/index";
 import { parseEther } from "@ethersproject/units";
 import { ethers } from "ethers";

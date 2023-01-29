@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { TofuNft } from "@reservoir0x/sdk";
+import { TofuNft } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

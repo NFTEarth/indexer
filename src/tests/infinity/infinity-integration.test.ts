@@ -7,11 +7,11 @@ import { Wallet } from "@ethersproject/wallet";
 
 import { config } from "@/config/index";
 import { testNFTAddr, operatorKey, operator2Key } from "./__fixtures__/test-accounts";
-import { Infinity } from "@reservoir0x/sdk";
-import { lc } from "@reservoir0x/sdk/dist/utils";
+import { Infinity } from "@nftearth/sdk";
+import { lc } from "@nftearth/sdk/dist/utils";
 import { parseEther } from "ethers/lib/utils";
 import { bn, now } from "@/common/utils";
-import { Common } from "@reservoir0x/sdk";
+import { Common } from "@nftearth/sdk";
 import { BigNumberish, logger } from "ethers";
 import * as orders from "@/orderbook/orders";
 

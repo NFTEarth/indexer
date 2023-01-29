@@ -1,6 +1,6 @@
 import { AddressZero } from "@ethersproject/constants";
 import { keccak256 } from "@ethersproject/solidity";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import pLimit from "p-limit";
 
 import { idb, pgp, redb } from "@/common/db";

@@ -1,7 +1,7 @@
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 import { wait, saveContract } from "../utils/test";
-import { Blur } from "@reservoir0x/sdk";
+import { Blur } from "@nftearth/sdk";
 import { config } from "@/config/index";
 import { OrderInfo } from "@/orderbook/orders/blur";
 import { initOnChainData, processOnChainData } from "@/events-sync/handlers/utils";

@@ -1,5 +1,5 @@
 import { parseCallTrace } from "@georgeroman/evm-tx-simulator";
-import { Common } from "@reservoir0x/sdk";
+import { Common } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { getEventData } from "@/events-sync/data";

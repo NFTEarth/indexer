@@ -1,5 +1,5 @@
 import { Interface } from "@ethersproject/abi";
-import { Rarible } from "@reservoir0x/sdk";
+import { Rarible } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { EventData } from "@/events-sync/data";

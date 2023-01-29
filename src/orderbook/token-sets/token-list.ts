@@ -1,4 +1,4 @@
-import { Common } from "@reservoir0x/sdk";
+import { Common } from "@nftearth/sdk";
 
 import { PgPromiseQuery, idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";

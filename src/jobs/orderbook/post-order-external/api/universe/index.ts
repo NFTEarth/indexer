@@ -1,4 +1,4 @@
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { logger } from "@/common/logger";
 import { config } from "@/config/index";

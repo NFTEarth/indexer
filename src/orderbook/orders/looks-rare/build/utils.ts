@@ -1,5 +1,5 @@
-import * as Sdk from "@reservoir0x/sdk";
-import { BaseBuildParams } from "@reservoir0x/sdk/dist/looks-rare/builders/base";
+import * as Sdk from "@nftearth/sdk";
+import { BaseBuildParams } from "@nftearth/sdk/dist/looks-rare/builders/base";
 
 import { redb } from "@/common/db";
 import { fromBuffer } from "@/common/utils";

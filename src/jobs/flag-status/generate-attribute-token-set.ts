@@ -8,7 +8,7 @@ import { redis } from "@/common/redis";
 import { config } from "@/config/index";
 
 import { Collections } from "@/models/collections";
-import { generateMerkleTree } from "@reservoir0x/sdk/dist/common/helpers/merkle";
+import { generateMerkleTree } from "@nftearth/sdk/dist/common/helpers/merkle";
 import * as tokenSet from "@/orderbook/token-sets";
 import { generateSchemaHash } from "@/orderbook/orders/utils";
 import { TokenSet } from "@/orderbook/token-sets/token-list";

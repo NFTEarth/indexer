@@ -1,6 +1,6 @@
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 
 import { baseProvider } from "@/common/provider";
 import { bn, fromBuffer } from "@/common/utils";

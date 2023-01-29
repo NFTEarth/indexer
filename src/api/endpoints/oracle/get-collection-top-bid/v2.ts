@@ -4,7 +4,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { _TypedDataEncoder } from "@ethersproject/hash";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import axios from "axios";
 import Joi from "joi";
 

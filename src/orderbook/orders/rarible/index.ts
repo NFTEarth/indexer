@@ -1,6 +1,6 @@
 import { AddressZero } from "@ethersproject/constants";
-import * as Sdk from "@reservoir0x/sdk";
-import { IV2OrderData, IV3OrderBuyData } from "@reservoir0x/sdk/dist/rarible/types";
+import * as Sdk from "@nftearth/sdk";
+import { IV2OrderData, IV3OrderBuyData } from "@nftearth/sdk/dist/rarible/types";
 import pLimit from "p-limit";
 
 import { idb, pgp } from "@/common/db";

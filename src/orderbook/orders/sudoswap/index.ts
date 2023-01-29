@@ -2,7 +2,7 @@ import { Interface } from "@ethersproject/abi";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
 import { keccak256 } from "@ethersproject/solidity";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import _ from "lodash";
 import pLimit from "p-limit";
 

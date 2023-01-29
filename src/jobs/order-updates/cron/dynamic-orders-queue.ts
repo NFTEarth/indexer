@@ -1,4 +1,4 @@
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import _ from "lodash";
 import cron from "node-cron";

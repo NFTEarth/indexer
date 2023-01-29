@@ -1,4 +1,4 @@
-import { Decentraland } from "@reservoir0x/sdk";
+import { Decentraland } from "@nftearth/sdk";
 
 import { config } from "@/config/index";
 import { getEventData } from "@/events-sync/data";
