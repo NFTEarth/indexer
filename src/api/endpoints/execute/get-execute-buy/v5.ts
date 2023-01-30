@@ -525,6 +525,7 @@ export const getExecuteBuyV5Options: RouteOptions = {
         x2y2ApiKey: payload.x2y2ApiKey ?? config.x2y2ApiKey,
         cbApiKey: config.cbApiKey,
       });
+
       const { txData, success } = await router.fillListingsTx(
         listingDetails,
         payload.taker,

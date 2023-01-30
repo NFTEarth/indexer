@@ -536,6 +536,8 @@ export const getExecuteBuyV6Options: RouteOptions = {
               }
             );
 
+            logger.info("execute-buy-best-order", JSON.stringify(bestOrdersResult));
+
             if (bestOrdersResult?.length) {
               if (
                 bestOrdersResult.length &&
@@ -677,7 +679,14 @@ export const getExecuteBuyV6Options: RouteOptions = {
         }
       );
 
-      logger.info("execute-buy-v6", JSON.stringify(txData));
+      logger.info(
+        "execute-buy-v6",
+        JSON.stringify({
+          txData,
+          payload,
+          listingDetails,
+        })
+      );
 
       // Set up generic filling steps
       const steps: {
