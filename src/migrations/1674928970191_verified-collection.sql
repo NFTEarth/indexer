@@ -1,6 +1,6 @@
 -- Up Migration
-ALTER TABLE "public"."collections"
-  ADD COLUMN "verified" bool NOT NULL DEFAULT false;
+ALTER TABLE "collections"
+  ADD COLUMN IF NOT EXISTS "verified" bool NOT NULL DEFAULT false;
 -- Down Migration
-ALTER TABLE "public"."collections"
-  ALTER TABLE "verified" DROP COLUMN "verified";
+ALTER TABLE "collections"
+  ALTER TABLE "verified" DROP COLUMN IF EXISTS "verified";
