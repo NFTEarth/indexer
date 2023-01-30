@@ -199,6 +199,7 @@ export const getExecuteListV4Options: RouteOptions = {
 
         // For now, ERC20 listings are only supported on Seaport
         if (
+          params.orderKind !== "nftearth" &&
           params.orderKind !== "seaport" &&
           params.orderKind !== "universe" &&
           params.currency !== Sdk.Common.Addresses.Eth[config.chainId]
@@ -219,8 +220,8 @@ export const getExecuteListV4Options: RouteOptions = {
 
         switch (params.orderKind) {
           case "zeroex-v4": {
-            if (!["reservoir"].includes(params.orderbook)) {
-              throw Boom.badRequest("Only `reservoir` is supported as orderbook");
+            if (!["nftearth"].includes(params.orderbook)) {
+              throw Boom.badRequest("Only `nftearth` is supported as orderbook");
             }
 
             const order = await zeroExV4SellToken.build({

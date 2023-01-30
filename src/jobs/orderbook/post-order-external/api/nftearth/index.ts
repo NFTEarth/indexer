@@ -12,7 +12,8 @@ import {
 export const RATE_LIMIT_REQUEST_COUNT = 2;
 export const RATE_LIMIT_INTERVAL = 1000;
 
-export const postOrder = async (order: Sdk.Seaport.Order, apiKey: string) => {
+export const postOrder = async (order: Sdk.NFTEarth.Order, apiKey: string) => {
+  //TODO: Store in database instad of calling API
   const url = `${config.reservoirAPIBase}/orders/${
     config.chainId === 42161 ? "arbitrum" : "optimism"
   }/seaport/${order.getInfo()?.side === "sell" ? "listings" : "offers"}`;
@@ -62,6 +63,7 @@ export const buildCollectionOffer = async (
   collectionSlug: string,
   apiKey = ""
 ) => {
+  //TODO: Store in database instad of calling API
   const url = `https://${
     config.chainId === 5 ? "testnets-api." : "api."
   }opensea.io/v2/offers/build`;
@@ -117,7 +119,7 @@ export const buildCollectionOffer = async (
 };
 
 export const postCollectionOffer = async (
-  order: Sdk.Seaport.Order,
+  order: Sdk.NFTEarth.Order,
   collectionSlug: string,
   apiKey: string
 ) => {

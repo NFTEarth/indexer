@@ -6,6 +6,7 @@ import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
 
+import * as NFTEarthApi from "@/jobs/orderbook/post-order-external/api/nftearth";
 import * as OpenSeaApi from "@/jobs/orderbook/post-order-external/api/opensea";
 import * as LooksrareApi from "@/jobs/orderbook/post-order-external/api/looksrare";
 import * as X2Y2Api from "@/jobs/orderbook/post-order-external/api/x2y2";
@@ -40,7 +41,7 @@ if (config.doBackgroundWork) {
       const { orderId, orderData, orderbook, retry } = job.data as PostOrderExternalParams;
       let orderbookApiKey = job.data.orderbookApiKey;
 
-      if (![1, 4, 5].includes(config.chainId)) {
+      if (![1, 4, 5, 10].includes(config.chainId)) {
         throw new Error("Unsupported network");
       }
 
@@ -142,6 +143,8 @@ if (config.doBackgroundWork) {
 
 const getOrderbookDefaultApiKey = (orderbook: string) => {
   switch (orderbook) {
+    case "nftearth":
+      return null;
     case "opensea":
       return config.openSeaApiKey;
     case "looks-rare":
@@ -159,6 +162,13 @@ const getOrderbookDefaultApiKey = (orderbook: string) => {
 
 const getRateLimiter = (orderbook: string, orderbookApiKey: string) => {
   switch (orderbook) {
+    case "nftearth":
+      return new OrderbookApiRateLimiter(
+        orderbook,
+        orderbookApiKey,
+        NFTEarthApi.RATE_LIMIT_REQUEST_COUNT,
+        NFTEarthApi.RATE_LIMIT_INTERVAL
+      );
     case "looks-rare":
       return new OrderbookApiRateLimiter(
         orderbook,
@@ -206,6 +216,50 @@ const postOrder = async (
   orderbookApiKey: string
 ) => {
   switch (orderbook) {
+    case "nftearth": {
+      const order = new Sdk.NFTEarth.Order(
+        config.chainId,
+        orderData as Sdk.NFTEarth.Types.OrderComponents
+      );
+
+      logger.info(
+        QUEUE_NAME,
+        `Post Order NFTEarth. orderbook: ${orderbook}, orderId=${orderId}, orderData=${JSON.stringify(
+          orderData
+        )}, side=${order.getInfo()?.side}, kind=${order.params.kind}`
+      );
+
+      if (
+        order.getInfo()?.side === "buy" &&
+        ["contract-wide", "token-list"].includes(order.params.kind!)
+      ) {
+        const { collectionSlug } = await redb.oneOrNone(
+          `
+                SELECT c.slug AS "collectionSlug"
+                FROM orders o
+                JOIN token_sets ts
+                  ON o.token_set_id = ts.id
+                JOIN collections c   
+                  ON c.id = ts.collection_id  
+                WHERE o.id = $/orderId/
+                AND ts.collection_id IS NOT NULL
+                AND ts.attribute_id IS NULL
+                LIMIT 1
+            `,
+          {
+            orderId: orderId,
+          }
+        );
+
+        if (!collectionSlug) {
+          throw new Error("Invalid collection offer.");
+        }
+
+        return NFTEarthApi.postCollectionOffer(order, collectionSlug, orderbookApiKey);
+      }
+
+      return NFTEarthApi.postOrder(order, orderbookApiKey);
+    }
     case "opensea": {
       const order = new Sdk.Seaport.Order(
         config.chainId,
@@ -281,6 +335,13 @@ const postOrder = async (
 };
 
 export type PostOrderExternalParams =
+  | {
+      orderId: string;
+      orderData: Sdk.NFTEarth.Types.OrderComponents;
+      orderbook: "nftearth";
+      orderbookApiKey: string;
+      retry: number;
+    }
   | {
       orderId: string;
       orderData: Sdk.Seaport.Types.OrderComponents;
