@@ -677,6 +677,8 @@ export const getExecuteBuyV6Options: RouteOptions = {
         }
       );
 
+      logger.info("execute-buy-v6", JSON.stringify(txData));
+
       // Set up generic filling steps
       const steps: {
         id: string;
