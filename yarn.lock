@@ -2571,10 +2571,10 @@
   resolved "https://registry.yarnpkg.com/@msgpackr-extract/msgpackr-extract-win32-x64/-/msgpackr-extract-win32-x64-2.2.0.tgz#016d855b6bc459fd908095811f6826e45dd4ba64"
   integrity sha512-XrC0JzsqQSvOyM3t04FMLO6z5gCuhPE6k4FXuLK5xf52ZbdvcFe1yBmo7meCew9B8G2f0T9iu9t3kfTYRYROgA==
 
-"@nftearth/sdk@^0.0.305":
-  version "0.0.305"
-  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.305.tgz#92859887f61fb48f7c918941508684e127adbbe4"
-  integrity sha512-DbuINC6LibEx46cjOpkXGN9NVD6mVdlD2qXGSrJS1qgjNKRoDxfP2aRhV42sNYhbS/21WShJKMh3re8n+J62rA==
+"@nftearth/sdk@^0.0.307":
+  version "0.0.307"
+  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.307.tgz#b6dbb30a593c0fee2abad87dbdb5dc6dfbf8081d"
+  integrity sha512-XmejfygzVXveqRkxgcRncnONn1GnVjjuE9BMFhRA6V22D84wi2M4onYZIx5pc4YVKsTfkM1Kjr6J44D/sHEorQ==
   dependencies:
     "@uniswap/smart-order-router" "^3.0.4"
     ethers "^5.7.2"
@@ -2683,15 +2683,6 @@
   version "1.1.0"
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
-
-"@nftearth/sdk@0.0.301":
-  version "0.0.301"
-  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.301.tgz#85ebf5d9ec471d0aa674871fb6e822e790cdc589"
-  integrity sha512-a+YTn++9uy5yDjBF9lZJyTosCaqdQ6phMHeMJuFuFm/HoZUnvDmeXBLWReAzWnF9mPYjGn7LIl5hEn+TjVgTMw==
-  dependencies:
-    "@uniswap/smart-order-router" "^3.0.4"
-    ethers "^5.7.2"
-    merkletreejs "0.2.31"
 
 "@sideway/address@^4.1.3":
   version "4.1.4"

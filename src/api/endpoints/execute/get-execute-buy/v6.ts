@@ -41,11 +41,11 @@ export const getExecuteBuyV6Options: RouteOptions = {
           kind: Joi.string()
             .lowercase()
             .valid(
+              "nftearth",
               "opensea",
               "looks-rare",
               "zeroex-v4",
               "seaport",
-              "nftearth",
               "x2y2",
               "universe",
               "rarible",
