@@ -737,6 +737,8 @@ export const getExecuteBuyV6Options: RouteOptions = {
           throw new Error("Only Seaport, Universe and Rarible ERC20 listings are supported");
         }
 
+        logger.info("get-execute-buy ", "execute buy " + conduit);
+
         const allowance = await erc20.getAllowance(payload.taker, conduit);
         if (bn(allowance).lt(totalPrice)) {
           const tx = erc20.approveTransaction(payload.taker, conduit);
