@@ -77,7 +77,7 @@ export const getBuildInfo = async (
 
   if (options.orderbook === "nftearth") {
     pausableZone = Sdk.NFTEarth.Addresses.PausableZone[config.chainId] ?? AddressZero;
-    conduitKey = Sdk.NFTEarth.Addresses.SeaportConduitKey[config.chainId] ?? HashZero;
+    conduitKey = Sdk.NFTEarth.Addresses.NFTEarthConduitKey[config.chainId] ?? HashZero;
   }
 
   const buildParams: BaseBuildParams = {

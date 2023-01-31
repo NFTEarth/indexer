@@ -18,6 +18,10 @@ import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import * as looksRareSellToken from "@/orderbook/orders/looks-rare/build/sell/token";
 import * as looksRareCheck from "@/orderbook/orders/looks-rare/check";
 
+// NFTEarth
+import * as nftearthSellToken from "@/orderbook/orders/nftearth/build/sell/token";
+import * as nftearthCheck from "@/orderbook/orders/nftearth/check";
+
 // Seaport
 import * as seaportSellToken from "@/orderbook/orders/seaport/build/sell/token";
 import * as seaportCheck from "@/orderbook/orders/seaport/check";
@@ -259,6 +263,110 @@ export const getExecuteListV2Options: RouteOptions = {
               ...query,
               expirationTime: order.params.expiry,
               nonce: order.params.nonce,
+            },
+          };
+        }
+
+        case "nftearth": {
+          // Exchange-specific checks
+          if (!["nftearth"].includes(query.orderbook)) {
+            throw Boom.badRequest("Unsupported orderbook");
+          }
+
+          // Make sure the fee information is correctly typed
+          if (query.fee && !Array.isArray(query.fee)) {
+            query.fee = [query.fee];
+          }
+          if (query.feeRecipient && !Array.isArray(query.feeRecipient)) {
+            query.feeRecipient = [query.feeRecipient];
+          }
+          if (query.fee?.length !== query.feeRecipient?.length) {
+            throw Boom.badRequest("Invalid fee information");
+          }
+
+          const order = await nftearthSellToken.build({
+            ...query,
+            contract,
+            tokenId,
+          });
+          if (!order) {
+            throw Boom.internal("Failed to generate order");
+          }
+
+          // Will be set if an approval is needed before listing
+          let approvalTx: TxData | undefined;
+
+          // Check the order's fillability
+          try {
+            await nftearthCheck.offChainCheck(order, { onChainApprovalRecheck: true });
+          } catch (error: any) {
+            switch (error.message) {
+              case "no-balance-no-approval":
+              case "no-balance": {
+                // We cannot do anything if the user doesn't own the listed token
+                throw Boom.badData("Maker does not own the listed token");
+              }
+
+              case "no-approval": {
+                // Generate an approval transaction
+
+                const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
+                const info = order.getInfo()!;
+
+                const kind = order.params.kind?.startsWith("erc721") ? "erc721" : "erc1155";
+                approvalTx = (
+                  kind === "erc721"
+                    ? new Sdk.Common.Helpers.Erc721(baseProvider, info.contract)
+                    : new Sdk.Common.Helpers.Erc1155(baseProvider, info.contract)
+                ).approveTransaction(query.maker, exchange.deriveConduit(order.params.conduitKey));
+
+                break;
+              }
+            }
+          }
+
+          const hasSignature = query.v && query.r && query.s;
+          return {
+            steps: [
+              {
+                ...steps[0],
+                status: approvalTx ? "incomplete" : "complete",
+                data: approvalTx,
+              },
+              {
+                ...steps[1],
+                status: hasSignature ? "complete" : "incomplete",
+                data: hasSignature ? undefined : order.getSignatureData(),
+              },
+              {
+                ...steps[2],
+                status: "incomplete",
+                data: !hasSignature
+                  ? undefined
+                  : {
+                      endpoint: "/order/v2",
+                      method: "POST",
+                      body: {
+                        order: {
+                          kind: "nftearth",
+                          data: {
+                            ...order.params,
+                            // Seaport takes the joined signature
+                            signature: joinSignature({ v: query.v, r: query.r, s: query.s }),
+                          },
+                        },
+                        orderbook: query.orderbook,
+                        source: query.source,
+                      },
+                    },
+              },
+            ],
+            query: {
+              ...query,
+              listingTime: order.params.startTime,
+              expirationTime: order.params.endTime,
+              salt: order.params.salt,
+              nonce: order.params.counter,
             },
           };
         }
