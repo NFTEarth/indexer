@@ -438,7 +438,7 @@ export const save = async (
       const openSeaFeeRecipients = ["0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b"];
 
       let openSeaRoyalties: Royalty[];
-      const openSeaRoyaltiesSchema = metadata?.target === "nftearth" ? "nftearth" : "default";
+      const openSeaRoyaltiesSchema = metadata?.target === "nftearth" ? "opensea" : "default";
 
       if (order.params.kind === "single-token") {
         openSeaRoyalties = await royalties.getRoyalties(
@@ -938,13 +938,7 @@ export const save = async (
 
       // Handle: fees
       let feeBps = 250;
-      const feeBreakdown = [
-        {
-          bps: 250,
-          kind: "marketplace",
-          recipient: "0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b",
-        },
-      ];
+      const feeBreakdown = [];
 
       if (collection) {
         const royalties = collection.new_royalties?.["opensea"] ?? [];

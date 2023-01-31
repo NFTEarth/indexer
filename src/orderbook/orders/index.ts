@@ -190,15 +190,7 @@ export const generateListingDetailsV5 = (
     tokenId: string;
     amount?: number;
   }
-): {
-  amount: number;
-  contractKind: "erc721" | "erc1155";
-  tokenId: string;
-  kind: string;
-  contract: string;
-  currency: string;
-  order: any;
-} => {
+): SdkTypesV5.ListingDetails => {
   const common = {
     contractKind: token.kind,
     contract: token.contract,
