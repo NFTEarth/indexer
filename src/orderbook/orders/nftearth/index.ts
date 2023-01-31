@@ -33,7 +33,7 @@ import * as ordersUpdateById from "@/jobs/order-updates/by-id-queue";
 export type OrderInfo =
   | {
       kind: "full";
-      orderParams: Sdk.Seaport.Types.OrderComponents;
+      orderParams: Sdk.NFTEarth.Types.OrderComponents;
       metadata: OrderMetadata;
       isReservoir?: boolean;
       openSeaOrderParams?: PartialOrderComponents;
@@ -83,7 +83,7 @@ export const save = async (
   }[] = [];
 
   const handleOrder = async (
-    orderParams: Sdk.Seaport.Types.OrderComponents,
+    orderParams: Sdk.NFTEarth.Types.OrderComponents,
     metadata: OrderMetadata,
     isReservoir?: boolean,
     openSeaOrderParams?: PartialOrderComponents
@@ -619,7 +619,7 @@ export const save = async (
       if (info.side === "buy" && order.params.kind === "single-token" && validateBidValue) {
         const typedInfo = info as typeof info & { tokenId: string };
         const tokenId = typedInfo.tokenId;
-        const seaportBidPercentageThreshold = 80;
+        const nftearthBidPercentageThreshold = 80;
 
         try {
           const collectionFloorAskValue = await getCollectionFloorAskValue(
@@ -630,7 +630,7 @@ export const save = async (
           if (collectionFloorAskValue) {
             const percentage = (Number(value.toString()) / collectionFloorAskValue) * 100;
 
-            if (percentage < seaportBidPercentageThreshold) {
+            if (percentage < nftearthBidPercentageThreshold) {
               return results.push({
                 id,
                 status: "bid-too-low",
@@ -639,7 +639,7 @@ export const save = async (
           }
         } catch (error) {
           logger.warn(
-            "orders-seaport-save",
+            "orders-nftearth-save",
             `Bid value validation - error. orderId=${id}, contract=${info.contract}, tokenId=${tokenId}, error=${error}`
           );
         }
@@ -651,7 +651,7 @@ export const save = async (
         : "'infinity'";
       orderValues.push({
         id,
-        kind: "seaport",
+        kind: "nftearth",
         side: info.side,
         fillability_status: fillabilityStatus,
         approval_status: approvalStatus,
@@ -675,7 +675,7 @@ export const save = async (
         is_reservoir: isReservoir ? isReservoir : null,
         contract: toBuffer(info.contract),
         conduit: toBuffer(
-          new Sdk.Seaport.Exchange(config.chainId).deriveConduit(order.params.conduitKey)
+          new Sdk.NFTEarth.Exchange(config.chainId).deriveConduit(order.params.conduitKey)
         ),
         fee_bps: feeBps,
         fee_breakdown: feeBreakdown || null,
@@ -706,7 +706,7 @@ export const save = async (
       }
     } catch (error) {
       logger.warn(
-        "orders-seaport-save",
+        "orders-nftearth-save",
         `Failed to handle order (will retry). orderParams=${JSON.stringify(
           orderParams
         )}, metadata=${JSON.stringify(
@@ -1063,7 +1063,7 @@ export const save = async (
 
       if (orderParams.side === "buy" && orderParams.kind === "single-token" && validateBidValue) {
         const tokenId = orderParams.tokenId;
-        const seaportBidPercentageThreshold = 80;
+        const nftearthBidPercentageThreshold = 80;
 
         try {
           const collectionFloorAskValue = await getCollectionFloorAskValue(
@@ -1073,7 +1073,7 @@ export const save = async (
 
           if (collectionFloorAskValue) {
             const percentage = (Number(value.toString()) / collectionFloorAskValue) * 100;
-            if (percentage < seaportBidPercentageThreshold) {
+            if (percentage < nftearthBidPercentageThreshold) {
               return results.push({
                 id,
                 status: "bid-too-low",
@@ -1082,13 +1082,13 @@ export const save = async (
           }
         } catch (error) {
           logger.warn(
-            "orders-seaport-save-partial",
+            "orders-nftearth-save-partial",
             `Bid value validation - error. orderId=${id}, contract=${orderParams.contract}, tokenId=${tokenId}, error=${error}`
           );
         }
       }
 
-      const nonce = await commonHelpers.getMinNonce("seaport", orderParams.offerer);
+      const nonce = await commonHelpers.getMinNonce("nftearth", orderParams.offerer);
 
       const validFrom = `date_trunc('seconds', to_timestamp(${startTime}))`;
       const validTo = endTime
@@ -1096,7 +1096,7 @@ export const save = async (
         : "'infinity'";
       orderValues.push({
         id,
-        kind: "seaport",
+        kind: "nftearth",
         side: orderParams.side,
         fillability_status: fillabilityStatus,
         approval_status: approvalStatus,
@@ -1119,7 +1119,7 @@ export const save = async (
         source_id_int: source.id,
         is_reservoir: null,
         contract: toBuffer(orderParams.contract),
-        conduit: toBuffer(new Sdk.Seaport.Exchange(config.chainId).deriveConduit(conduitKey)),
+        conduit: toBuffer(new Sdk.NFTEarth.Exchange(config.chainId).deriveConduit(conduitKey)),
         fee_bps: feeBps,
         fee_breakdown: feeBreakdown || null,
         dynamic: orderParams.isDynamic ?? null,
@@ -1145,7 +1145,7 @@ export const save = async (
       });
     } catch (error) {
       logger.warn(
-        "orders-seaport-save",
+        "orders-nftearth-save",
         `Failed to handle partial order with params ${JSON.stringify(
           orderParams
         )}: ${error} (will retry)`
@@ -1158,7 +1158,7 @@ export const save = async (
 
   // const handleBundleOrder = async ({ orderParams, isReservoir, metadata }: OrderInfo) => {
   //   try {
-  //     const order = new Sdk.Seaport.BundleOrder(config.chainId, orderParams);
+  //     const order = new Sdk.NFTEarth.BundleOrder(config.chainId, orderParams);
   //     const info = order.getInfo();
   //     const id = order.hash();
 
@@ -1211,7 +1211,7 @@ export const save = async (
   //         "0xf397619df7bfd4d1657ea9bdd9df7ff888731a11",
   //         "0x9b814233894cd227f561b78cc65891aa55c62ad2",
   //         // Pausable zone
-  //         Sdk.Seaport.Addresses.PausableZone[config.chainId],
+  //         Sdk.NFTEarth.Addresses.PausableZone[config.chainId],
   //       ].includes(order.params.zone)
   //     ) {
   //       return results.push({
@@ -1374,7 +1374,7 @@ export const save = async (
   //       : "'infinity'";
   //     orderValues.push({
   //       id,
-  //       kind: "seaport",
+  //       kind: "nftearth",
   //       side: "bundle",
   //       fillability_status: fillabilityStatus,
   //       approval_status: approvalStatus,
@@ -1396,7 +1396,7 @@ export const save = async (
   //       source_id_int: source?.id,
   //       is_reservoir: isReservoir ? isReservoir : null,
   //       conduit: toBuffer(
-  //         new Sdk.Seaport.Exchange(config.chainId).deriveConduit(order.params.conduitKey)
+  //         new Sdk.NFTEarth.Exchange(config.chainId).deriveConduit(order.params.conduitKey)
   //       ),
   //       fee_breakdown: feeBreakdown,
   //       fee_bps: feeBps.toNumber(),
@@ -1417,7 +1417,7 @@ export const save = async (
   //     }
   //   } catch (error) {
   //     logger.error(
-  //       "orders-seaport-save-bundle",
+  //       "orders-nftearth-save-bundle",
   //       `Failed to handle bundle order with params ${JSON.stringify(orderParams)}: ${error}`
   //     );
   //   }
@@ -1431,7 +1431,7 @@ export const save = async (
         orderInfo.kind == "partial"
           ? handlePartialOrder(orderInfo.orderParams as PartialOrderComponents)
           : handleOrder(
-              orderInfo.orderParams as Sdk.Seaport.Types.OrderComponents,
+              orderInfo.orderParams as Sdk.NFTEarth.Types.OrderComponents,
               orderInfo.metadata,
               orderInfo.isReservoir,
               orderInfo.openSeaOrderParams
@@ -1515,7 +1515,7 @@ export const handleTokenList = async (
 ) => {
   try {
     const handleTokenSetId = await redis.set(
-      `seaport-handle-token-list:${tokenSetId}`,
+      `nftearth-handle-token-list:${tokenSetId}`,
       Date.now(),
       "EX",
       86400,
@@ -1536,7 +1536,7 @@ export const handleTokenList = async (
 
         if (!tokenSetTokensExist) {
           logger.info(
-            "orders-seaport-save",
+            "orders-nftearth-save",
             `handleTokenList - Missing TokenSet Check - Missing tokenSet. orderId=${orderId}, contract=${contract}, merkleRoot=${merkleRoot}, tokenSetId=${tokenSetId}, collectionDay30Rank=${collectionDay30Rank}`
           );
 
@@ -1578,7 +1578,7 @@ export const handleTokenList = async (
     }
   } catch (error) {
     logger.error(
-      "orders-seaport-save",
+      "orders-nftearth-save",
       `handleTokenList - Error. orderId=${orderId}, contract=${contract}, merkleRoot=${merkleRoot}, tokenSetId=${tokenSetId}, error=${error}`
     );
   }
@@ -1641,7 +1641,7 @@ const getCollection = async (
       );
 
       logger.info(
-        "orders-seaport-save-partial",
+        "orders-nftearth-save-partial",
         `Unknown Collection. orderId=${orderParams.hash}, contract=${orderParams.contract}, collectionSlug=${orderParams.collectionSlug}, lockAcquired=${lockAcquired}`
       );
 

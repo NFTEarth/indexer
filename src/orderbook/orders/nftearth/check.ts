@@ -5,7 +5,7 @@ import { bn } from "@/common/utils";
 import { config } from "@/config/index";
 import * as commonHelpers from "@/orderbook/orders/common/helpers";
 import * as onChainData from "@/utils/on-chain-data";
-import { PartialOrderComponents } from "@/orderbook/orders/seaport";
+import { PartialOrderComponents } from "@/orderbook/orders/nftearth";
 
 export const offChainCheck = async (
   order: Sdk.NFTEarth.Order,
@@ -235,7 +235,7 @@ export const offChainCheckPartial = async (
 };
 
 export const offChainCheckBundle = async (
-  order: Sdk.Seaport.BundleOrder,
+  order: Sdk.NFTEarth.BundleOrder,
   options?: {
     // Some NFTs pre-approve common exchanges so that users don't
     // spend gas approving them. In such cases we will be missing

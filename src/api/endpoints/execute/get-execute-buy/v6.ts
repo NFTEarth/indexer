@@ -179,7 +179,7 @@ export const getExecuteBuyV6Options: RouteOptions = {
       const sources = await Sources.getInstance();
 
       // Keep track of the listings and path to fill
-      let listingDetails: ListingDetails[] = [];
+      const listingDetails: ListingDetails[] = [];
       const path: {
         orderId: string;
         contract: string;
@@ -729,19 +729,6 @@ export const getExecuteBuyV6Options: RouteOptions = {
         if (!payload.skipBalanceCheck && bn(balance).lt(totalPrice)) {
           throw Boom.badData("Balance too low to proceed with transaction");
         }
-
-        // HACKS: Replace any unknown seaport kind from database
-        listingDetails = listingDetails.map((d) => {
-          if (d.kind === "seaport") {
-            return {
-              ...d,
-              order: d.order as unknown as Sdk.NFTEarth.Order,
-              kind: "nftearth",
-            };
-          }
-
-          return d;
-        });
 
         let conduit: string;
         if (listingDetails.every((d) => d.kind === "seaport")) {

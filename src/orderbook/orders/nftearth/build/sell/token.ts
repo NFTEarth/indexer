@@ -4,7 +4,7 @@ import { BaseBuilder } from "@nftearth/sdk/dist/nftearth/builders/base";
 import { redb } from "@/common/db";
 import { toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
-import * as utils from "@/orderbook/orders/seaport/build/utils";
+import * as utils from "@/orderbook/orders/nftearth/build/utils";
 
 interface BuildOrderOptions extends utils.BaseOrderBuildOptions {
   tokenId: string;

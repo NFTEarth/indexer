@@ -1,6 +1,6 @@
 import { AddressZero, HashZero } from "@ethersproject/constants";
 import * as Sdk from "@nftearth/sdk";
-import { BaseBuildParams } from "@nftearth/sdk/dist/seaport/builders/base";
+import { BaseBuildParams } from "@nftearth/sdk/dist/nftearth/builders/base";
 import { generateSourceBytes, getRandomBytes } from "@nftearth/sdk/dist/utils";
 
 import { redb } from "@/common/db";
@@ -12,8 +12,8 @@ export interface BaseOrderBuildOptions {
   maker: string;
   contract: string;
   weiPrice: string;
-  orderbook: "opensea" | "reservoir" | "nftearth";
-  orderType?: Sdk.Seaport.Types.OrderType;
+  orderbook: "nftearth";
+  orderType?: Sdk.NFTEarth.Types.OrderType;
   currency?: string;
   quantity?: number;
   nonce?: string;
@@ -123,15 +123,15 @@ export const getBuildInfo = async (
     }
   }
 
-  if (options.orderbook === "opensea") {
+  if (options.orderbook === "nftearth") {
     if (!options.fee || !options.feeRecipient) {
       options.fee = [];
       options.feeRecipient = [];
     }
 
     options.fee.push(250);
-    // OpenSea's Seaport fee recipient
-    options.feeRecipient.push("0x0000a26b00c1f0df003000390027140000faa719");
+    // OpenSea's NFTEarth fee recipient
+    options.feeRecipient.push("0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b");
   }
 
   if (options.fee && options.feeRecipient) {

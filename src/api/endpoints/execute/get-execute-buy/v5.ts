@@ -591,6 +591,8 @@ export const getExecuteBuyV5Options: RouteOptions = {
               ? // Use OpenSea's conduit for sharing approvals
                 "0x1e0049783f008a0085193e00003d00cd54003c71"
               : Sdk.Seaport.Addresses.Exchange[config.chainId];
+        } else if (listingDetails.every((d) => d.kind === "nftearth")) {
+          conduit = Sdk.NFTEarth.Addresses.Exchange[config.chainId];
         } else if (listingDetails.every((d) => d.kind === "universe")) {
           conduit = Sdk.Universe.Addresses.Exchange[config.chainId];
         } else {
