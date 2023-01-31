@@ -254,8 +254,10 @@ export const getNetworkSettings = (): NetworkSettings => {
         enableReorgCheck: true,
         realtimeSyncFrequencySeconds: 10,
         realtimeSyncMaxBlockLag: 128,
-        backfillBlockBatchSize: 128,
-        enableMetadataAutoRefresh: true,
+        // TODO: Reduce this when backfilling done
+        backfillBlockBatchSize: 10000,
+        // TODO: Enable this when backfilling done
+        enableMetadataAutoRefresh: false,
         mintsAsSalesBlacklist: [
           // Uniswap V3: Positions NFT
           "0xc36442b4a4522e871399cd717abdd847ab11fe88",
