@@ -587,6 +587,29 @@ export const generateListingDetailsV6 = (
       };
     }
 
+    case "nftearth": {
+      if (order.rawData) {
+        return {
+          kind: "nftearth",
+          ...common,
+          order: new Sdk.NFTEarth.Order(config.chainId, order.rawData),
+        };
+      } else {
+        // Sorry for all the below `any` types
+        return {
+          // eslint-disable-next-line
+          kind: "nftearth-partial" as any,
+          ...common,
+          order: {
+            contract: token.contract,
+            tokenId: token.tokenId,
+            id: order.id,
+            // eslint-disable-next-line
+          } as any,
+        };
+      }
+    }
+
     case "seaport": {
       if (order.rawData) {
         return {
