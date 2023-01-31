@@ -123,16 +123,17 @@ export const getBuildInfo = async (
     }
   }
 
-  if (options.orderbook === "nftearth") {
-    if (!options.fee || !options.feeRecipient) {
-      options.fee = [];
-      options.feeRecipient = [];
-    }
-
-    options.fee.push(250);
-    // OpenSea's NFTEarth fee recipient
-    options.feeRecipient.push("0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b");
-  }
+  // Disabled Double Fee
+  // if (options.orderbook === "nftearth") {
+  //   if (!options.fee || !options.feeRecipient) {
+  //     options.fee = [];
+  //     options.feeRecipient = [];
+  //   }
+  //
+  //   options.fee.push(250);
+  //   // OpenSea's NFTEarth fee recipient
+  //   options.feeRecipient.push("0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b");
+  // }
 
   if (options.fee && options.feeRecipient) {
     for (let i = 0; i < options.fee.length; i++) {
