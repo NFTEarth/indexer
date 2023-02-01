@@ -90,7 +90,7 @@ export const getSearchCollectionsV1Options: RouteOptions = {
     }
 
     const baseQuery = `
-            SELECT id, name, contract, verified, (metadata ->> 'imageUrl')::TEXT AS image, all_time_volume, floor_sell_value,
+            SELECT id, name, slug, contract, verified, (metadata ->> 'imageUrl')::TEXT AS image, all_time_volume, floor_sell_value,
                    (metadata ->> 'safelistRequestStatus')::TEXT AS opensea_verification_status
             FROM collections
             ${whereClause}
@@ -104,6 +104,7 @@ export const getSearchCollectionsV1Options: RouteOptions = {
       collections: _.map(collections, (collection) => ({
         collectionId: collection.id,
         name: collection.name,
+        slug: collection.slug,
         contract: fromBuffer(collection.contract),
         image: Assets.getLocalAssetsLink(collection.image),
         allTimeVolume: collection.all_time_volume ? formatEth(collection.all_time_volume) : null,
