@@ -257,7 +257,7 @@ export const getNetworkSettings = (): NetworkSettings => {
         realtimeSyncFrequencySeconds: 10,
         realtimeSyncMaxBlockLag: 128,
         // TODO: Reduce this when backfilling done
-        backfillBlockBatchSize: 10000,
+        backfillBlockBatchSize: 512,
         // TODO: Enable this when backfilling done
         enableMetadataAutoRefresh: false,
         mintsAsSalesBlacklist: [
@@ -305,7 +305,7 @@ export const getNetworkSettings = (): NetworkSettings => {
         realtimeSyncFrequencySeconds: 10,
         realtimeSyncMaxBlockLag: 128,
         // TODO: Reduce this when backfilling done
-        backfillBlockBatchSize: 2000,
+        backfillBlockBatchSize: 512,
         // TODO: Enable this when backfilling done
         enableMetadataAutoRefresh: false,
         mintsAsSalesBlacklist: [
