@@ -18,6 +18,8 @@ export const getNetworkName = () => {
       return "goerli";
     case 10:
       return "optimism";
+    case 42161:
+      return "arbitrum";
     case 137:
       return "polygon";
     default:
@@ -269,6 +271,54 @@ export const getNetworkSettings = (): NetworkSettings => {
         },
         coingecko: {
           networkId: "optimistic-ethereum",
+        },
+        onStartup: async () => {
+          // Insert the native currency
+          await Promise.all([
+            idb.none(
+              `
+                INSERT INTO currencies (
+                  contract,
+                  name,
+                  symbol,
+                  decimals,
+                  metadata
+                ) VALUES (
+                  '\\x0000000000000000000000000000000000000000',
+                  'Ether',
+                  'ETH',
+                  18,
+                  '{"coingeckoCurrencyId": "ethereum", "image": "https://assets.coingecko.com/coins/images/279/large/ethereum.png"}'
+                ) ON CONFLICT DO NOTHING
+              `
+            ),
+          ]);
+        },
+      };
+    }
+    // arbitrum
+    case 42161: {
+      return {
+        ...defaultNetworkSettings,
+        enableWebSocket: true,
+        enableReorgCheck: true,
+        realtimeSyncFrequencySeconds: 10,
+        realtimeSyncMaxBlockLag: 128,
+        // TODO: Reduce this when backfilling done
+        backfillBlockBatchSize: 10000,
+        // TODO: Enable this when backfilling done
+        enableMetadataAutoRefresh: false,
+        mintsAsSalesBlacklist: [
+          // Uniswap V3: Positions NFT
+          "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+        ],
+        supportedBidCurrencies: {
+          ...defaultNetworkSettings.supportedBidCurrencies,
+          // ARBY
+          "0x9D575a9bF57a5e24a99D29724B86ca021A2b0435": true,
+        },
+        coingecko: {
+          networkId: "arbitrum-one",
         },
         onStartup: async () => {
           // Insert the native currency
