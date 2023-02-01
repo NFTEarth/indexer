@@ -620,6 +620,7 @@ export const getCollectionsV5Options: RouteOptions = {
             slug: r.slug,
             createdAt: new Date(r.created_at).toISOString(),
             name: r.name,
+            verified: r.verified,
             image:
               r.image ?? (sampleImages.length ? Assets.getLocalAssetsLink(sampleImages[0]) : null),
             banner: r.banner,

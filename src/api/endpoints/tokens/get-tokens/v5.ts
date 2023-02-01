@@ -485,6 +485,7 @@ export const getTokensV5Options: RouteOptions = {
           t.media,
           t.collection_id,
           c.name AS collection_name,
+          c.verified,
           con.kind,
           ${selectFloorData},
           t.rarity_score,
