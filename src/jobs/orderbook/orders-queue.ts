@@ -69,6 +69,11 @@ if (config.doBackgroundWork) {
             break;
           }
 
+          case "nftearth": {
+            result = await orders.nftearth.save([info], relayToArweave, validateBidValue);
+            break;
+          }
+
           case "seaport": {
             result = await orders.seaport.save([info], relayToArweave, validateBidValue);
             break;
@@ -169,6 +174,12 @@ export type GenericOrderInfo =
   | {
       kind: "x2y2";
       info: orders.x2y2.OrderInfo;
+      relayToArweave?: boolean;
+      validateBidValue?: boolean;
+    }
+  | {
+      kind: "nftearth";
+      info: orders.nftearth.OrderInfo;
       relayToArweave?: boolean;
       validateBidValue?: boolean;
     }

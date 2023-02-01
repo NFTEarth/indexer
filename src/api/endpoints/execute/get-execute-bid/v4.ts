@@ -260,7 +260,11 @@ export const getExecuteBidV4Options: RouteOptions = {
           // TODO: Re-enable collection/attribute bids on external orderbooks
           if (!["nftearth", "reservoir", "opensea"].includes(params.orderbook)) {
             throw Boom.badRequest("Only single-token bids are supported on external orderbooks");
-          } else if (params.orderbook === "opensea" && attributeKey && attributeValue) {
+          } else if (
+            ["nftearth", "opensea"].includes(params.orderbook) &&
+            attributeKey &&
+            attributeValue
+          ) {
             throw Boom.badRequest("Attribute bids are not supported on `opensea` orderbook");
           }
         }

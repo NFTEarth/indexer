@@ -45,7 +45,9 @@ if (config.doBackgroundWork) {
         throw new Error("Unsupported network");
       }
 
-      if (!["opensea", "looks-rare", "x2y2", "universe", "infinity"].includes(orderbook)) {
+      if (
+        !["nftearth", "opensea", "looks-rare", "x2y2", "universe", "infinity"].includes(orderbook)
+      ) {
         throw new Error("Unsupported orderbook");
       }
 

@@ -170,7 +170,7 @@ export const save = async (
           // No zone
           AddressZero,
           // Pausable zone
-          Sdk.NFTEarth.Addresses.PausableZone[config.chainId],
+          //Sdk.NFTEarth.Addresses.PausableZone[config.chainId],
         ].includes(order.params.zone)
       ) {
         return results.push({
