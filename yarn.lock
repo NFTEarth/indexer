@@ -2571,10 +2571,10 @@
   resolved "https://registry.yarnpkg.com/@msgpackr-extract/msgpackr-extract-win32-x64/-/msgpackr-extract-win32-x64-2.2.0.tgz#016d855b6bc459fd908095811f6826e45dd4ba64"
   integrity sha512-XrC0JzsqQSvOyM3t04FMLO6z5gCuhPE6k4FXuLK5xf52ZbdvcFe1yBmo7meCew9B8G2f0T9iu9t3kfTYRYROgA==
 
-"@nftearth/sdk@^0.0.317":
-  version "0.0.317"
-  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.317.tgz#bdec6269fb03d2d4103a342dfe30761a19bb2c91"
-  integrity sha512-9CKJ/kXmmZbwHVknssC4Zmn0UAJ2uIYxHcqt7Psi4/boP1ESGIlQK6pqLyD0D4dvzR3NrBADo9pd4EA+r/SSgQ==
+"@nftearth/sdk@^0.0.318":
+  version "0.0.318"
+  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.318.tgz#08b747d706f75bdef04338c8457d0a34632e81d4"
+  integrity sha512-t/qnjrc9qSZ342FcT+n6D448mKPpNBCsSG1gX1uJ9rkoOSs1YpW2tYJthIg+GYyXobMf/nSWWoyTsRpHhOHy/A==
   dependencies:
     "@uniswap/smart-order-router" "^3.0.4"
     ethers "^5.7.2"

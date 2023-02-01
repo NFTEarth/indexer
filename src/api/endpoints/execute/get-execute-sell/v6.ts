@@ -38,6 +38,7 @@ export const getExecuteSellV6Options: RouteOptions = {
           .lowercase()
           .valid(
             "nftearth",
+            "nftearth-partial",
             "opensea",
             "looks-rare",
             "zeroex-v4",

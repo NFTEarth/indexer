@@ -377,7 +377,7 @@ export const generateBidDetailsV5 = async (
         // Sorry for all the below `any` types
         return {
           // eslint-disable-next-line
-          kind: "seaport-partial" as any,
+          kind: "nftearth-partial" as any,
           ...common,
           order: {
             contract: token.contract,
