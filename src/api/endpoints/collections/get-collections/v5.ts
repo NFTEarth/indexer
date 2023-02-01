@@ -626,7 +626,8 @@ export const getCollectionsV5Options: RouteOptions = {
             discordUrl: r.discord_url,
             externalUrl: r.external_url,
             twitterUsername: r.twitter_username,
-            openseaVerificationStatus: r.opensea_verification_status || r.verified,
+            openseaVerificationStatus:
+              r.opensea_verification_status || r.verified ? "verified" : null,
             description: r.description,
             sampleImages: Assets.getLocalAssetsLink(sampleImages) ?? [],
             tokenCount: String(r.token_count),

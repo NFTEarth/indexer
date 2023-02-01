@@ -108,7 +108,8 @@ export const getSearchCollectionsV1Options: RouteOptions = {
         image: Assets.getLocalAssetsLink(collection.image),
         allTimeVolume: collection.all_time_volume ? formatEth(collection.all_time_volume) : null,
         floorAskPrice: collection.floor_sell_value ? formatEth(collection.floor_sell_value) : null,
-        openseaVerificationStatus: collection.opensea_verification_status || collection.verified,
+        openseaVerificationStatus:
+          collection.opensea_verification_status || collection.verified ? "verified" : null,
       })),
     };
   },
