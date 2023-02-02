@@ -32,7 +32,7 @@ if (config.doBackgroundWork) {
       await Tokens.recalculateTokenTopBid(contract, tokenId);
 
       // Simulate the floor ask and the top bid on the token
-      if (config.chainId === 1) {
+      if (config.chainId === 10) {
         await inject({
           method: "POST",
           url: `/tokens/simulate-floor/v1`,

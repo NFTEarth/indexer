@@ -48,7 +48,7 @@ if (config.doBackgroundWork) {
         useMetadataApiBaseUrlAlt = true;
       }
 
-      if (config.chainId === 1 && method === "simplehash") {
+      if (config.chainId === 10 && method === "simplehash") {
         logger.info(QUEUE_NAME, `Forced alt. method=${method}`);
 
         useMetadataApiBaseUrlAlt = true;
