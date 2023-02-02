@@ -18,6 +18,14 @@ export const redis = process.env.REDIS_CLUSTER
         }),
         {
           scaleReads: "slave",
+          redisOptions: {
+            tls: {
+              checkServerIdentity: (/*host, cert*/) => {
+                // skip certificate hostname validation
+                return undefined;
+              },
+            },
+          },
         }
       )
     )
@@ -34,6 +42,14 @@ export const redisSubscriber = process.env.REDIS_CLUSTER
       })),
       {
         scaleReads: "slave",
+        redisOptions: {
+          tls: {
+            checkServerIdentity: (/*host, cert*/) => {
+              // skip certificate hostname validation
+              return undefined;
+            },
+          },
+        },
       }
     )
   : new Redis(config.redisUrl, {
@@ -50,6 +66,14 @@ export const rateLimitRedis = process.env.REDIS_CLUSTER
         }),
         {
           scaleReads: "slave",
+          redisOptions: {
+            tls: {
+              checkServerIdentity: (/*host, cert*/) => {
+                // skip certificate hostname validation
+                return undefined;
+              },
+            },
+          },
         }
       )
     )
