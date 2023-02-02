@@ -83,7 +83,7 @@ export const getAttributesAllV2Options: RouteOptions = {
             return undefined;
           }
 
-          if (r.kind == "number") {
+          if (r.kind == "number" || r.key == "birthday") {
             return {
               key: r.key,
               kind: r.kind,
