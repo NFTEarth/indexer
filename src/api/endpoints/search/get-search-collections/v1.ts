@@ -50,6 +50,7 @@ export const getSearchCollectionsV1Options: RouteOptions = {
           collectionId: Joi.string(),
           contract: Joi.string(),
           image: Joi.string().allow("", null),
+          slug: Joi.string().allow("", null),
           name: Joi.string().allow("", null),
           allTimeVolume: Joi.number().unsafe().allow(null),
           floorAskPrice: Joi.number().unsafe().allow(null),
