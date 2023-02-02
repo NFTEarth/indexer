@@ -41,7 +41,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
     },
   },
   handler: async (request: Request) => {
-    if (![1, 137].includes(config.chainId)) {
+    if (![1, 10, 137].includes(config.chainId)) {
       return { message: "Simulation not supported" };
     }
 
@@ -146,7 +146,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
               AND orders.fillability_status = 'fillable'
               AND orders.approval_status = 'approved'
               AND (orders.taker = '\\x0000000000000000000000000000000000000000' OR orders.taker IS NULL)
-              AND orders.kind IN ('seaport', 'x2y2', 'zeroex-v4-erc721', 'zeroex-v4-erc1155')
+              AND orders.kind IN ('nftearth', 'seaport', 'x2y2', 'zeroex-v4-erc721', 'zeroex-v4-erc1155')
             ORDER BY orders.value DESC
             LIMIT 1
           `,

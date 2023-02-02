@@ -102,7 +102,7 @@ export const postSimulateFloorV1Options: RouteOptions = {
               ON tokens.floor_sell_id = orders.id
             WHERE tokens.contract = $/contract/
               AND tokens.token_id = $/tokenId/
-              AND orders.kind IN ('seaport', 'x2y2', 'zeroex-v4-erc721', 'zeroex-v4-erc1155')
+              AND orders.kind IN ('nftearth', 'seaport', 'x2y2', 'zeroex-v4-erc721', 'zeroex-v4-erc1155')
           `,
           {
             contract: toBuffer(contract),
