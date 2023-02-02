@@ -1,4 +1,0 @@
--- Up Migration
-INSERT INTO "contracts"("address","kind") VALUES('\xdbfeaae58b6da8901a8a40ba0712beb2ee18368e','erc1155') ON CONFLICT (address) DO UPDATE SET address=EXCLUDED.address;
-INSERT INTO "collections"("id","slug","name","metadata","royalties","community","index_metadata","contract","token_id_range","token_set_id","token_count","minted_timestamp","royalties_bps","verified") VALUES('0xdbfeaae58b6da8901a8a40ba0712beb2ee18368e','hustlers','Hustlers','{"imageUrl":null,"discordUrl":null,"description":null,"externalUrl":null,"bannerImageUrl":null,"twitterUsername":null}','[]',null,null,'\xdbfeaae58b6da8901a8a40ba0712beb2ee18368e','(,)','contract:0xdbfeaae58b6da8901a8a40ba0712beb2ee18368e',0,1637387595,0,'t') ON CONFLICT (id) DO UPDATE SET id=EXCLUDED.id, contract=EXCLUDED.contract;
--- Down Migration
