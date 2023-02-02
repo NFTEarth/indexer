@@ -11,10 +11,15 @@ import _ from "lodash";
 
 export const redis = process.env.REDIS_CLUSTER
   ? new Redis.Cluster(
-      process.env.REDIS_CLUSTER.split(",").map((s) => ({
-        host: s.split(":")[0],
-        post: s.split(":")[1],
-      }))
+      process.env.REDIS_CLUSTER.split(",").map(
+        (s) => ({
+          host: s.split(":")[0],
+          post: s.split(":")[1],
+        }),
+        {
+          scaleReads: "slave",
+        }
+      )
     )
   : new Redis(config.redisUrl, {
       maxRetriesPerRequest: null,
@@ -26,7 +31,10 @@ export const redisSubscriber = process.env.REDIS_CLUSTER
       process.env.REDIS_CLUSTER.split(",").map((s) => ({
         host: s.split(":")[0],
         post: s.split(":")[1],
-      }))
+      })),
+      {
+        scaleReads: "slave",
+      }
     )
   : new Redis(config.redisUrl, {
       maxRetriesPerRequest: null,
@@ -35,10 +43,15 @@ export const redisSubscriber = process.env.REDIS_CLUSTER
 
 export const rateLimitRedis = process.env.REDIS_CLUSTER
   ? new Redis.Cluster(
-      process.env.REDIS_CLUSTER.split(",").map((s) => ({
-        host: s.split(":")[0],
-        post: s.split(":")[1],
-      }))
+      process.env.REDIS_CLUSTER.split(",").map(
+        (s) => ({
+          host: s.split(":")[0],
+          post: s.split(":")[1],
+        }),
+        {
+          scaleReads: "slave",
+        }
+      )
     )
   : new Redis(config.rateLimitRedisUrl, {
       maxRetriesPerRequest: 1,
