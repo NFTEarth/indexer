@@ -9,22 +9,43 @@ import _ from "lodash";
 // TODO: Research using a connection pool rather than
 // creating a new connection every time, as we do now.
 
-export const redis = new Redis(config.redisUrl, {
-  maxRetriesPerRequest: null,
-  enableReadyCheck: false,
-});
+export const redis = process.env.REDIS_CLUSTER
+  ? new Redis.Cluster(
+      process.env.REDIS_CLUSTER.split(",").map((s) => ({
+        host: s.split(":")[0],
+        post: s.split(":")[1],
+      }))
+    )
+  : new Redis(config.redisUrl, {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+    });
 
-export const redisSubscriber = new Redis(config.redisUrl, {
-  maxRetriesPerRequest: null,
-  enableReadyCheck: false,
-});
+export const redisSubscriber = process.env.REDIS_CLUSTER
+  ? new Redis.Cluster(
+      process.env.REDIS_CLUSTER.split(",").map((s) => ({
+        host: s.split(":")[0],
+        post: s.split(":")[1],
+      }))
+    )
+  : new Redis(config.redisUrl, {
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+    });
 
-export const rateLimitRedis = new Redis(config.rateLimitRedisUrl, {
-  maxRetriesPerRequest: 1,
-  enableReadyCheck: false,
-  enableOfflineQueue: false,
-  commandTimeout: 600,
-});
+export const rateLimitRedis = process.env.REDIS_CLUSTER
+  ? new Redis.Cluster(
+      process.env.REDIS_CLUSTER.split(",").map((s) => ({
+        host: s.split(":")[0],
+        post: s.split(":")[1],
+      }))
+    )
+  : new Redis(config.rateLimitRedisUrl, {
+      maxRetriesPerRequest: 1,
+      enableReadyCheck: false,
+      enableOfflineQueue: false,
+      commandTimeout: 600,
+    });
 
 // https://redis.io/topics/distlock
 export const redlock = new Redlock([redis.duplicate()], { retryCount: 0 });
