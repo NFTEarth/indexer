@@ -25,6 +25,14 @@ export const redis = process.env.REDIS_CLUSTER
                 return undefined;
               },
             },
+            reconnectOnError: function (err: any) {
+              // Only reconnect when the error contains "READONLY"
+              // `return 2` to resend failed command after reconnecting
+              return err.message.includes("READONLY");
+            },
+            showFriendlyErrorStack: true,
+            maxRetriesPerRequest: null,
+            enableReadyCheck: false,
           },
         }
       )
@@ -49,6 +57,14 @@ export const redisSubscriber = process.env.REDIS_CLUSTER
               return undefined;
             },
           },
+          reconnectOnError: function (err: any) {
+            // Only reconnect when the error contains "READONLY"
+            // `return 2` to resend failed command after reconnecting
+            return err.message.includes("READONLY");
+          },
+          showFriendlyErrorStack: true,
+          maxRetriesPerRequest: null,
+          enableReadyCheck: false,
         },
       }
     )
@@ -73,6 +89,14 @@ export const rateLimitRedis = process.env.REDIS_CLUSTER
                 return undefined;
               },
             },
+            reconnectOnError: function (err: any) {
+              // Only reconnect when the error contains "READONLY"
+              // `return 2` to resend failed command after reconnecting
+              return err.message.includes("READONLY");
+            },
+            showFriendlyErrorStack: true,
+            maxRetriesPerRequest: null,
+            enableReadyCheck: false,
           },
         }
       )
