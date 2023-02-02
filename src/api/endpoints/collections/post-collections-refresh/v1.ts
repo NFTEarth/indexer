@@ -63,7 +63,7 @@ export const postCollectionsRefreshV1Options: RouteOptions = {
   },
   handler: async (request: Request) => {
     const payload = request.payload as any;
-    const refreshCoolDownMin = 1; // How many minutes between each refresh
+    const refreshCoolDownMin = 60 * 4; // How many minutes between each refresh
     let overrideCoolDown = false;
 
     try {
