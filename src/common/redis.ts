@@ -9,104 +9,22 @@ import _ from "lodash";
 // TODO: Research using a connection pool rather than
 // creating a new connection every time, as we do now.
 
-export const redis = process.env.REDIS_CLUSTER
-  ? new Redis.Cluster(
-      process.env.REDIS_CLUSTER.split(",").map(
-        (s) => ({
-          host: s.split(":")[0],
-          post: s.split(":")[1],
-        }),
-        {
-          scaleReads: "slave",
-          redisOptions: {
-            tls: {
-              checkServerIdentity: (/*host, cert*/) => {
-                // skip certificate hostname validation
-                return undefined;
-              },
-            },
-            reconnectOnError: function (err: any) {
-              // Only reconnect when the error contains "READONLY"
-              // `return 2` to resend failed command after reconnecting
-              return err.message.includes("READONLY");
-            },
-            showFriendlyErrorStack: true,
-            maxRetriesPerRequest: null,
-            enableReadyCheck: false,
-          },
-        }
-      )
-    )
-  : new Redis(config.redisUrl, {
-      maxRetriesPerRequest: null,
-      enableReadyCheck: false,
-    });
+export const redis = new Redis(config.redisUrl, {
+  maxRetriesPerRequest: null,
+  enableReadyCheck: false,
+});
 
-export const redisSubscriber = process.env.REDIS_CLUSTER
-  ? new Redis.Cluster(
-      process.env.REDIS_CLUSTER.split(",").map((s) => ({
-        host: s.split(":")[0],
-        post: s.split(":")[1],
-      })),
-      {
-        scaleReads: "slave",
-        redisOptions: {
-          tls: {
-            checkServerIdentity: (/*host, cert*/) => {
-              // skip certificate hostname validation
-              return undefined;
-            },
-          },
-          reconnectOnError: function (err: any) {
-            // Only reconnect when the error contains "READONLY"
-            // `return 2` to resend failed command after reconnecting
-            return err.message.includes("READONLY");
-          },
-          showFriendlyErrorStack: true,
-          maxRetriesPerRequest: null,
-          enableReadyCheck: false,
-        },
-      }
-    )
-  : new Redis(config.redisUrl, {
-      maxRetriesPerRequest: null,
-      enableReadyCheck: false,
-    });
+export const redisSubscriber = new Redis(config.redisUrl, {
+  maxRetriesPerRequest: null,
+  enableReadyCheck: false,
+});
 
-export const rateLimitRedis = process.env.REDIS_CLUSTER
-  ? new Redis.Cluster(
-      process.env.REDIS_CLUSTER.split(",").map(
-        (s) => ({
-          host: s.split(":")[0],
-          post: s.split(":")[1],
-        }),
-        {
-          scaleReads: "slave",
-          redisOptions: {
-            tls: {
-              checkServerIdentity: (/*host, cert*/) => {
-                // skip certificate hostname validation
-                return undefined;
-              },
-            },
-            reconnectOnError: function (err: any) {
-              // Only reconnect when the error contains "READONLY"
-              // `return 2` to resend failed command after reconnecting
-              return err.message.includes("READONLY");
-            },
-            showFriendlyErrorStack: true,
-            maxRetriesPerRequest: null,
-            enableReadyCheck: false,
-          },
-        }
-      )
-    )
-  : new Redis(config.rateLimitRedisUrl, {
-      maxRetriesPerRequest: 1,
-      enableReadyCheck: false,
-      enableOfflineQueue: false,
-      commandTimeout: 600,
-    });
+export const rateLimitRedis = new Redis(config.rateLimitRedisUrl, {
+  maxRetriesPerRequest: 1,
+  enableReadyCheck: false,
+  enableOfflineQueue: false,
+  commandTimeout: 600,
+});
 
 // https://redis.io/topics/distlock
 export const redlock = new Redlock([redis.duplicate()], { retryCount: 0 });
