@@ -264,17 +264,6 @@ export const getNetworkSettings = (): NetworkSettings => {
           // Uniswap V3: Positions NFT
           "0xc36442b4a4522e871399cd717abdd847ab11fe88",
         ],
-        whitelistedCurrencies: new Map([
-          [
-            "0x7ae1d57b58fa6411f32948314badd83583ee0e8c",
-            {
-              contract: "0x7ae1d57b58fa6411f32948314badd83583ee0e8c",
-              name: "PAPER",
-              symbol: "$PAPER",
-              decimals: 18,
-            },
-          ],
-        ]),
         supportedBidCurrencies: {
           ...defaultNetworkSettings.supportedBidCurrencies,
           // OP
