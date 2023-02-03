@@ -163,7 +163,6 @@ const getAvailableUSDPrice = async (
   const normalizedTimestamp = Math.floor(timestamp / DAY);
   const key = `${currencyAddress}-${normalizedTimestamp}`.toLowerCase();
   if (!USD_PRICE_MEMORY_CACHE.has(key)) {
-    logger.info("prices", `no cached price for ${key}`);
     // If the price is not available in the memory cache, use any available database cached price
     let cachedPrice = await getCachedUSDPrice(currencyAddress, timestamp);
 
@@ -172,7 +171,6 @@ const getAvailableUSDPrice = async (
     // - we have a stale price available and stale prices are not accepted
     let fetchFromUpstream = false;
     if (cachedPrice) {
-      logger.info("prices", `db cachedPrice ${JSON.stringify(cachedPrice)}`);
       const isStale = Math.floor(cachedPrice.timestamp / DAY) !== normalizedTimestamp;
       if (isStale && !acceptStalePrice) {
         fetchFromUpstream = true;
@@ -182,7 +180,6 @@ const getAvailableUSDPrice = async (
     }
 
     if (fetchFromUpstream) {
-      logger.info("prices", `no db cachedPrice fetching from upstream`);
       const upstreamPrice = await getUpstreamUSDPrice(currencyAddress, timestamp);
       if (upstreamPrice) {
         cachedPrice = upstreamPrice;
@@ -226,13 +223,6 @@ export const getUSDAndNativePrices = async (
       currencyAddress,
       timestamp,
       options?.acceptStalePrice
-    );
-
-    logger.info(
-      "prices",
-      `getting-prices-data for network ${
-        getNetworkSettings().coingecko?.networkId
-      } ${JSON.stringify(currencyUSDPrice)}`
     );
 
     let nativeUSDPrice: Price | undefined;
