@@ -49,6 +49,8 @@ const getUpstreamUSDPrice = async (
         })
         .then((response) => response.data);
 
+      logger.info("prices", `result price upstream ${url} ${JSON.stringify(result)}`);
+
       const usdPrice = result?.market_data?.current_price?.["usd"];
       if (usdPrice) {
         const value = parseUnits(usdPrice.toFixed(USD_DECIMALS), USD_DECIMALS).toString();
@@ -161,6 +163,7 @@ const getAvailableUSDPrice = async (
   const normalizedTimestamp = Math.floor(timestamp / DAY);
   const key = `${currencyAddress}-${normalizedTimestamp}`.toLowerCase();
   if (!USD_PRICE_MEMORY_CACHE.has(key)) {
+    logger.info("prices", `no cached price for ${key}`);
     // If the price is not available in the memory cache, use any available database cached price
     let cachedPrice = await getCachedUSDPrice(currencyAddress, timestamp);
 
@@ -169,6 +172,7 @@ const getAvailableUSDPrice = async (
     // - we have a stale price available and stale prices are not accepted
     let fetchFromUpstream = false;
     if (cachedPrice) {
+      logger.info("prices", `db cachedPrice ${JSON.stringify(cachedPrice)}`);
       const isStale = Math.floor(cachedPrice.timestamp / DAY) !== normalizedTimestamp;
       if (isStale && !acceptStalePrice) {
         fetchFromUpstream = true;
@@ -178,6 +182,7 @@ const getAvailableUSDPrice = async (
     }
 
     if (fetchFromUpstream) {
+      logger.info("prices", `no db cachedPrice fetching from upstream`);
       const upstreamPrice = await getUpstreamUSDPrice(currencyAddress, timestamp);
       if (upstreamPrice) {
         cachedPrice = upstreamPrice;
@@ -211,18 +216,23 @@ export const getUSDAndNativePrices = async (
 
   // Only try to get pricing data if the network supports it
   const force =
-    (config.chainId === 5 &&
-      [
-        "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
-        "0x68b7e050e6e2c7efe11439045c9d49813c1724b8",
-      ].includes(currencyAddress)) ||
-    (config.chainId === 10 &&
-      ["0x7ae1d57b58fa6411f32948314badd83583ee0e8c"].includes(currencyAddress));
+    config.chainId === 5 &&
+    [
+      "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
+      "0x68b7e050e6e2c7efe11439045c9d49813c1724b8",
+    ].includes(currencyAddress);
   if (getNetworkSettings().coingecko?.networkId || force) {
     const currencyUSDPrice = await getAvailableUSDPrice(
       currencyAddress,
       timestamp,
       options?.acceptStalePrice
+    );
+
+    logger.info(
+      "prices",
+      `getting-prices-data for network ${
+        getNetworkSettings().coingecko?.networkId
+      } ${JSON.stringify(currencyUSDPrice)}`
     );
 
     let nativeUSDPrice: Price | undefined;
