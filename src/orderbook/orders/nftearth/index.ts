@@ -582,7 +582,7 @@ export const save = async (
             // Getting the native price is a must
             return results.push({
               id,
-              status: "failed-to-convert-price",
+              status: "failed-to-convert-price-1",
             });
           }
           price = bn(prices.nativePrice);
@@ -593,7 +593,7 @@ export const save = async (
             // Getting the native price is a must
             return results.push({
               id,
-              status: "failed-to-convert-price",
+              status: "failed-to-convert-price-2",
             });
           }
           value = bn(prices.nativePrice);
@@ -611,7 +611,7 @@ export const save = async (
         // Getting the native price is a must
         return results.push({
           id,
-          status: "failed-to-convert-price",
+          status: "failed-to-convert-price-3",
         });
       }
       const normalizedValue = bn(prices.nativePrice).toString();
@@ -1021,7 +1021,7 @@ export const save = async (
             // Getting the native price is a must
             return results.push({
               id,
-              status: "failed-to-convert-price",
+              status: "failed-to-convert-price-4",
             });
           }
           price = bn(prices.nativePrice);
@@ -1032,7 +1032,7 @@ export const save = async (
             // Getting the native price is a must
             return results.push({
               id,
-              status: "failed-to-convert-price",
+              status: "failed-to-convert-price-5",
             });
           }
           value = bn(prices.nativePrice);
@@ -1050,7 +1050,7 @@ export const save = async (
         // Getting the native price is a must
         return results.push({
           id,
-          status: "failed-to-convert-price",
+          status: "failed-to-convert-price-6",
         });
       }
       const normalizedValue = bn(prices.nativePrice).toString();
