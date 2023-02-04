@@ -211,6 +211,10 @@ const getAvailableUSDPrice = async (
   if (!USD_PRICE_MEMORY_CACHE.has(key)) {
     // If the price is not available in the memory cache, use any available database cached price
     let cachedPrice = await getCachedUSDPrice(currencyAddress, timestamp);
+    logger.info(
+      "prices",
+      `Cached Price USD for currency: ${currencyAddress}  data: ${JSON.stringify(cachedPrice)}`
+    );
 
     // Fetch the latest price from upstream if:
     // - we have no price available
