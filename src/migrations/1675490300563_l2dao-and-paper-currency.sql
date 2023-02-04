@@ -11,14 +11,7 @@ INSERT INTO currencies (
                   'L2DAO',
                   18,
                   '{"coingeckoCurrencyId": "optimistic-ethereum", "image": "https://assets.coingecko.com/coins/images/23699/thumb/Khp7Y4Sn.png?1645081048"}'
-                ) ON CONFLICT (contract) DO UPDATE SET name = EXCLUDED.name;
-INSERT INTO currencies (
-                  contract,
-                  name,
-                  symbol,
-                  decimals,
-                  metadata
-                ) VALUES (
+                ),(
                   '\x00f932f0fe257456b32deda4758922e56a4f4b42',
                   'PAPER',
                   'PAPER',

@@ -41,6 +41,8 @@ export const getCurrency = async (currencyAddress: string): Promise<Currency> =>
       }
     );
 
+    logger.info("prices", `Fetching currency from database resulted : ${JSON.stringify(result)}`);
+
     if (result) {
       CURRENCY_MEMORY_CACHE.set(currencyAddress, {
         contract: currencyAddress,
