@@ -98,7 +98,7 @@ export class Sources {
       name: "NFTEarth",
       metadata: {
         icon: "https://nftearth.exchange/nftearth-icon.png",
-        tokenUrlOptimism: "https://nftearth.exchange/${contract}/${tokenId}",
+        tokenUrlOptimism: "https://nftearth.exchange/collection/optimism/${contract}/${tokenId}",
       },
       optimized: true,
       createdAt: "2023-01-29 20:51:06.23 +0700",
