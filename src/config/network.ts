@@ -270,7 +270,7 @@ export const getNetworkSettings = (): NetworkSettings => {
           "0x4200000000000000000000000000000000000042": true,
         },
         coingecko: {
-          networkId: "opt-mainnet",
+          networkId: "optimistic-ethereum",
         },
         onStartup: async () => {
           // Insert the native currency
