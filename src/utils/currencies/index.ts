@@ -11,6 +11,7 @@ import * as currenciesQueue from "@/jobs/currencies/index";
 
 type CurrencyMetadata = {
   coingeckoCurrencyId?: string;
+  dexScreenerId?: string;
   image?: string;
 };
 

@@ -916,7 +916,42 @@ export const getTokensV5Options: RouteOptions = {
             : bn(0);
 
           if (r.floor_sell_raw_data) {
-            if (r.floor_sell_dynamic && r.floor_sell_order_kind === "seaport") {
+            if (r.floor_sell_dynamic && r.floor_sell_order_kind === "nftearth") {
+              const order = new Sdk.NFTEarth.Order(config.chainId, r.floor_sell_raw_data);
+
+              // Dutch auction
+              dynamicPricing = {
+                kind: "dutch",
+                data: {
+                  price: {
+                    start: await getJoiPriceObject(
+                      {
+                        gross: {
+                          amount: bn(order.getMatchingPrice(order.params.startTime))
+                            .add(missingRoyalties)
+                            .toString(),
+                        },
+                      },
+                      floorAskCurrency
+                    ),
+                    end: await getJoiPriceObject(
+                      {
+                        gross: {
+                          amount: bn(order.getMatchingPrice(order.params.endTime))
+                            .add(missingRoyalties)
+                            .toString(),
+                        },
+                      },
+                      floorAskCurrency
+                    ),
+                  },
+                  time: {
+                    start: order.params.startTime,
+                    end: order.params.endTime,
+                  },
+                },
+              };
+            } else if (r.floor_sell_dynamic && r.floor_sell_order_kind === "seaport") {
               const order = new Sdk.Seaport.Order(config.chainId, r.floor_sell_raw_data);
 
               // Dutch auction

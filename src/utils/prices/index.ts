@@ -30,6 +30,7 @@ const getUpstreamUSDPrice = async (
 
     const currency = await getCurrency(currencyAddress);
     const coingeckoCurrencyId = currency?.metadata?.coingeckoCurrencyId;
+    const dexScreenerId = currency?.metadata?.dexScreenerId;
 
     if (coingeckoCurrencyId) {
       const day = date.getDate();
@@ -78,6 +79,51 @@ const getUpstreamUSDPrice = async (
           currency: currencyAddress,
           timestamp: truncatedTimestamp,
           value,
+        };
+      }
+    } else if (dexScreenerId) {
+      const url = `https://api.dexscreener.com/latest/dex/tokens/${dexScreenerId}`;
+      logger.info("prices", `Fetching price from dexScreener: ${url}`);
+
+      const result: {
+        pairs: {
+          chainId: string;
+          priceNative: string;
+          priceUsd: string;
+        }[];
+      } = await axios
+        .get(url, {
+          timeout: 10 * 1000,
+        })
+        .then((response) => response.data);
+
+      logger.info("prices", `result price upstream ${url} ${JSON.stringify(result)}`);
+
+      const usdPrice = result?.pairs?.[0]?.priceUsd;
+      if (usdPrice) {
+        await idb.none(
+          `
+            INSERT INTO usd_prices (
+              currency,
+              timestamp,
+              value
+            ) VALUES (
+              $/currency/,
+              date_trunc('day', to_timestamp($/timestamp/)),
+              $/value/
+            ) ON CONFLICT DO NOTHING
+          `,
+          {
+            currency: toBuffer(currencyAddress),
+            timestamp: truncatedTimestamp,
+            value: usdPrice,
+          }
+        );
+
+        return {
+          currency: currencyAddress,
+          timestamp: truncatedTimestamp,
+          value: usdPrice,
         };
       }
     } else if (getNetworkSettings().whitelistedCurrencies.has(currencyAddress.toLowerCase())) {
