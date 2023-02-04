@@ -32,6 +32,8 @@ const getUpstreamUSDPrice = async (
     const coingeckoCurrencyId = currency?.metadata?.coingeckoCurrencyId;
     const dexScreenerId = currency?.metadata?.dexScreenerId;
 
+    logger.info("prices", `Trying to get upstream price for currency ${JSON.stringify(currency)}`);
+
     if (coingeckoCurrencyId) {
       const day = date.getDate();
       const month = date.getMonth() + 1;
