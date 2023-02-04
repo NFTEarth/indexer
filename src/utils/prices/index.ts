@@ -103,6 +103,11 @@ const getUpstreamUSDPrice = async (
 
       const usdPrice = result?.pairs?.[0]?.priceUsd;
       if (usdPrice) {
+        const value = parseUnits(
+          parseFloat(usdPrice).toFixed(USD_DECIMALS),
+          USD_DECIMALS
+        ).toString();
+
         await idb.none(
           `
             INSERT INTO usd_prices (
@@ -118,14 +123,14 @@ const getUpstreamUSDPrice = async (
           {
             currency: toBuffer(currencyAddress),
             timestamp: truncatedTimestamp,
-            value: usdPrice,
+            value,
           }
         );
 
         return {
           currency: currencyAddress,
           timestamp: truncatedTimestamp,
-          value: usdPrice,
+          value,
         };
       }
     } else if (getNetworkSettings().whitelistedCurrencies.has(currencyAddress.toLowerCase())) {
