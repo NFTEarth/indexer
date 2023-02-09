@@ -301,6 +301,12 @@ export const setupRoutes = (server: Server) => {
 
   server.route({
     method: "POST",
+    path: "/admin/collection-royalties",
+    options: adminEndpoints.postCollectionRoyalties,
+  });
+
+  server.route({
+    method: "POST",
     path: "/admin/routers",
     options: adminEndpoints.postRoutersOptions,
   });
