@@ -39,7 +39,7 @@ export const postCollectionRoyalties: RouteOptions = {
     const royalties = payload.royalties;
 
     try {
-      await idb.query("UPDATE collections SET royalties=$/royalties/ WHERE id=$/id/", {
+      await idb.query("UPDATE collections SET royalties=$/royalties/::json[] WHERE id=$/id/", {
         royalties,
         id,
       });
