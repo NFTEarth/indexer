@@ -143,7 +143,7 @@ export class Sources {
           $/address/,
           $/metadata:json/
         )
-        ON CONFLICT (id) DO UPDATE SET
+        ON CONFLICT (domain) DO UPDATE SET
           metadata = $/metadata:json/,
           domain = $/domain/
       `,
