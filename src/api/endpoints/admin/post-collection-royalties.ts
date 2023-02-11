@@ -7,6 +7,7 @@ import Joi from "joi";
 import { logger } from "@/common/logger";
 import { config } from "@/config/index";
 import { idb } from "@/common/db";
+import _ from "lodash";
 
 export const postCollectionRoyalties: RouteOptions = {
   description: "Update collection royalties",
@@ -39,10 +40,19 @@ export const postCollectionRoyalties: RouteOptions = {
     const royalties = payload.royalties;
 
     try {
-      await idb.query("UPDATE collections SET royalties=$/royalties/::JSONB WHERE id=$/id/", {
-        royalties,
-        id,
-      });
+      await idb.none(
+        `
+      UPDATE collections SET
+        royalties = $/royalties:json/,
+        royalties_bps = $/royaltiesBps/
+      WHERE collections.id = $/id/
+    `,
+        {
+          id,
+          royalties: royalties,
+          royaltiesBps: _.sumBy(royalties, (royalty: any) => royalty.bps),
+        }
+      );
 
       return { message: "Request accepted" };
     } catch (error) {

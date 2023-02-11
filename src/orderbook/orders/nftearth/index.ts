@@ -435,10 +435,10 @@ export const save = async (
       }
 
       // Handle: royalties
-      const openSeaFeeRecipients = ["0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b"];
+      const nftEarthFeeRecipients = ["0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b"];
 
       let openSeaRoyalties: Royalty[];
-      const openSeaRoyaltiesSchema = metadata?.target === "nftearth" ? "opensea" : "default";
+      const openSeaRoyaltiesSchema = metadata?.target === "nftearth" ? "nftearth" : "default";
 
       if (order.params.kind === "single-token") {
         openSeaRoyalties = await royalties.getRoyalties(
@@ -467,7 +467,7 @@ export const save = async (
         feeBps += bps;
 
         // First check for opensea hardcoded recipients
-        const kind: "marketplace" | "royalty" = openSeaFeeRecipients.includes(recipient)
+        const kind: "marketplace" | "royalty" = nftEarthFeeRecipients.includes(recipient)
           ? "marketplace"
           : openSeaRoyalties.map(({ recipient }) => recipient).includes(recipient.toLowerCase()) // Check for locally stored royalties
           ? "royalty"
@@ -547,7 +547,7 @@ export const save = async (
             _.isEmpty(
               _.intersection(
                 feeBreakdown.map(({ recipient }) => recipient),
-                openSeaFeeRecipients
+                nftEarthFeeRecipients
               )
             )
           ) {

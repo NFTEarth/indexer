@@ -59,6 +59,10 @@ if (config.doBackgroundWork) {
           let sourceIdInt;
 
           switch (sourceId) {
+            case "0x639852a4a5ac5d7bf7899155a89e8605eacca5f4": // NFTEarth
+              sourceIdInt = 0;
+              break;
+
             case "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073": // OpenSea
               sourceIdInt = 1;
               break;

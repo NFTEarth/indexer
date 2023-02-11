@@ -93,7 +93,7 @@ export class Sources {
     return new SourcesEntity({
       id: 0,
       domain: "nftearth.exchange",
-      domainHash: "a8f071677a",
+      domainHash: "0xa8f07167",
       address: AddressZero,
       name: "NFTEarth",
       metadata: {

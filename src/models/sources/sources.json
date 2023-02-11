@@ -1,4 +1,14 @@
 {
+  "0": {
+    "domain": "nftearth.exchange",
+    "domainHash": "0xa8f07167",
+    "name": "NFTEarth",
+    "address": "0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b",
+    "data": {
+      "icon": "https://nftearth.exchange/nftearth-icon.png",
+      "tokenUrlOptimism": "https://nftearth.exchange/collection/optimism/${contract}/${tokenId}"
+    }
+  },
   "1": {
     "domain": "opensea.io",
     "domainHash": "0x360c6ebe",
