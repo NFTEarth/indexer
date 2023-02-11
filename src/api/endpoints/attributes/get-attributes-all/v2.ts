@@ -89,10 +89,10 @@ export const getAttributesAllV2Options: RouteOptions = {
               kind: r.kind,
               minRange: _.isArray(r.values)
                 ? Number((_.first(r.values) || (0 as any))["min_range"])
-                : null,
+                : 0,
               maxRange: _.isArray(r.values)
                 ? Number((_.last(r.values) || (Number.MAX_SAFE_INTEGER as any))["max_range"])
-                : null,
+                : Number.MAX_SAFE_INTEGER,
             };
           } else {
             return {
