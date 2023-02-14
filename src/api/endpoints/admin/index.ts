@@ -27,3 +27,4 @@ export * from "@/api/endpoints/admin/post-flag-address";
 export * from "@/api/endpoints/admin/post-verified-collection";
 export * from "@/api/endpoints/admin/post-collection-royalties";
 export * from "@/api/endpoints/admin/post-routers";
+export * from "@/api/endpoints/admin/get-api-key-details";

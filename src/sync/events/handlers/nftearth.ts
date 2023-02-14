@@ -92,7 +92,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
             i + 1 < events.length &&
             events[i + 1].baseEventParams.txHash === baseEventParams.txHash &&
             events[i + 1].baseEventParams.logIndex === baseEventParams.logIndex + 1 &&
-            events[i + 1].subKind === "nftearth-order-filled"
+            events[i + 1].subKind === subKind
           ) {
             const parsedLog2 = eventData.abi.parseLog(events[i + 1].log);
             const offer2 = parsedLog2.args["offer"];

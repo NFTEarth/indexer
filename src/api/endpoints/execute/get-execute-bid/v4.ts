@@ -48,6 +48,10 @@ import * as forwardBuyCollection from "@/orderbook/orders/forward/build/buy/coll
 import * as infinityBuyToken from "@/orderbook/orders/infinity/build/buy/token";
 import * as infinityBuyCollection from "@/orderbook/orders/infinity/build/buy/collection";
 
+// Flow
+import * as flowBuyToken from "@/orderbook/orders/flow/build/buy/token";
+import * as flowBuyCollection from "@/orderbook/orders/flow/build/buy/collection";
+
 const version = "v4";
 
 export const getExecuteBidV4Options: RouteOptions = {
@@ -111,12 +115,22 @@ export const getExecuteBidV4Options: RouteOptions = {
               "x2y2",
               "universe",
               "forward",
-              "infinity"
+              "infinity",
+              "flow"
             )
             .default("seaport")
             .description("Exchange protocol used to create order. Example: `seaport`"),
           orderbook: Joi.string()
-            .valid("reservoir", "opensea", "nftearth", "looks-rare", "x2y2", "universe", "infinity")
+            .valid(
+              "reservoir",
+              "opensea",
+              "nftearth",
+              "looks-rare",
+              "x2y2",
+              "universe",
+              "infinity",
+              "flow"
+            )
             .default("reservoir")
             .description("Orderbook where order is placed. Example: `Reservoir`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
@@ -730,7 +744,7 @@ export const getExecuteBidV4Options: RouteOptions = {
             ) {
               approvalTx = currency.approveTransaction(
                 maker,
-                Sdk.Forward.Addresses.Exchange[config.chainId]
+                Sdk.Infinity.Addresses.Exchange[config.chainId]
               );
             }
 
@@ -755,6 +769,96 @@ export const getExecuteBidV4Options: RouteOptions = {
                   body: {
                     order: {
                       kind: "infinity",
+                      data: {
+                        ...order.params,
+                      },
+                    },
+                    tokenSetId,
+                    collection:
+                      collection && !attributeKey && !attributeValue ? collection : undefined,
+                    orderbook: params.orderbook,
+                    source,
+                  },
+                },
+              },
+              orderIndex: i,
+            });
+
+            // Go on with the next bid
+            continue;
+          }
+
+          case "flow": {
+            if (!["flow"].includes(params.orderbook)) {
+              throw Boom.badRequest("Only `flow` is supported as orderbook");
+            }
+
+            if (params.fees?.length) {
+              throw Boom.badRequest("Flow does not support custom fees");
+            }
+
+            if (params.excludeFlaggedTokens) {
+              throw Boom.badRequest("Flow does not support excluded token bids");
+            }
+
+            if (attributeKey || attributeValue) {
+              throw Boom.badRequest("Flow does not support attribute bids");
+            }
+
+            let order: Sdk.Flow.Order | undefined;
+            if (token) {
+              const [contract, tokenId] = token.split(":");
+              order = await flowBuyToken.build({
+                ...params,
+                maker,
+                collection: contract,
+                tokenId,
+              });
+            } else if (collection) {
+              order = await flowBuyCollection.build({ ...params, maker, collection });
+            }
+
+            if (!order) {
+              throw Boom.internal("Failed to generate order");
+            }
+
+            let approvalTx: TxData | undefined;
+            const wethApproval = await currency.getAllowance(
+              maker,
+              Sdk.Flow.Addresses.Exchange[config.chainId]
+            );
+
+            if (
+              bn(wethApproval).lt(bn(order.params.startPrice)) ||
+              bn(wethApproval).lt(bn(order.params.endPrice))
+            ) {
+              approvalTx = currency.approveTransaction(
+                maker,
+                Sdk.Flow.Addresses.Exchange[config.chainId]
+              );
+            }
+
+            steps[1].items.push({
+              status: !wrapEthTx ? "complete" : "incomplete",
+              data: wrapEthTx,
+              orderIndex: i,
+            });
+            steps[2].items.push({
+              status: !approvalTx ? "complete" : "incomplete",
+              data: approvalTx,
+              orderIndex: i,
+            });
+
+            steps[3].items.push({
+              status: "incomplete",
+              data: {
+                sign: order.getSignatureData(),
+                post: {
+                  endpoint: "/order/v3",
+                  method: "POST",
+                  body: {
+                    order: {
+                      kind: "flow",
                       data: {
                         ...order.params,
                       },

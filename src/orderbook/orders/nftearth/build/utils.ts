@@ -10,7 +10,7 @@ import { config } from "@/config/index";
 
 export interface BaseOrderBuildOptions {
   maker: string;
-  contract: string;
+  contract?: string;
   weiPrice: string;
   orderbook: "nftearth";
   orderType?: Sdk.NFTEarth.Types.OrderType;
@@ -63,36 +63,27 @@ export const getBuildInfo = async (
 
   const exchange = new Sdk.NFTEarth.Exchange(config.chainId);
 
-  let pausableZone = AddressZero;
-  let conduitKey = HashZero;
-  let paymentToken = Sdk.Common.Addresses.Eth[config.chainId];
-
-  if (options.currency) {
-    paymentToken = options.currency;
-  }
-
-  if (!options.currency && side === "buy") {
-    paymentToken = Sdk.Common.Addresses.Weth[config.chainId];
-  }
-
-  if (options.orderbook === "nftearth") {
-    pausableZone = Sdk.NFTEarth.Addresses.PausableZone[config.chainId] ?? AddressZero;
-    conduitKey = Sdk.NFTEarth.Addresses.NFTEarthConduitKey[config.chainId] ?? HashZero;
-  }
-
   const buildParams: BaseBuildParams = {
     offerer: options.maker,
     side,
     tokenKind: collectionResult.kind,
-    contract: options.contract,
+    // TODO: Fix types
+    contract: options.contract!,
     price: options.weiPrice,
     amount: options.quantity,
-    paymentToken: paymentToken,
+    paymentToken: options.currency
+      ? options.currency
+      : side === "buy"
+      ? Sdk.Common.Addresses.Weth[config.chainId]
+      : Sdk.Common.Addresses.Eth[config.chainId],
     fees: [],
     // Use OpenSea's pausable zone when posting to OpenSea
-    zone: pausableZone,
+    zone:
+      options.orderbook === "nftearth"
+        ? Sdk.NFTEarth.Addresses.PausableZone[config.chainId] ?? AddressZero
+        : AddressZero,
     // Use OpenSea's conduit for sharing approvals (where available)
-    conduitKey: conduitKey,
+    conduitKey: Sdk.NFTEarth.Addresses.NFTEarthConduitKey[config.chainId] ?? HashZero,
     startTime: options.listingTime || now() - 60,
     endTime: options.expirationTime || now() + 6 * 30 * 24 * 3600,
     salt: options.source
@@ -107,9 +98,10 @@ export const getBuildInfo = async (
 
   if (options.automatedRoyalties) {
     // Include the royalties
-    const royalties = ["opensea"].includes(options.orderbook)
-      ? collectionResult.new_royalties?.opensea
-      : collectionResult.royalties;
+    const royalties =
+      options.orderbook === "nftearth"
+        ? collectionResult.new_royalties?.nftearth
+        : collectionResult.royalties;
     for (const { recipient, bps } of royalties || []) {
       if (recipient && Number(bps) > 0) {
         const fee = bn(bps).mul(options.weiPrice).div(10000).toString();

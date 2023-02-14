@@ -38,8 +38,13 @@ import * as zeroExV4Check from "@/orderbook/orders/zeroex-v4/check";
 import * as universeSellToken from "@/orderbook/orders/universe/build/sell/token";
 import * as universeCheck from "@/orderbook/orders/universe/check";
 
+// Infinity
 import * as infinitySellToken from "@/orderbook/orders/infinity/build/sell/token";
 import * as infinityCheck from "@/orderbook/orders/infinity/check";
+
+// Flow
+import * as flowSellToken from "@/orderbook/orders/flow/build/sell/token";
+import * as flowCheck from "@/orderbook/orders/flow/check";
 
 const version = "v4";
 
@@ -94,12 +99,22 @@ export const getExecuteListV4Options: RouteOptions = {
               "nftearth",
               "x2y2",
               "universe",
-              "infinity"
+              "infinity",
+              "flow"
             )
             .default("nftearth")
             .description("Exchange protocol used to create order. Example: `seaport`"),
           orderbook: Joi.string()
-            .valid("nftearth", "opensea", "looks-rare", "reservoir", "x2y2", "universe", "infinity")
+            .valid(
+              "nftearth",
+              "opensea",
+              "looks-rare",
+              "reservoir",
+              "x2y2",
+              "universe",
+              "infinity",
+              "flow"
+            )
             .default("nftearth")
             .description("Orderbook where order is placed. Example: `nftearth`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
@@ -330,6 +345,78 @@ export const getExecuteListV4Options: RouteOptions = {
                     baseProvider,
                     contract
                   ).approveTransaction(maker, Sdk.Infinity.Addresses.Exchange[config.chainId]);
+                  break;
+                }
+              }
+            }
+
+            steps[0].items.push({
+              status: approvalTx ? "incomplete" : "complete",
+              data: approvalTx,
+              orderIndex: i,
+            });
+            steps[1].items.push({
+              status: "incomplete",
+              data: {
+                sign: order.getSignatureData(),
+                post: {
+                  endpoint: "/order/v3",
+                  method: "POST",
+                  body: {
+                    order: {
+                      kind: params.orderKind,
+                      data: {
+                        ...order.params,
+                      },
+                    },
+                    orderbook: params.orderbook,
+                    source,
+                  },
+                },
+              },
+              orderIndex: i,
+            });
+
+            // Go on with the next listing
+            continue;
+          }
+
+          case "flow": {
+            if (!["flow"].includes(params.orderbook)) {
+              throw Boom.badRequest("Only `flow` is supported as an orderbook");
+            }
+
+            const order = await flowSellToken.build({
+              ...params,
+              maker,
+              contract,
+              tokenId,
+            });
+
+            if (!order) {
+              throw Boom.internal("Failed to generate order");
+            }
+
+            // Will be set if an approval is needed before listing
+            let approvalTx: TxData | undefined;
+
+            // Check the order's fillability
+            try {
+              await flowCheck.offChainCheck(order, { onChainApprovalRecheck: true });
+            } catch (error: any) {
+              switch (error.message) {
+                case "no-balance-no-approval":
+                case "no-balance": {
+                  // We cannot do anything if the user doesn't own the listed token
+                  throw Boom.badData("Maker does not own the listed token");
+                }
+
+                case "no-approval": {
+                  // Generate an approval transaction
+                  approvalTx = new Sdk.Common.Helpers.Erc721(
+                    baseProvider,
+                    contract
+                  ).approveTransaction(maker, Sdk.Flow.Addresses.Exchange[config.chainId]);
                   break;
                 }
               }

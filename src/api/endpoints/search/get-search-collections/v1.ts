@@ -6,9 +6,11 @@ import Joi from "joi";
 
 import { logger } from "@/common/logger";
 import { redb } from "@/common/db";
-import { formatEth, fromBuffer } from "@/common/utils";
+import { formatEth, fromBuffer, now, regex } from "@/common/utils";
 import { CollectionSets } from "@/models/collection-sets";
 import { Assets } from "@/utils/assets";
+import { getUSDAndCurrencyPrices } from "@/utils/prices";
+import { AddressZero } from "@ethersproject/constants";
 
 const version = "v1";
 
@@ -32,13 +34,22 @@ export const getSearchCollectionsV1Options: RouteOptions = {
       community: Joi.string()
         .lowercase()
         .description("Filter to a particular community. Example: `artblocks`"),
+      displayCurrency: Joi.string()
+        .lowercase()
+        .pattern(regex.address)
+        .description("Return result in given currency"),
       collectionsSetId: Joi.string()
         .lowercase()
         .description("Filter to a particular collection set"),
+      offset: Joi.number()
+        .integer()
+        .min(0)
+        .default(0)
+        .description("Use offset to request the next batch of items."),
       limit: Joi.number()
         .integer()
         .min(1)
-        .max(50)
+        .max(1000)
         .default(20)
         .description("Amount of items returned in response."),
     }),
@@ -96,23 +107,56 @@ export const getSearchCollectionsV1Options: RouteOptions = {
             FROM collections
             ${whereClause}
             ORDER BY all_time_volume DESC
-            OFFSET 0
+            OFFSET $/offset/
             LIMIT $/limit/`;
 
     const collections = await redb.manyOrNone(baseQuery, query);
 
     return {
-      collections: _.map(collections, (collection) => ({
-        collectionId: collection.id,
-        name: collection.name,
-        slug: collection.slug,
-        contract: fromBuffer(collection.contract),
-        image: Assets.getLocalAssetsLink(collection.image),
-        allTimeVolume: collection.all_time_volume ? formatEth(collection.all_time_volume) : null,
-        floorAskPrice: collection.floor_sell_value ? formatEth(collection.floor_sell_value) : null,
-        openseaVerificationStatus:
-          collection.opensea_verification_status || collection.verified ? "verified" : null,
-      })),
+      collections: await Promise.all(
+        _.map(collections, async (collection) => {
+          let allTimeVolume = collection.all_time_volume ? collection.all_time_volume : null;
+
+          let floorAskPrice = collection.floor_sell_value ? collection.floor_sell_value : null;
+
+          if (query.displayCurrency) {
+            const currentTime = now();
+            allTimeVolume = allTimeVolume
+              ? (
+                  await getUSDAndCurrencyPrices(
+                    AddressZero,
+                    query.displayCurrency,
+                    allTimeVolume,
+                    currentTime
+                  )
+                ).nativePrice
+              : null;
+
+            floorAskPrice = floorAskPrice
+              ? (
+                  await getUSDAndCurrencyPrices(
+                    AddressZero,
+                    query.displayCurrency,
+                    floorAskPrice,
+                    currentTime
+                  )
+                ).nativePrice
+              : null;
+          }
+
+          return {
+            collectionId: collection.id,
+            name: collection.name,
+            slug: collection.slug,
+            contract: fromBuffer(collection.contract),
+            image: Assets.getLocalAssetsLink(collection.image),
+            allTimeVolume: allTimeVolume ? formatEth(allTimeVolume) : null,
+            floorAskPrice: floorAskPrice ? formatEth(floorAskPrice) : null,
+            openseaVerificationStatus:
+              collection.opensea_verification_status || collection.verified ? "verified" : null,
+          };
+        })
+      ),
     };
   },
 };

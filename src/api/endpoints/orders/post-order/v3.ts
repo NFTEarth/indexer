@@ -8,12 +8,13 @@ import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
+import { idb } from "@/common/db";
 import { logger } from "@/common/logger";
+import { regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as orders from "@/orderbook/orders";
 
 import * as postOrderExternal from "@/jobs/orderbook/post-order-external";
-import { regex } from "@/common/utils";
 
 const version = "v3";
 
@@ -45,14 +46,24 @@ export const postOrderV3Options: RouteOptions = {
             "x2y2",
             "universe",
             "forward",
-            "infinity"
+            "infinity",
+            "flow"
           )
           .required(),
         data: Joi.object().required(),
       }),
       orderbook: Joi.string()
         .lowercase()
-        .valid("nftearth", "reservoir", "opensea", "looks-rare", "x2y2", "universe", "infinity")
+        .valid(
+          "nftearth",
+          "reservoir",
+          "opensea",
+          "looks-rare",
+          "x2y2",
+          "universe",
+          "infinity",
+          "flow"
+        )
         .default("nftearth"),
       orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
       source: Joi.string().pattern(regex.domain).description("The source domain"),
@@ -198,15 +209,16 @@ export const postOrderV3Options: RouteOptions = {
 
           const [result] = await orders.seaport.save([orderInfo]);
 
-          if (result.status === "already-exists") {
-            return { message: "Success", orderId: result.id };
-          }
-
-          if (result.status !== "success") {
-            const error = Boom.badRequest(result.status);
-            error.output.payload.orderId = result.id;
-            throw error;
-          }
+          logger.info(
+            `post-order-${version}-handler`,
+            JSON.stringify({
+              forward: false,
+              orderbook,
+              data: order.data,
+              orderId: result.id,
+              status: result.status,
+            })
+          );
 
           if (orderbook === "opensea") {
             await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
@@ -217,6 +229,44 @@ export const postOrderV3Options: RouteOptions = {
                 result.id
               }`
             );
+          } else if (config.forwardReservoirApiKeys.includes(request.headers["x-api-key"])) {
+            const orderResult = await idb.oneOrNone(
+              `
+                SELECT
+                  orders.token_set_id
+                FROM orders
+                WHERE orders.id = $/id/
+              `,
+              { id: result.id }
+            );
+            if (orderResult?.token_set_id?.startsWith("token")) {
+              await postOrderExternal.addToQueue(
+                result.id,
+                order.data,
+                "opensea",
+                config.forwardOpenseaApiKey
+              );
+
+              logger.info(
+                `post-order-${version}-handler`,
+                JSON.stringify({
+                  forward: true,
+                  orderbook: "opensea",
+                  data: order.data,
+                  orderId: result.id,
+                })
+              );
+            }
+          }
+
+          if (result.status === "already-exists") {
+            return { message: "Success", orderId: result.id };
+          }
+
+          if (result.status !== "success") {
+            const error = Boom.badRequest(result.status);
+            error.output.payload.orderId = result.id;
+            throw error;
           }
 
           return { message: "Success", orderId: result.id };
@@ -335,10 +385,10 @@ export const postOrderV3Options: RouteOptions = {
             throw new Error("Unknown orderbook");
           }
 
-          const orderInfo: orders.seaport.OrderInfo = {
+          const orderInfo: orders.nftearth.OrderInfo = {
             kind: "full",
             orderParams: order.data,
-            isReservoir: true,
+            isReservoir: orderbook === "nftearth",
             metadata: {
               schema,
               source: orderbook === "nftearth" ? source : undefined,
@@ -347,6 +397,56 @@ export const postOrderV3Options: RouteOptions = {
           };
 
           const [result] = await orders.nftearth.save([orderInfo]);
+
+          logger.info(
+            `post-order-${version}-handler`,
+            JSON.stringify({
+              forward: false,
+              orderbook,
+              data: order.data,
+              orderId: result.id,
+              status: result.status,
+            })
+          );
+
+          if (orderbook === "nftearth") {
+            await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
+
+            logger.info(
+              `post-order-${version}-handler`,
+              `orderbook: ${orderbook}, orderData: ${JSON.stringify(order.data)}, orderId: ${
+                result.id
+              }`
+            );
+          } else if (config.forwardReservoirApiKeys.includes(request.headers["x-api-key"])) {
+            const orderResult = await idb.oneOrNone(
+              `
+                SELECT
+                  orders.token_set_id
+                FROM orders
+                WHERE orders.id = $/id/
+              `,
+              { id: result.id }
+            );
+            if (orderResult?.token_set_id?.startsWith("token")) {
+              await postOrderExternal.addToQueue(
+                result.id,
+                order.data,
+                "nftearth",
+                config.forwardOpenseaApiKey
+              );
+
+              logger.info(
+                `post-order-${version}-handler`,
+                JSON.stringify({
+                  forward: true,
+                  orderbook: "nftearth",
+                  data: order.data,
+                  orderId: result.id,
+                })
+              );
+            }
+          }
 
           if (result.status === "already-exists") {
             return { message: "Success", orderId: result.id };
@@ -357,15 +457,6 @@ export const postOrderV3Options: RouteOptions = {
             error.output.payload.orderId = result.id;
             throw error;
           }
-
-          await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
-
-          logger.info(
-            `post-order-${version}-handler`,
-            `orderbook: ${orderbook}, orderData: ${JSON.stringify(order.data)}, orderId: ${
-              result.id
-            }`
-          );
 
           return { message: "Success", orderId: result.id };
         }
@@ -521,8 +612,41 @@ export const postOrderV3Options: RouteOptions = {
           return { message: "Success", orderId: result.id };
         }
 
+        case "flow": {
+          if (!["flow"].includes(orderbook)) {
+            throw new Error("Unknown orderbook");
+          }
+
+          const orderInfo: orders.flow.OrderInfo = {
+            orderParams: order.data,
+            metadata: {
+              schema,
+              source: orderbook === "flow" ? source : undefined,
+            },
+          };
+
+          const [result] = await orders.flow.save([orderInfo]);
+
+          if (result.status !== "success") {
+            throw Boom.badRequest(result.status);
+          }
+
+          if (orderbook === "flow") {
+            await postOrderExternal.addToQueue(result.id, order.data, orderbook, orderbookApiKey);
+
+            logger.info(
+              `post-order-${version}-handler`,
+              `orderbook: ${orderbook}, orderData: ${JSON.stringify(order.data)}, orderId: ${
+                result.id
+              }`
+            );
+          }
+
+          return { message: "Success", orderId: result.id };
+        }
+
         case "forward": {
-          if (!["reservoir"].includes(orderbook)) {
+          if (!["nftearth"].includes(orderbook)) {
             throw new Error("Unknown orderbook");
           }
 

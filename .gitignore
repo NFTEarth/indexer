@@ -12,9 +12,12 @@ tsconfig.tsbuildinfo
 # Misc
 yarn-error.log
 postgres/
+scripts/
 
 # IDE
 *.iml
 .idea
+.DS_Store
 .yarnclean
+ecosystem.config.cjs
 coverage/

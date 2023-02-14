@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { BigNumberish } from "@ethersproject/bignumber";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { parseEther } from "@ethersproject/units";
-import { getCallTrace, parseCallTrace } from "@georgeroman/evm-tx-simulator";
+import { getCallTrace, getStateChange } from "@georgeroman/evm-tx-simulator";
 import { TxData } from "@nftearth/sdk/dist/utils";
 
-import { bn } from "@/common/utils";
+import { bn, now } from "@/common/utils";
 import { config } from "@/config/index";
 
 export const genericTaker = "0x0000000000000000000000000000000000000001";
@@ -34,6 +32,9 @@ export const ensureBuyTxSucceeds = async (
       balanceOverrides: {
         [taker]: tx.value ?? 0,
       },
+      blockOverrides: {
+        timestamp: now(),
+      },
     },
     provider,
     { skipReverts: true }
@@ -45,7 +46,7 @@ export const ensureBuyTxSucceeds = async (
     };
   }
 
-  const result = parseCallTrace(callTrace);
+  const result = getStateChange(callTrace);
 
   if (
     result[taker].tokenBalanceState[`${token.kind}:${token.contract}:${token.tokenId}`] !==
@@ -88,6 +89,9 @@ export const ensureSellTxSucceeds = async (
         // For gas cost
         [taker]: parseEther("0.1"),
       },
+      blockOverrides: {
+        timestamp: now(),
+      },
     },
     provider,
     { skipReverts: true }
@@ -99,7 +103,7 @@ export const ensureSellTxSucceeds = async (
     };
   }
 
-  const result = parseCallTrace(callTrace);
+  const result = getStateChange(callTrace);
 
   if (
     result[taker].tokenBalanceState[`${token.kind}:${token.contract}:${token.tokenId}`] !==
