@@ -52,16 +52,10 @@ export const getOpenApiOptions: RouteOptions = {
 
       data.openapi["servers"] = [
         {
-          url: "https://api.reservoir.tools",
+          url: "https://indexer.nftearth.exchange",
         },
         {
-          url: "https://api-goerli.reservoir.tools",
-        },
-        {
-          url: "https://api-optimism.reservoir.tools",
-        },
-        {
-          url: "https://api-polygon.reservoir.tools",
+          url: "https://arb-indexer.nftearth.exchange",
         },
       ];
 

@@ -99,6 +99,7 @@ export class Sources {
       metadata: {
         icon: "https://nftearth.exchange/nftearth-icon.png",
         tokenUrlOptimism: "https://nftearth.exchange/collection/optimism/${contract}/${tokenId}",
+        tokenUrlArbitrum: "https://nftearth.exchange/collection/arbitrum/${contract}/${tokenId}",
       },
       optimized: true,
       createdAt: "2023-01-29 20:51:06.23 +0700",
@@ -373,6 +374,16 @@ export class Sources {
       if (sourceEntity.metadata.tokenUrlOptimism && contract && tokenId) {
         sourceEntity.metadata.url = _.replace(
           sourceEntity.metadata.tokenUrlOptimism,
+          "${contract}",
+          contract
+        );
+
+        return _.replace(sourceEntity.metadata.url, "${tokenId}", tokenId);
+      }
+    } else if (config.chainId == 42161) {
+      if (sourceEntity.metadata.tokenUrlArbitrum && contract && tokenId) {
+        sourceEntity.metadata.url = _.replace(
+          sourceEntity.metadata.tokenUrlArbitrum,
           "${contract}",
           contract
         );

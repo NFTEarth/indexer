@@ -76,6 +76,7 @@ if (config.doBackgroundWork) {
       const tokenUrlPolygon = getTokenUrl(html, url, "polygon");
       const tokenUrlGoerli = getTokenUrl(html, url, "goerli");
       const tokenUrlOptimism = getTokenUrl(html, url, "optimism");
+      const tokenUrlArbitrum = getTokenUrl(html, url, "arbitrum");
 
       // Update the source data
       const sources = await Sources.getInstance();
@@ -87,6 +88,7 @@ if (config.doBackgroundWork) {
         tokenUrlPolygon,
         tokenUrlGoerli,
         tokenUrlOptimism,
+        tokenUrlArbitrum,
       });
     },
     {
