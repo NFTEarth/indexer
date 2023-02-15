@@ -176,6 +176,7 @@ export const extractAttributionData = async (
   if (source) {
     // TODO: Properly handle aggregator detection
     if (
+      source !== "nftearth.exchange" &&
       source !== "opensea.io" &&
       source !== "gem.xyz" &&
       source !== "blur.io" &&
