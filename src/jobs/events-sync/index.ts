@@ -41,6 +41,8 @@ if (config.doBackgroundWork && config.catchup) {
           (networkSettings.realtimeSyncFrequencySeconds - 1) * 1000
         )
         .then(async () => {
+          logger.info("events-sync-catchup", "Catching up events");
+
           try {
             await realtimeEventsSync.addToQueue();
             logger.info("events-sync-catchup", "Catching up events");
