@@ -26,7 +26,7 @@ import * as Sdk from "@nftearth/sdk";
 import * as SdkTypesV5 from "@nftearth/sdk/dist/router/v5/types";
 import * as SdkTypesV6 from "@nftearth/sdk/dist/router/v6/types";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { config } from "@/config/index";
 import { Sources } from "@/models/sources";
 import { SourcesEntity } from "@/models/sources/sources-entity";
@@ -89,7 +89,7 @@ export const getOrderSourceByOrderId = async (
   orderId: string
 ): Promise<SourcesEntity | undefined> => {
   try {
-    const result = await idb.oneOrNone(
+    const result = await redb.oneOrNone(
       `
         SELECT
           orders.source_id_int
@@ -439,7 +439,7 @@ export const generateBidDetailsV6 = async (
           // When filling a "token-list" order, we also need to pass in the
           // full list of tokens the order was made on (in order to be able
           // to generate a valid merkle proof)
-          const tokens = await idb.manyOrNone(
+          const tokens = await redb.manyOrNone(
             `
               SELECT
                 token_sets_tokens.token_id
@@ -488,7 +488,7 @@ export const generateBidDetailsV6 = async (
           // When filling a "token-list" order, we also need to pass in the
           // full list of tokens the order was made on (in order to be able
           // to generate a valid merkle proof)
-          const tokens = await idb.manyOrNone(
+          const tokens = await redb.manyOrNone(
             `
               SELECT
                 token_sets_tokens.token_id
@@ -538,7 +538,7 @@ export const generateBidDetailsV6 = async (
           // When filling a "token-list" order, we also need to pass in the
           // full list of tokens the order was made on (in order to be able
           // to generate a valid merkle proof)
-          const tokens = await idb.manyOrNone(
+          const tokens = await redb.manyOrNone(
             `
               SELECT
                 token_sets_tokens.token_id
@@ -677,7 +677,7 @@ export const generateBidDetailsV6 = async (
         // When filling a "token-list" order, we also need to pass in the
         // full list of tokens the order was made on (in order to be able
         // to generate a valid merkle proof)
-        const tokens = await idb.manyOrNone(
+        const tokens = await redb.manyOrNone(
           `
             SELECT
               token_sets_tokens.token_id
@@ -894,7 +894,7 @@ export const generateBidDetailsV5 = async (
           // When filling a "token-list" order, we also need to pass in the
           // full list of tokens the order was made on (in order to be able
           // to generate a valid merkle proof)
-          const tokens = await idb.manyOrNone(
+          const tokens = await redb.manyOrNone(
             `
               SELECT
                 token_sets_tokens.token_id
@@ -943,7 +943,7 @@ export const generateBidDetailsV5 = async (
           // When filling a "token-list" order, we also need to pass in the
           // full list of tokens the order was made on (in order to be able
           // to generate a valid merkle proof)
-          const tokens = await idb.manyOrNone(
+          const tokens = await redb.manyOrNone(
             `
               SELECT
                 token_sets_tokens.token_id

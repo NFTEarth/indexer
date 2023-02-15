@@ -3,7 +3,7 @@ import { keccak256 } from "@ethersproject/solidity";
 import * as Sdk from "@nftearth/sdk";
 import pLimit from "p-limit";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { compare, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -61,7 +61,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
       }
 
       // Ensure the order is not cancelled
-      const cancelResult = await idb.oneOrNone(
+      const cancelResult = await redb.oneOrNone(
         `
           SELECT 1 FROM cancel_events
           WHERE cancel_events.order_id = $/id/
@@ -82,7 +82,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
       }
 
       // Ensure the order is not filled
-      const fillResult = await idb.oneOrNone(
+      const fillResult = await redb.oneOrNone(
         `
           SELECT 1 FROM fill_events_2
           WHERE fill_events_2.order_id = $/id/
@@ -102,7 +102,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
         });
       }
 
-      const orderResult = await idb.oneOrNone(
+      const orderResult = await redb.oneOrNone(
         `
           SELECT
             extract('epoch' from lower(orders.valid_between)) AS valid_from,

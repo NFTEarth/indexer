@@ -4,7 +4,7 @@ import { Log } from "@ethersproject/providers";
 import { searchForCall } from "@georgeroman/evm-tx-simulator";
 import * as Sdk from "@nftearth/sdk";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { bn, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import { getEventData } from "@/events-sync/data";
@@ -419,7 +419,7 @@ async function getOrderNonce(
   maker: string,
   params: Pick<BaseEventParams, "block" | "txHash"> | TransactionTrace
 ): Promise<{ nonce: string | null; txTrace?: TransactionTrace }> {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         orders.id,

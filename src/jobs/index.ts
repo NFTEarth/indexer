@@ -41,7 +41,7 @@ import * as backfillMints from "@/jobs/backfill/backfill-mints";
 import * as backfillTokensWithMissingCollection from "@/jobs/backfill/backfill-tokens-with-missing-collection";
 import * as backfillTokensLastFlagUpdate from "@/jobs/backfill/backfill-tokens-last-flag-update";
 import * as backfillWrongNFTEarthSource from "@/jobs/backfill/backfill-wrong-source-nftearth-orders";
-import * as backfillCollectionRoyalties from "@/jobs/backfill/backfill-collections-royalties";
+//import * as backfillCollectionRoyalties from "@/jobs/backfill/backfill-collections-royalties";
 
 import * as topBidUpdate from "@/jobs/bid-updates/top-bid-update-queue";
 
@@ -148,7 +148,7 @@ export const allJobQueues = [
   backfillTokensWithMissingCollection.queue,
   backfillTokensLastFlagUpdate.queue,
   backfillWrongNFTEarthSource.queue,
-  backfillCollectionRoyalties.queue,
+  //backfillCollectionRoyalties.queue,
 
   currencies.queue,
 

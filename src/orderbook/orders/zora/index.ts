@@ -3,7 +3,7 @@ import { keccak256 } from "@ethersproject/solidity";
 import * as Sdk from "@nftearth/sdk";
 import pLimit from "p-limit";
 
-import { idb, pgp } from "@/common/db";
+import { idb, redb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
 import { compare, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -68,7 +68,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
       const id = getOrderId(orderParams);
 
       // Check: order doesn't already exist
-      const orderResult = await idb.oneOrNone(
+      const orderResult = await redb.oneOrNone(
         ` 
           SELECT 
             extract('epoch' from lower(orders.valid_between)) AS valid_from,

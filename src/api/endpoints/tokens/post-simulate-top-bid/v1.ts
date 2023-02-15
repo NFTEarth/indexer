@@ -6,7 +6,7 @@ import { Request, RouteOptions } from "@hapi/hapi";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { fromBuffer, now, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -74,7 +74,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
       const [contract, tokenId] = token.split(":");
 
       // Fetch the token's owner
-      const ownerResult = await idb.oneOrNone(
+      const ownerResult = await redb.oneOrNone(
         `
           SELECT
             nft_balances.owner,
@@ -117,7 +117,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
         // on the token chosen to simulate on. Multi-token bids (eg. collection-wide or
         // token-list bids) could potentially get filled with other tokens. So here the
         // best thing to do is ensure the token simulated on is not flagged.
-        const isFlaggedResult = await idb.oneOrNone(
+        const isFlaggedResult = await redb.oneOrNone(
           `
             SELECT
               tokens.is_flagged
@@ -134,7 +134,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
           throw Boom.badData("Cannot run simulation on flagged token");
         }
 
-        const topBid = await idb.oneOrNone(
+        const topBid = await redb.oneOrNone(
           `
             SELECT
               orders.id,
@@ -178,7 +178,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
         return { message: "No orders to simulate" };
       }
 
-      const contractResult = await idb.one(
+      const contractResult = await redb.one(
         `
           SELECT
             contracts.kind
@@ -209,7 +209,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
       if (success) {
         return { message: "Top bid order is fillable" };
       } else {
-        const orderCurrency = await idb
+        const orderCurrency = await redb
           .oneOrNone(
             `
               SELECT
