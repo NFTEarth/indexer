@@ -114,6 +114,8 @@ export type EventSubKind =
   | "seaport-v1.2-counter-incremented"
   | "rarible-match"
   | "rarible-cancel"
+  | "rarible-buy-v1"
+  | "rarible-match-v2"
   | "element-erc721-sell-order-filled"
   | "element-erc721-sell-order-filled-v2"
   | "element-erc721-buy-order-filled"
@@ -175,6 +177,7 @@ export type EventSubKind =
   | "manifold-modify"
   | "manifold-cancel"
   | "manifold-finalize"
+  | "manifold-accept"
   | "tofu-inventory-update"
   | "decentraland-sale"
   | "nft-trader-swap"
@@ -235,6 +238,8 @@ const allEventData = [
   x2y2.orderInventory,
   rarible.match,
   rarible.cancel,
+  rarible.buyV1,
+  rarible.matchV2,
   element.erc721BuyOrderFilled,
   element.erc721BuyOrderFilledV2,
   element.erc721SellOrderFilled,
@@ -295,6 +300,7 @@ const allEventData = [
   manifold.finalize,
   manifold.purchase,
   manifold.cancel,
+  manifold.accept,
   tofu.inventoryUpdate,
   decentraland.sale,
   nftTrader.swap,

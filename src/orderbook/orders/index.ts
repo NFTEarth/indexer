@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 // Exports
 
 export * as cryptopunks from "@/orderbook/orders/cryptopunks";
@@ -261,7 +262,7 @@ export const generateListingDetailsV6 = (
     }
 
     case "seaport": {
-      if (order.rawData) {
+      if (order.rawData && !order.rawData.partial) {
         return {
           kind: "seaport",
           ...common,
@@ -307,7 +308,7 @@ export const generateListingDetailsV6 = (
     }
 
     case "seaport-v1.2": {
-      if (order.rawData) {
+      if (order.rawData && !order.rawData.partial) {
         return {
           kind: "seaport-v1.2",
           ...common,
@@ -479,7 +480,7 @@ export const generateBidDetailsV6 = async (
     }
 
     case "seaport": {
-      if (order.rawData) {
+      if (order.rawData && !order.rawData.partial) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const extraArgs: any = {};
 
@@ -529,7 +530,7 @@ export const generateBidDetailsV6 = async (
     }
 
     case "seaport-v1.2": {
-      if (order.rawData) {
+      if (order.rawData && !order.rawData.partial) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const extraArgs: any = {};
 
