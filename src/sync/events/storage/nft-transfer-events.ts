@@ -29,7 +29,7 @@ type DbEvent = {
   from: Buffer;
   to: Buffer;
   token_id: string;
-  amount: string;
+  amount: number;
 };
 
 export const addEvents = async (events: Event[], backfill: boolean) => {
@@ -81,7 +81,7 @@ export const addEvents = async (events: Event[], backfill: boolean) => {
       from: toBuffer(event.from),
       to: toBuffer(event.to),
       token_id: event.tokenId,
-      amount: event.amount,
+      amount: parseInt(event.amount),
     });
 
     if (!uniqueContracts.has(contractId)) {
