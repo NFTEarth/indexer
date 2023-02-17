@@ -27,4 +27,4 @@ addPlatformAddress("x2y2", [Sdk.X2Y2.Addresses.FeeManager[config.chainId]]);
 addPlatformAddress("foundation", ["0x67df244584b67e8c51b10ad610aaffa9a402fdb6"]);
 addPlatformAddress("infinity", [Sdk.Infinity.Addresses.Exchange[config.chainId]]);
 addPlatformAddress("sudoswap", ["0x4e2f98c96e2d595a83afa35888c4af58ac343e44"]);
-addPlatformAddress("nftearth", ["0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b"]);
+addPlatformAddress("nftearth", ["0xd55c6b0a208362b18beb178e1785cf91c4ce937a"]);

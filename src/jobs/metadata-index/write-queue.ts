@@ -207,7 +207,7 @@ if (config.doBackgroundWork) {
 
           if (!attributeKeyResult?.id) {
             let info = null;
-            if (kind == "number" || key == "birthday") {
+            if (kind == "number") {
               info = { min_range: Number(value), max_range: Number(value) };
             }
 

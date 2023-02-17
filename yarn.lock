@@ -2571,10 +2571,10 @@
   resolved "https://registry.yarnpkg.com/@msgpackr-extract/msgpackr-extract-win32-x64/-/msgpackr-extract-win32-x64-2.2.0.tgz#016d855b6bc459fd908095811f6826e45dd4ba64"
   integrity sha512-XrC0JzsqQSvOyM3t04FMLO6z5gCuhPE6k4FXuLK5xf52ZbdvcFe1yBmo7meCew9B8G2f0T9iu9t3kfTYRYROgA==
 
-"@nftearth/sdk@^0.0.320":
-  version "0.0.320"
-  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.320.tgz#b4ce2b038eb0991ff2860427a1050210d97956ee"
-  integrity sha512-4HH122WWPtSwZDSoP66mdkY/IMsyykjKDdQthwbAoaBRljrKBT0nQH4xiVXK1aUi3N5lXuwCqAsm08HZ2rw90A==
+"@nftearth/sdk@^0.0.321":
+  version "0.0.321"
+  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.321.tgz#eb61008a72b24158671f191f2f3877725c1d0928"
+  integrity sha512-M7hccBl+9/2C9m7cQ3ZMIbd2OCJVqgTip/gEJE96j2T8WRM4wtn6WW5LhQOLzAAK06AnzxY5zhMQmd7ixtDF0A==
   dependencies:
     "@uniswap/permit2-sdk" "^1.2.0"
     "@uniswap/smart-order-router" "^3.0.4"

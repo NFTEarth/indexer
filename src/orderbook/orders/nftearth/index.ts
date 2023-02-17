@@ -447,7 +447,7 @@ export const save = async (
       }
 
       // Handle: royalties
-      const nftEarthFeeRecipients = ["0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b"];
+      const nftEarthFeeRecipients = ["0xd55c6b0a208362b18beb178e1785cf91c4ce937a"];
 
       let openSeaRoyalties: royalties.Royalty[];
       const openSeaRoyaltiesSchema = metadata?.target === "nftearth" ? "nftearth" : "default";

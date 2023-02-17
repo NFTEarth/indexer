@@ -64,6 +64,7 @@ export type OrderKind =
   | "manifold"
   | "tofu-nft"
   | "decentraland"
+  | "treasure"
   | "nft-trader"
   | "okex"
   | "bend-dao"
@@ -169,6 +170,8 @@ export const getOrderSourceByOrderKind = async (
         return sources.getOrInsert("benddao.xyz");
       case "superrare":
         return sources.getOrInsert("superrare.com");
+      case "treasure":
+        return sources.getOrInsert("trove.treasure.lol");
 
       case "mint": {
         if (address && mintsSources.has(address)) {

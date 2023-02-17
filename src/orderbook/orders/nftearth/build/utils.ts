@@ -124,7 +124,7 @@ export const getBuildInfo = async (
   //
   //   options.fee.push(250);
   //   // OpenSea's NFTEarth fee recipient
-  //   options.feeRecipient.push("0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b");
+  //   options.feeRecipient.push("0xd55c6b0a208362b18beb178e1785cf91c4ce937a");
   // }
 
   if (options.fee && options.feeRecipient) {

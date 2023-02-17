@@ -33,6 +33,7 @@ import * as wyvernV23 from "@/events-sync/data/wyvern-v2.3";
 import * as x2y2 from "@/events-sync/data/x2y2";
 import * as zeroExV4 from "@/events-sync/data/zeroex-v4";
 import * as zora from "@/events-sync/data/zora";
+import * as treasure from "@/events-sync/data/treasure";
 import * as zeroExV2 from "@/events-sync/data/zeroex-v2";
 
 // All events we're syncing should have an associated `EventData`
@@ -72,6 +73,7 @@ export type EventKind =
   | "x2y2"
   | "zeroex-v4"
   | "zora"
+  | "treasure"
   | "zeroex-v2";
 
 // Event sub-kind in each of the above protocol/standard
@@ -185,6 +187,8 @@ export type EventSubKind =
   | "superrare-sold"
   | "superrare-accept-offer"
   | "superrare-auction-settled"
+  | "treasure-accept-bid"
+  | "treasure-sold"
   | "zeroex-v2-fill";
 
 export type EventData = {
@@ -305,6 +309,8 @@ const allEventData = [
   superrare.listingSold,
   superrare.offerAccept,
   superrare.auctionSettled,
+  treasure.tokenBidAccepted,
+  treasure.itemSold,
   zeroExV2.fill,
 ];
 
