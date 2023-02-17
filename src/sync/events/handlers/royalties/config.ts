@@ -1,9 +1,10 @@
 import * as Sdk from "@nftearth/sdk";
-
+import { OrderKind } from "@/orderbook/orders";
 import { config } from "@/config/index";
 
 export const platformFeeRecipientsRegistry: Map<string, string[]> = new Map();
 export const allPlatformFeeRecipients = new Set();
+export const allExchangeList: Map<OrderKind, string> = new Map();
 
 function addPlatformAddress(type: string, addrList: string[]) {
   platformFeeRecipientsRegistry.set(type, addrList);
@@ -28,3 +29,10 @@ addPlatformAddress("foundation", ["0x67df244584b67e8c51b10ad610aaffa9a402fdb6"])
 addPlatformAddress("infinity", [Sdk.Infinity.Addresses.Exchange[config.chainId]]);
 addPlatformAddress("sudoswap", ["0x4e2f98c96e2d595a83afa35888c4af58ac343e44"]);
 addPlatformAddress("nftearth", ["0xd55c6b0a208362b18beb178e1785cf91c4ce937a"]);
+
+// Exchange List
+allExchangeList.set("nftearth", Sdk.NFTEarth.Addresses.Exchange[config.chainId]);
+allExchangeList.set("seaport", Sdk.Seaport.Addresses.Exchange[config.chainId]);
+allExchangeList.set("seaport-v1.2", Sdk.SeaportV12.Addresses.Exchange[config.chainId]);
+allExchangeList.set("x2y2", Sdk.X2Y2.Addresses.Exchange[config.chainId]);
+allExchangeList.set("looks-rare", Sdk.LooksRare.Addresses.Exchange[config.chainId]);

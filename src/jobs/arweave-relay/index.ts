@@ -13,7 +13,7 @@ const PENDING_DATA_KEY = "pending-arweave-data";
 
 export const addPendingOrdersNFTEarth = async (
   data: {
-    order: Sdk.NFTEarth.Order | Sdk.NFTEarth.BundleOrder;
+    order: Sdk.NFTEarth.Order;
     schemaHash?: string;
     source?: string;
   }[]

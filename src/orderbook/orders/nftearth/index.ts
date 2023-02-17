@@ -36,7 +36,7 @@ export type OrderInfo =
       orderParams: Sdk.NFTEarth.Types.OrderComponents;
       metadata: OrderMetadata;
       isReservoir?: boolean;
-      openSeaOrderParams?: PartialOrderComponents;
+      nftearthOrderParams?: PartialOrderComponents;
     }
   | {
       kind: "partial";
@@ -88,7 +88,7 @@ export const save = async (
     orderParams: Sdk.NFTEarth.Types.OrderComponents,
     metadata: OrderMetadata,
     isReservoir?: boolean,
-    openSeaOrderParams?: PartialOrderComponents
+    nftearthOrderParams?: PartialOrderComponents
   ) => {
     try {
       const order = new Sdk.NFTEarth.Order(config.chainId, orderParams);
@@ -105,7 +105,7 @@ export const save = async (
         });
       }
 
-      // Check: order doesn't already exist or partial order
+      // Check: order doesn't already exist
       const orderExists = await idb.oneOrNone(
         `
           WITH x AS (
@@ -235,18 +235,12 @@ export const save = async (
         }
       }
 
-      let saveRawData = true;
-
       // Check and save: associated token set
       let tokenSetId: string | undefined;
-      let schemaHash;
+      let schemaHash: string | undefined;
 
-      if (openSeaOrderParams && openSeaOrderParams.kind != "single-token") {
-        // Currently, we don't save the raw data on the order to make sure we utilize the OS graphql to fill the order (due to inconsistency with flagged tokens).
-        saveRawData = false;
-
-        const collection = await getCollection(openSeaOrderParams);
-
+      if (nftearthOrderParams && nftearthOrderParams.kind !== "single-token") {
+        const collection = await getCollection(nftearthOrderParams);
         if (!collection) {
           return results.push({
             id,
@@ -256,35 +250,19 @@ export const save = async (
 
         schemaHash = generateSchemaHash();
 
-        switch (openSeaOrderParams.kind) {
+        switch (nftearthOrderParams.kind) {
           case "contract-wide": {
-            if (collection?.token_set_id) {
-              tokenSetId = collection.token_set_id;
+            const ts = await tokenSet.dynamicCollectionNonFlagged.save({
+              collection: collection.id,
+            });
+            if (ts) {
+              tokenSetId = ts.id;
+              schemaHash = ts.schemaHash;
             }
 
-            if (tokenSetId) {
-              if (tokenSetId.startsWith("contract:")) {
-                await tokenSet.contractWide.save([
-                  {
-                    id: tokenSetId,
-                    schemaHash,
-                    contract: info.contract,
-                  },
-                ]);
-              } else if (tokenSetId.startsWith("range:")) {
-                const [, , startTokenId, endTokenId] = tokenSetId.split(":");
-
-                await tokenSet.tokenRange.save([
-                  {
-                    id: tokenSetId,
-                    schemaHash,
-                    contract: info.contract,
-                    startTokenId,
-                    endTokenId,
-                  },
-                ]);
-              }
-            }
+            // Mark the order as being partial in order to force filling through the order-fetcher service
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (order.params as any).partial = true;
 
             break;
           }
@@ -296,8 +274,8 @@ export const save = async (
                 collection: collection.id,
                 attributes: [
                   {
-                    key: openSeaOrderParams.attributeKey,
-                    value: openSeaOrderParams.attributeValue,
+                    key: nftearthOrderParams.attributeKey,
+                    value: nftearthOrderParams.attributeValue,
                   },
                 ],
               },
@@ -317,8 +295,8 @@ export const save = async (
               `,
               {
                 collection: collection.id,
-                key: openSeaOrderParams.attributeKey,
-                value: openSeaOrderParams.attributeValue,
+                key: nftearthOrderParams.attributeKey,
+                value: nftearthOrderParams.attributeValue,
               }
             );
 
@@ -381,10 +359,7 @@ export const save = async (
           }
 
           case "token-list": {
-            // For collection offers, if the target orderbook is opensea, the token set should always be a contract wide.
-            // This is due to a mismatch between the collection flags in our system and OpenSea.
-            // The actual merkle root is returned by the build collection offer API from OpenSea (see the logic in the execute bid API).
-            if (metadata?.target === "nftearth") {
+            if (metadata.target === "nftearth") {
               tokenSetId = `contract:${info.contract}`;
               await tokenSet.contractWide.save([
                 {
@@ -393,6 +368,10 @@ export const save = async (
                   contract: info.contract,
                 },
               ]);
+
+              // Mark the order as being partial in order to force filling through the order-fetcher service
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (order.params as any).partial = true;
             } else {
               const typedInfo = info as typeof info & { merkleRoot: string };
               const merkleRoot = typedInfo.merkleRoot;
@@ -447,21 +426,24 @@ export const save = async (
       }
 
       // Handle: royalties
-      const nftEarthFeeRecipients = ["0xd55c6b0a208362b18beb178e1785cf91c4ce937a"];
+      const nftEarthFeeRecipients = [
+        "0x78ED254b9c140c1A2BE10d2ad32C65b5f712f54b",
+        "0xd55c6b0a208362b18beb178e1785cf91c4ce937a",
+      ];
 
-      let openSeaRoyalties: royalties.Royalty[];
-      const openSeaRoyaltiesSchema = metadata?.target === "nftearth" ? "nftearth" : "default";
+      let nftearthRoyalties: royalties.Royalty[];
+      const nftearthRoyaltiesSchema = metadata?.target === "nftearth" ? "nftearth" : "default";
 
       if (order.params.kind === "single-token") {
-        openSeaRoyalties = await royalties.getRoyalties(
+        nftearthRoyalties = await royalties.getRoyalties(
           info.contract,
           info.tokenId,
-          openSeaRoyaltiesSchema
+          nftearthRoyaltiesSchema
         );
       } else {
-        openSeaRoyalties = await royalties.getRoyaltiesByTokenSet(
+        nftearthRoyalties = await royalties.getRoyaltiesByTokenSet(
           tokenSetId,
-          openSeaRoyaltiesSchema
+          nftearthRoyaltiesSchema
         );
       }
 
@@ -478,10 +460,10 @@ export const save = async (
 
         feeBps += bps;
 
-        // First check for opensea hardcoded recipients
+        // First check for nftearth hardcoded recipients
         const kind: "marketplace" | "royalty" = nftEarthFeeRecipients.includes(recipient)
           ? "marketplace"
-          : openSeaRoyalties.map(({ recipient }) => recipient).includes(recipient.toLowerCase()) // Check for locally stored royalties
+          : nftearthRoyalties.map(({ recipient }) => recipient).includes(recipient.toLowerCase()) // Check for locally stored royalties
           ? "royalty"
           : marketplaceFeeFound || bps > 250 // If bps is higher than 250 or we already found marketplace fee assume it is royalty otherwise marketplace fee
           ? "royalty"
@@ -542,7 +524,7 @@ export const save = async (
       const sources = await Sources.getInstance();
       let source: SourcesEntity | undefined = await sources.getOrInsert("nftearth.exchange");
 
-      // If cross posting, source should always be opensea.
+      // If cross posting, source should always be nftearth.
       if (metadata?.target !== "nftearth") {
         const sourceHash = bn(order.params.salt)._hex.slice(0, 10);
         const matchedSource = sources.getByDomainHash(sourceHash);
@@ -669,9 +651,6 @@ export const save = async (
         approval_status: approvalStatus,
         token_set_id: tokenSetId,
         token_set_schema_hash: toBuffer(schemaHash),
-        offer_bundle_id: null,
-        consideration_bundle_id: null,
-        bundle_kind: null,
         maker: toBuffer(order.params.offerer),
         taker: toBuffer(info.taker),
         price: price.toString(),
@@ -692,7 +671,7 @@ export const save = async (
         fee_bps: feeBps,
         fee_breakdown: feeBreakdown || null,
         dynamic: info.isDynamic ?? null,
-        raw_data: saveRawData ? order.params : null,
+        raw_data: order.params,
         expiration: validTo,
         missing_royalties: missingRoyalties,
         normalized_value: normalizedValue,
@@ -733,13 +712,10 @@ export const save = async (
           orderParams
         )}, metadata=${JSON.stringify(
           metadata
-        )}, isReservoir=${isReservoir}, openSeaOrderParams=${JSON.stringify(
-          openSeaOrderParams
+        )}, isReservoir=${isReservoir}, nftearthOrderParams=${JSON.stringify(
+          nftearthOrderParams
         )}, error=${error}`
       );
-
-      // Throw so that we retry with he bundle-handling code
-      throw error;
     }
   };
 
@@ -972,7 +948,13 @@ export const save = async (
 
       // Handle: fees
       let feeBps = 250;
-      const feeBreakdown = [];
+      const feeBreakdown = [
+        {
+          bps: 250,
+          kind: "marketplace",
+          recipient: "0x0000a26b00c1f0df003000390027140000faa719",
+        },
+      ];
 
       if (collection) {
         const royalties = collection.new_royalties?.["nftearth"] ?? [];
@@ -1130,9 +1112,6 @@ export const save = async (
         approval_status: approvalStatus,
         token_set_id: tokenSetId,
         token_set_schema_hash: toBuffer(schemaHash),
-        offer_bundle_id: null,
-        consideration_bundle_id: null,
-        bundle_kind: null,
         maker: toBuffer(orderParams.offerer),
         taker: orderParams.taker ? toBuffer(orderParams.taker) : toBuffer(AddressZero),
         price: price.toString(),
@@ -1179,9 +1158,6 @@ export const save = async (
           orderParams
         )}: ${error} (will retry)`
       );
-
-      // Throw so that we retry with he bundle-handling code
-      throw error;
     }
   };
 
@@ -1197,7 +1173,7 @@ export const save = async (
                 orderInfo.orderParams as Sdk.NFTEarth.Types.OrderComponents,
                 orderInfo.metadata,
                 orderInfo.isReservoir,
-                orderInfo.openSeaOrderParams
+                orderInfo.nftearthOrderParams
               )
             )
       )
@@ -1214,9 +1190,6 @@ export const save = async (
         "approval_status",
         "token_set_id",
         "token_set_schema_hash",
-        "offer_bundle_id",
-        "consideration_bundle_id",
-        "bundle_kind",
         "maker",
         "taker",
         "price",

@@ -42,7 +42,7 @@ if (config.doBackgroundWork) {
       const html = parse(response.data);
 
       // First get the custom reservoir title tag
-      const reservoirTitle = html.querySelector("meta[property='reservoir:title']");
+      const reservoirTitle = html.querySelector("meta[property='nftearth:title']");
 
       let titleText = sourceDomain; // Default name for source is the domain
       if (reservoirTitle) {
@@ -50,7 +50,7 @@ if (config.doBackgroundWork) {
       }
 
       // First get the custom reservoir icon tag
-      const reservoirIcon = html.querySelector("meta[property='reservoir:icon']");
+      const reservoirIcon = html.querySelector("meta[property='nftearth:icon']");
 
       if (reservoirIcon) {
         iconUrl = reservoirIcon.getAttribute("content");

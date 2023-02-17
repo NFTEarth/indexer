@@ -8,13 +8,13 @@ import { fromBuffer } from "@/common/utils";
 import { config } from "@/config/index";
 import * as utils from "@/orderbook/orders/nftearth/build/utils";
 import { generateSchemaHash } from "@/orderbook/orders/utils";
-// import * as NFTEarthApi from "@/jobs/orderbook/post-order-external/api/nftearth";
 
 interface BuildOrderOptions extends utils.BaseOrderBuildOptions {
   collection: string;
 }
 
 export const build = async (options: BuildOrderOptions) => {
+  // Fetch some details about the collection
   const collectionResult = await redb.oneOrNone(
     `
       SELECT
@@ -32,7 +32,7 @@ export const build = async (options: BuildOrderOptions) => {
     throw new Error("Could not retrieve collection");
   }
   if (Number(collectionResult.token_count) > config.maxTokenSetSize) {
-    throw new Error("Collection has too many items");
+    throw new Error("Collection has too many tokens");
   }
 
   const buildInfo = await utils.getBuildInfo(
@@ -45,13 +45,13 @@ export const build = async (options: BuildOrderOptions) => {
   );
 
   const collectionIsContractWide = collectionResult.token_set_id?.startsWith("contract:");
-  if (!options.excludeFlaggedTokens && collectionIsContractWide) {
-    // Use contract-wide order
+  if (collectionIsContractWide && !options.excludeFlaggedTokens) {
+    // By default, use a contract-wide builder
     const builder: BaseBuilder = new Sdk.NFTEarth.Builders.ContractWide(config.chainId);
 
-    return builder?.build(buildInfo.params);
+    return builder.build(buildInfo.params);
   } else {
-    // Use token-list order
+    // Use a token-list builder
     const builder: BaseBuilder = new Sdk.NFTEarth.Builders.TokenList(config.chainId);
 
     // For up-to-date results we need to compute the corresponding token set id
@@ -84,27 +84,27 @@ export const build = async (options: BuildOrderOptions) => {
       // Fetch all relevant tokens from the collection
       const tokens = await redb.manyOrNone(
         `
-          SELECT
-            tokens.token_id
-          FROM tokens
-          WHERE tokens.collection_id = $/collection/
-          ${
-            options.excludeFlaggedTokens
-              ? "AND (tokens.is_flagged = 0 OR tokens.is_flagged IS NULL)"
-              : ""
-          }
-        `,
+        SELECT
+          tokens.token_id
+        FROM tokens
+        WHERE tokens.collection_id = $/collection/
+        ${
+          options.excludeFlaggedTokens
+            ? "AND (tokens.is_flagged = 0 OR tokens.is_flagged IS NULL)"
+            : ""
+        }
+      `,
         { collection: options.collection }
       );
 
       // Also cache the computation for one hour
       cachedMerkleRoot = generateMerkleTree(tokens.map(({ token_id }) => token_id)).getHexRoot();
-      await redis.set(schemaHash, cachedMerkleRoot, "ex", 3600);
+      await redis.set(schemaHash, cachedMerkleRoot, "EX", 3600);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (buildInfo.params as any).merkleRoot = cachedMerkleRoot;
 
-    return builder?.build(buildInfo.params);
+    return builder.build(buildInfo.params);
   }
 };
