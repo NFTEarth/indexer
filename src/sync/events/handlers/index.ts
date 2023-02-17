@@ -24,6 +24,8 @@ import * as nftx from "@/events-sync/handlers/nftx";
 import * as nouns from "@/events-sync/handlers/nouns";
 import * as quixotic from "@/events-sync/handlers/quixotic";
 import * as seaport from "@/events-sync/handlers/seaport";
+import * as nftearth from "@/events-sync/handlers/nftearth";
+import * as treasure from "@/events-sync/handlers/treasure";
 import * as sudoswap from "@/events-sync/handlers/sudoswap";
 import * as wyvern from "@/events-sync/handlers/wyvern";
 import * as x2y2 from "@/events-sync/handlers/x2y2";
@@ -73,6 +75,7 @@ export const eventKindToHandler = new Map<
   ["nouns", (e, d) => nouns.handleEvents(e, d)],
   ["quixotic", (e, d) => quixotic.handleEvents(e, d)],
   ["seaport", (e, d) => seaport.handleEvents(e, d)],
+  ["nftearth", (e, d) => nftearth.handleEvents(e, d)],
   ["sudoswap", (e, d) => sudoswap.handleEvents(e, d)],
   ["wyvern", (e, d) => wyvern.handleEvents(e, d)],
   ["x2y2", (e, d) => x2y2.handleEvents(e, d)],
@@ -87,6 +90,7 @@ export const eventKindToHandler = new Map<
   ["okex", (e, d) => okex.handleEvents(e, d)],
   ["bend-dao", (e, d) => bendDao.handleEvents(e, d)],
   ["superrare", (e, d) => superrare.handleEvents(e, d)],
+  ["treasure", (e, d) => treasure.handleEvents(e, d)],
   ["flow", (e, d) => flow.handleEvents(e, d)],
   ["zeroex-v2", (e, d) => zeroExV2.handleEvents(e, d)],
 ]);
