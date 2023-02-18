@@ -79,7 +79,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
         const taker = args["seller"].toLowerCase();
         const currency = args["paymentToken"].toLowerCase();
         const currencyPrice = args["pricePerItem"].mul(args["quantity"]);
-        const tokenId = args["_tokenId"].toString();
+        const tokenId = args["tokenId"].toString();
         const amount = args["quantity"].toString();
         const orderSide = "buy";
 
