@@ -449,16 +449,14 @@ if (config.doBackgroundWork && config.chainId === 1) {
     logger.error(QUEUE_NAME, `Worker errored: ${error}`);
   });
 
-  if (config.chainId === 1) {
-    redlock
-      .acquire([`${QUEUE_NAME}-lock-9`], 60 * 60 * 24 * 30 * 1000)
-      .then(async () => {
-        await addToQueue(16195801);
-      })
-      .catch(() => {
-        // Skip on any errors
-      });
-  }
+  redlock
+    .acquire([`${QUEUE_NAME}-lock-9`], 60 * 60 * 24 * 30 * 1000)
+    .then(async () => {
+      await addToQueue(16195801);
+    })
+    .catch(() => {
+      // Skip on any errors
+    });
 }
 
 export const addToQueue = async (block: number) => {
