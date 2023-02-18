@@ -16,10 +16,9 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
         const contract = parsedLog.args["nftAddress"].toLowerCase();
         const maker = parsedLog.args["seller"].toLowerCase();
         let taker = parsedLog.args["buyer"].toLowerCase();
-
-        const rawAmount = parsedLog.args["quantity"];
-        const price = bn(parsedLog.args["pricePerItem"]).mul(rawAmount).toString();
-        const amount = rawAmount.toString();
+        const pricePerItem = parsedLog.args["pricePerItem"].toString();
+        const amount = parsedLog.args["quantity"].toString();
+        const price = bn(pricePerItem).mul(amount).toString();
         const orderSide = "sell";
 
         // Treasure Exchange works only with MAGIC
@@ -78,14 +77,15 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
         const maker = args["bidder"].toLowerCase();
         const taker = args["seller"].toLowerCase();
         const currency = args["paymentToken"].toLowerCase();
-        const currencyPrice = args["pricePerItem"].mul(args["quantity"]);
-        const tokenId = args["tokenId"].toString();
+        const pricePerItem = args["pricePerItem"].toString();
         const amount = args["quantity"].toString();
+        const currencyPrice = bn(pricePerItem).mul(amount).toString();
+        const tokenId = args["tokenId"].toString();
         const orderSide = "buy";
 
         const priceData = await getUSDAndNativePrices(
           currency,
-          currencyPrice.toString(),
+          currencyPrice,
           baseEventParams.timestamp
         );
 
