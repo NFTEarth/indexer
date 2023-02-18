@@ -118,6 +118,16 @@ export const extractEventsBatches = async (
             data: kindToEvents.get("quixotic") ?? [],
           },
           {
+            kind: "nftearth",
+            data: kindToEvents.has("nftearth")
+              ? [
+                  ...kindToEvents.get("nftearth")!,
+                  // To properly validate bids, we need some additional events
+                  ...events.filter((e) => e.subKind === "erc20-transfer"),
+                ]
+              : [],
+          },
+          {
             kind: "seaport",
             data: kindToEvents.has("seaport")
               ? [
@@ -130,6 +140,10 @@ export const extractEventsBatches = async (
           {
             kind: "sudoswap",
             data: kindToEvents.get("sudoswap") ?? [],
+          },
+          {
+            kind: "treasure",
+            data: kindToEvents.get("treasure") ?? [],
           },
           {
             kind: "wyvern",
