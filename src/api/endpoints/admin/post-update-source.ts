@@ -19,7 +19,7 @@ export const postUpdateSourceOptions: RouteOptions = {
     payload: Joi.object({
       source: Joi.string()
         .pattern(regex.domain)
-        .description("The source domain to sync. Example: `reservoir.market`"),
+        .description("The source domain to sync. Example: `nftearth.exchange`"),
       icon: Joi.string().allow(""),
       title: Joi.string().allow(""),
       optimized: Joi.boolean(),

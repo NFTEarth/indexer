@@ -19,7 +19,7 @@ export const postResyncSourceOptions: RouteOptions = {
     payload: Joi.object({
       source: Joi.string()
         .pattern(regex.domain)
-        .description("The source domain to sync. Example: `reservoir.market`"),
+        .description("The source domain to sync. Example: `nftearth.exchange`"),
     }),
   },
   handler: async (request: Request) => {
