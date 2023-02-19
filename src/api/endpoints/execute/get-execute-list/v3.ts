@@ -73,13 +73,13 @@ export const getExecuteListV3Options: RouteOptions = {
               "Amount seller is willing to sell for in wei. Example: `1000000000000000000`"
             ),
           orderKind: Joi.string()
-            .valid("looks-rare", "zeroex-v4", "seaport", "x2y2")
-            .default("seaport")
+            .valid("nftearth", "looks-rare", "zeroex-v4", "seaport", "x2y2")
+            .default("nftearth")
             .description("Exchange protocol used to create order. Example: `seaport`"),
           orderbook: Joi.string()
-            .valid("opensea", "looks-rare", "reservoir", "x2y2")
-            .default("reservoir")
-            .description("Orderbook where order is placed. Example: `Reservoir`"),
+            .valid("nftearth", "opensea", "looks-rare", "x2y2")
+            .default("nftearth")
+            .description("Orderbook where order is placed. Example: `nftearth`"),
           automatedRoyalties: Joi.boolean()
             .default(true)
             .description("If true, royalties will be automatically included."),

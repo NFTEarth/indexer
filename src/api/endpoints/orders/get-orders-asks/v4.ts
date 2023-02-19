@@ -87,8 +87,8 @@ export const getOrdersAsksV4Options: RouteOptions = {
         ),
       source: Joi.string()
         .pattern(regex.domain)
-        .description("Filter to a source by domain. Example: `opensea.io`"),
-      native: Joi.boolean().description("If true, results will filter only Reservoir orders."),
+        .description("Filter to a source by domain. Example: `nftearth.exchange`"),
+      native: Joi.boolean().description("If true, results will filter only NFTEarth orders."),
       includePrivate: Joi.boolean()
         .default(false)
         .description("If true, private orders are included in the response."),

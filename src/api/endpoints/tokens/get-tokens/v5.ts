@@ -98,7 +98,7 @@ export const getTokensV5Options: RouteOptions = {
         .unknown()
         .description("Filter to a particular attribute. Example: `attributes[Type]=Original`"),
       source: Joi.string().description(
-        "Domain of the order source. Example `opensea.io` (Only listed tokens are returned when filtering by source)"
+        "Domain of the order source. Example `nftearth.exchange` (Only listed tokens are returned when filtering by source)"
       ),
       minRarityRank: Joi.number()
         .integer()

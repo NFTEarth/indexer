@@ -95,6 +95,7 @@ export const getExecuteListV5Options: RouteOptions = {
             ),
           orderKind: Joi.string()
             .valid(
+              "nftearth",
               "looks-rare",
               "zeroex-v4",
               "seaport",
@@ -104,12 +105,21 @@ export const getExecuteListV5Options: RouteOptions = {
               "infinity",
               "flow"
             )
-            .default("seaport-v1.2")
+            .default("nftearth")
             .description("Exchange protocol used to create order. Example: `seaport-v1.2`"),
           orderbook: Joi.string()
-            .valid("opensea", "looks-rare", "reservoir", "x2y2", "universe", "infinity", "flow")
-            .default("reservoir")
-            .description("Orderbook where order is placed. Example: `Reservoir`"),
+            .valid(
+              "nftearth",
+              "opensea",
+              "looks-rare",
+              "reservoir",
+              "x2y2",
+              "universe",
+              "infinity",
+              "flow"
+            )
+            .default("nftearth")
+            .description("Orderbook where order is placed. Example: `nftearth`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
           automatedRoyalties: Joi.boolean()
             .default(true)

@@ -94,7 +94,7 @@ export const start = async (): Promise<void> => {
   await RateLimitRules.getInstance();
 
   const apiDescription =
-    "You are viewing the reference docs for the Reservoir API.\
+    "You are viewing the reference docs for the NFTEarth API.\
     \
     For a more complete overview with guides and examples, check out the <a href='https://reservoirprotocol.github.io'>Reservoir Protocol Docs</a>.";
 
@@ -125,7 +125,7 @@ export const start = async (): Promise<void> => {
         documentationPath: "/",
         sortEndpoints: "ordered",
         info: {
-          title: "Reservoir API",
+          title: "NFTEarth API",
           // eslint-disable-next-line @typescript-eslint/no-var-requires
           version: require("../../package.json").version,
           description: apiDescription,

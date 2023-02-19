@@ -65,7 +65,7 @@ export const getTokensDetailsV4Options: RouteOptions = {
       attributes: Joi.object()
         .unknown()
         .description("Filter to a particular attribute. Example: `attributes[Type]=Original`"),
-      source: Joi.string().description("Domain of the order source. Example `opensea.io`"),
+      source: Joi.string().description("Domain of the order source. Example `nftearth.exchange`"),
       sortBy: Joi.string()
         .valid("floorAskPrice", "tokenId")
         .default("floorAskPrice")

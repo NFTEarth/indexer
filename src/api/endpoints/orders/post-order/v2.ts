@@ -136,7 +136,7 @@ export const postOrderV2Options: RouteOptions = {
 
       switch (order.kind) {
         case "zeroex-v4": {
-          if (orderbook !== "reservoir") {
+          if (orderbook !== "nftearth") {
             throw new Error("Unsupported orderbook");
           }
 
@@ -169,14 +169,14 @@ export const postOrderV2Options: RouteOptions = {
         }
 
         case "seaport": {
-          if (!["opensea", "reservoir"].includes(orderbook)) {
+          if (!["opensea", "nftearth"].includes(orderbook)) {
             throw new Error("Unsupported orderbook");
           }
 
           const orderInfo: orders.seaport.OrderInfo = {
             kind: "full",
             orderParams: order.data,
-            isReservoir: orderbook === "reservoir",
+            isReservoir: orderbook === "nftearth",
             metadata: {
               schema,
               source: orderbook === "reservoir" ? source : undefined,

@@ -34,8 +34,10 @@ export const getOrdersAllV2Options: RouteOptions = {
       id: Joi.alternatives(Joi.string(), Joi.array().items(Joi.string())).description(
         "Order id(s)."
       ),
-      source: Joi.string().description("Filter to a source by domain. Example: `opensea.io`"),
-      native: Joi.boolean().description("If true, results will filter only Reservoir orders."),
+      source: Joi.string().description(
+        "Filter to a source by domain. Example: `nftearth.exchange`"
+      ),
+      native: Joi.boolean().description("If true, results will filter only NFTEarth orders."),
       side: Joi.string().valid("sell", "buy").default("sell").description("Sell or buy side."),
       includeMetadata: Joi.boolean()
         .default(false)

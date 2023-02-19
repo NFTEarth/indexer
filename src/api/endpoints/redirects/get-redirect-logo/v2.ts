@@ -22,7 +22,9 @@ export const getRedirectLogoV2Options: RouteOptions = {
   },
   validate: {
     params: Joi.object({
-      source: Joi.string().required().description("Domain of the source. Example `opensea.io`"),
+      source: Joi.string()
+        .required()
+        .description("Domain of the source. Example `nftearth.exchange`"),
     }),
   },
   handler: async (request: Request, response) => {
