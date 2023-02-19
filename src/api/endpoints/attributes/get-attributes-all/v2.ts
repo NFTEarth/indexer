@@ -61,7 +61,7 @@ export const getAttributesAllV2Options: RouteOptions = {
         SELECT key, kind, rank, attribute_count, array_agg(info) AS "values"
         FROM attribute_keys
         WHERE collection_id = $/collection/
-        AND kind IN('number', 'date', 'range') 
+        AND kind = 'number'
         GROUP BY id
         
         UNION
@@ -83,16 +83,16 @@ export const getAttributesAllV2Options: RouteOptions = {
             return undefined;
           }
 
-          if (["number", "range", "date"].includes(r.kind)) {
+          if (r.kind == "number") {
             return {
               key: r.key,
               kind: r.kind,
               minRange: _.isArray(r.values)
-                ? Number((_.first(r.values) || (0 as any))["min_range"])
-                : 0,
+                ? Number((_.first(r.values) as any)["min_range"])
+                : null,
               maxRange: _.isArray(r.values)
-                ? Number((_.last(r.values) || (Number.MAX_SAFE_INTEGER as any))["max_range"])
-                : Number.MAX_SAFE_INTEGER,
+                ? Number((_.first(r.values) as any)["max_range"])
+                : null,
             };
           } else {
             return {
