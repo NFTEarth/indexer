@@ -70,7 +70,8 @@ export type OrderKind =
   | "okex"
   | "bend-dao"
   | "superrare"
-  | "zeroex-v2";
+  | "zeroex-v2"
+  | "zonic";
 
 // In case we don't have the source of an order readily available, we use
 // a default value where possible (since very often the exchange protocol
@@ -173,6 +174,8 @@ export const getOrderSourceByOrderKind = async (
         return sources.getOrInsert("superrare.com");
       case "treasure":
         return sources.getOrInsert("trove.treasure.lol");
+      case "zonic":
+        return sources.getOrInsert("zonic.app");
 
       case "mint": {
         if (address && mintsSources.has(address)) {
