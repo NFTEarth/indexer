@@ -61,7 +61,7 @@ export const getAttributesAllV2Options: RouteOptions = {
         SELECT key, kind, rank, attribute_count, array_agg(info) AS "values"
         FROM attribute_keys
         WHERE collection_id = $/collection/
-        AND kind = 'number'
+        AND kind IN('number', 'date', 'range') 
         GROUP BY id
         
         UNION
@@ -83,7 +83,7 @@ export const getAttributesAllV2Options: RouteOptions = {
             return undefined;
           }
 
-          if (r.kind == "number" || r.key == "birthday") {
+          if (["number", "range", "date"].includes(r.kind)) {
             return {
               key: r.key,
               kind: r.kind,
