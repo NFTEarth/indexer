@@ -82,7 +82,7 @@ export const getExecuteBuyV5Options: RouteOptions = {
       source: Joi.string()
         .lowercase()
         .pattern(regex.domain)
-        .description("Filling source used for attribution. Example: `reservoir.market`"),
+        .description("Filling source used for attribution. Example: `nftearth.exchange`"),
       feesOnTop: Joi.array()
         .items(Joi.string().pattern(regex.fee))
         .description(

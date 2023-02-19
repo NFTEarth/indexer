@@ -51,7 +51,7 @@ export const getExecuteSellV5Options: RouteOptions = {
       source: Joi.string()
         .lowercase()
         .pattern(regex.domain)
-        .description("Filling source used for attribution. Example: `reservoir.market`"),
+        .description("Filling source used for attribution. Example: `nftearth.exchange`"),
       onlyPath: Joi.boolean()
         .default(false)
         .description("If true, only the path will be returned."),
