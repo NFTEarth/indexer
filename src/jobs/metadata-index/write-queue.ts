@@ -141,7 +141,7 @@ if (config.doBackgroundWork) {
         for (const { key, value, kind, rank } of attributes) {
           // Try to update the attribute keys, if number type update range as well and return the ID
           let infoUpdate = "info"; // By default no update to the info
-          if (["number", "range", "date"].includes(kind)) {
+          if (kind == "number") {
             infoUpdate = `
             CASE WHEN info IS NULL THEN 
                   jsonb_object(array['min_range', 'max_range'], array[$/value/, $/value/]::text[])
@@ -177,7 +177,7 @@ if (config.doBackgroundWork) {
 
           if (!attributeKeyResult?.id) {
             let info = null;
-            if (["number", "range", "date"].includes(kind)) {
+            if (kind == "number") {
               info = { min_range: Number(value), max_range: Number(value) };
             }
 

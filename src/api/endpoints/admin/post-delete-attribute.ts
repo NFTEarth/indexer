@@ -7,7 +7,6 @@ import Joi from "joi";
 import { logger } from "@/common/logger";
 import { config } from "@/config/index";
 import { JoiAttributeValue } from "@/common/joi";
-import { Tokens } from "@/models/tokens";
 import { AttributeKeys } from "@/models/attribute-keys";
 import { Attributes } from "@/models/attributes";
 
@@ -75,12 +74,7 @@ export const postDeleteAttributes: RouteOptions = {
       }
 
       if (key) {
-        const attributeKeyCount = await Tokens.getTokenAttributesKeyCount(collection, key);
-
         await AttributeKeys.delete(collection, key);
-        await AttributeKeys.update(collection, key, {
-          attributeCount: attributeKeyCount.count - 1,
-        });
 
         return {
           message: `Attribute key ${key} for collection ${collection} was deleted`,
