@@ -15,6 +15,7 @@ import * as foundation from "@/events-sync/data/foundation";
 import * as infinity from "@/events-sync/data/infinity";
 import * as looksRare from "@/events-sync/data/looks-rare";
 import * as manifold from "@/events-sync/data/manifold";
+import * as nftearth from "@/events-sync/data/nftearth";
 import * as nftTrader from "@/events-sync/data/nft-trader";
 import * as nftx from "@/events-sync/data/nftx";
 import * as nouns from "@/events-sync/data/nouns";
@@ -22,19 +23,19 @@ import * as okex from "@/events-sync/data/okex";
 import * as quixotic from "@/events-sync/data/quixotic";
 import * as rarible from "@/events-sync/data/rarible";
 import * as seaport from "@/events-sync/data/seaport";
-import * as nftearth from "@/events-sync/data/nftearth";
 import * as seaportV12 from "@/events-sync/data/seaport-v1.2";
 import * as sudoswap from "@/events-sync/data/sudoswap";
 import * as superrare from "@/events-sync/data/superrare";
 import * as tofu from "@/events-sync/data/tofu";
+import * as treasure from "@/events-sync/data/treasure";
 import * as universe from "@/events-sync/data/universe";
 import * as wyvernV2 from "@/events-sync/data/wyvern-v2";
 import * as wyvernV23 from "@/events-sync/data/wyvern-v2.3";
 import * as x2y2 from "@/events-sync/data/x2y2";
 import * as zeroExV4 from "@/events-sync/data/zeroex-v4";
 import * as zora from "@/events-sync/data/zora";
-import * as treasure from "@/events-sync/data/treasure";
 import * as zeroExV2 from "@/events-sync/data/zeroex-v2";
+import * as zonic from "@/events-sync/data/zonic";
 
 // All events we're syncing should have an associated `EventData`
 // entry which dictates the way the event will be parsed and then
@@ -57,6 +58,7 @@ export type EventKind =
   | "infinity"
   | "looks-rare"
   | "manifold"
+  | "nftearth"
   | "nft-trader"
   | "nftx"
   | "nouns"
@@ -64,17 +66,17 @@ export type EventKind =
   | "quixotic"
   | "rarible"
   | "seaport"
-  | "nftearth"
   | "sudoswap"
   | "superrare"
   | "tofu"
+  | "treasure"
   | "universe"
   | "wyvern"
   | "x2y2"
+  | "zeroex-v2"
   | "zeroex-v4"
   | "zora"
-  | "treasure"
-  | "zeroex-v2";
+  | "zonic";
 
 // Event sub-kind in each of the above protocol/standard
 export type EventSubKind =
@@ -192,7 +194,9 @@ export type EventSubKind =
   | "superrare-auction-settled"
   | "treasure-accept-bid"
   | "treasure-sold"
-  | "zeroex-v2-fill";
+  | "zeroex-v2-fill"
+  | "zonic-order-filled"
+  | "zonic-order-canceled";
 
 export type EventData = {
   kind: EventKind;
@@ -261,6 +265,8 @@ const allEventData = [
   zora.askCancelled,
   zora.askPriceUpdated,
   zora.auctionEnded,
+  zonic.fulfillBasicOrder,
+  zonic.cancelBasicOrder,
   nouns.auctionSettled,
   cryptoPunks.punkOffered,
   cryptoPunks.punkNoLongerForSale,

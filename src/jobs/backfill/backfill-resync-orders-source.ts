@@ -59,10 +59,6 @@ if (config.doBackgroundWork) {
           let sourceIdInt;
 
           switch (sourceId) {
-            case "0x639852a4a5ac5d7bf7899155a89e8605eacca5f4": // NFTEarth
-              sourceIdInt = 0;
-              break;
-
             case "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073": // OpenSea
               sourceIdInt = 1;
               break;
@@ -73,6 +69,18 @@ if (config.doBackgroundWork) {
 
             case "0x5924a28caaf1cc016617874a2f0c3710d881f3c1": // LooksRare
               sourceIdInt = 3;
+              break;
+
+            case "0xD55c6B0A208362b18Beb178e1785cF91c4cE937a": // NFTEarth
+              sourceIdInt = 16;
+              break;
+
+            case "0xDb6Ab450178bAbCf0e467c1F3B436050d907E233": // Trove
+              sourceIdInt = 34;
+              break;
+
+            case "0x11c9e50dfde606a864a25726d174faf947626f3d": // Zonic
+              sourceIdInt = 36;
               break;
           }
 

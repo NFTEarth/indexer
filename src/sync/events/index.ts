@@ -241,6 +241,10 @@ export const extractEventsBatches = async (
             kind: "zeroex-v2",
             data: kindToEvents.get("zeroex-v2") ?? [],
           },
+          {
+            kind: "zonic",
+            data: kindToEvents.get("zonic") ?? [],
+          },
         ];
 
         txHashToEventsBatch.set(txHash, {

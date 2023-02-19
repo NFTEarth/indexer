@@ -94,5 +94,23 @@
       "tokenUrlOptimism": "https://nftearth.exchange/collection/optimism/${contract}/${tokenId}",
       "tokenUrlArbitrum": "https://nftearth.exchange/collection/arbitrum/${contract}/${tokenId}"
     }
+  },
+  "34": {
+    "domain": "treasure.trove.lol",
+    "domainHash": "0x2f8da081",
+    "name": "Trove",
+    "address": "0xDb6Ab450178bAbCf0e467c1F3B436050d907E233",
+    "data": {
+      "icon": "https://trove.treasure.lol/favicon.svg"
+    }
+  },
+  "36": {
+    "domain": "zonic.app",
+    "domainHash": "0x5faaaf57",
+    "name": "Zonic",
+    "address": "0x11c9e50dfde606a864a25726d174faf947626f3d",
+    "data": {
+      "icon": "https://zonic.app/logo3.svg"
+    }
   }
 }

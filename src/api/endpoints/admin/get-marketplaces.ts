@@ -60,6 +60,18 @@ export const getMarketplaces: RouteOptions = {
         listingEnabled: true,
       },
       {
+        name: "Trove",
+        imageUrl: "https://trove.treasure.lol/favicon.svg",
+        fee: {
+          percent: 2.5,
+          bps: 250,
+        },
+        feeBps: 0.025,
+        orderbook: null,
+        orderKind: null,
+        listingEnabled: false,
+      },
+      {
         name: "Reservoir",
         imageUrl: "https://api.reservoir.tools/redirect/sources/reservoir/logo/v2",
         fee: {
