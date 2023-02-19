@@ -199,10 +199,10 @@ export const postOrderV3Options: RouteOptions = {
           const orderInfo: orders.seaport.OrderInfo = {
             kind: "full",
             orderParams: order.data,
-            isReservoir: orderbook === "reservoir",
+            isReservoir: orderbook === "nftearth",
             metadata: {
               schema,
-              source: orderbook === "reservoir" ? source : undefined,
+              source: orderbook === "nftearth" ? source : undefined,
               target: orderbook,
             },
           };
@@ -346,10 +346,10 @@ export const postOrderV3Options: RouteOptions = {
           const orderInfo: orders.seaport.OrderInfo = {
             kind: "full",
             orderParams: orderComponents,
-            isReservoir: orderbook === "reservoir",
+            isReservoir: orderbook === "nftearth",
             metadata: {
               schema,
-              source: orderbook === "reservoir" ? source : undefined,
+              source: orderbook === "nftearth" ? source : undefined,
               target: orderbook,
             },
           };

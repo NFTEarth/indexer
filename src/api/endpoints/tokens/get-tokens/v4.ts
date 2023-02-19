@@ -64,7 +64,7 @@ export const getTokensV4Options: RouteOptions = {
       attributes: Joi.object()
         .unknown()
         .description("Filter to a particular attribute. Example: `attributes[Type]=Original`"),
-      source: Joi.string().description("Domain of the order source. Example `opensea.io`"),
+      source: Joi.string().description("Domain of the order source. Example `nftearth.exchange`"),
       native: Joi.boolean().description("If true, results will filter only Reservoir orders."),
       sortBy: Joi.string()
         .allow("floorAskPrice", "tokenId", "rarity")

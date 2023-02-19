@@ -122,17 +122,17 @@ export const getExecuteBidV4Options: RouteOptions = {
             .description("Exchange protocol used to create order. Example: `seaport`"),
           orderbook: Joi.string()
             .valid(
+              "nftearth",
               "reservoir",
               "opensea",
-              "nftearth",
               "looks-rare",
               "x2y2",
               "universe",
               "infinity",
               "flow"
             )
-            .default("reservoir")
-            .description("Orderbook where order is placed. Example: `Reservoir`"),
+            .default("nftearth")
+            .description("Orderbook where order is placed. Example: `nftearth`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
           automatedRoyalties: Joi.boolean()
             .default(true)

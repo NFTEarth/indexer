@@ -35,7 +35,7 @@ export const syncArweave = async (options: {
     {
       transactions(
         tags: [
-          { name: "App-Name", values: ["Reservoir Protocol"] },
+          { name: "App-Name", values: ["NFTEarth"] },
           { name: "Network", values: ["${getNetworkName()}"] }
         ]
         first: ${batchSize}

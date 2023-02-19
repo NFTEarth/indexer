@@ -74,8 +74,8 @@ export const getOrdersAsksV3Options: RouteOptions = {
           Joi.array().max(50).items(Joi.string().lowercase().pattern(regex.domain)),
           Joi.string().lowercase().pattern(regex.domain)
         )
-        .description("Filter to an array of sources. Example: `opensea.io`"),
-      native: Joi.boolean().description("If true, results will filter only Reservoir orders."),
+        .description("Filter to an array of sources. Example: `nftearth.exchange`"),
+      native: Joi.boolean().description("If true, results will filter only NFTEarth orders."),
       includePrivate: Joi.boolean()
         .default(false)
         .description("If true, private orders are included in the response."),

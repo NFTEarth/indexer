@@ -73,13 +73,13 @@ export const getExecuteBidV2Options: RouteOptions = {
         .description("Amount bidder is willing to offer in wei. Example: `1000000000000000000`")
         .required(),
       orderKind: Joi.string()
-        .valid("looks-rare", "zeroex-v4", "seaport")
-        .default("seaport")
+        .valid("nftearth", "looks-rare", "zeroex-v4", "seaport")
+        .default("nftearth")
         .description("Exchange protocol used to create order. Example: `seaport`"),
       orderbook: Joi.string()
-        .valid("reservoir", "opensea", "looks-rare")
-        .default("reservoir")
-        .description("Orderbook where order is placed. Example: `Reservoir`"),
+        .valid("nftearth", "reservoir", "opensea", "looks-rare")
+        .default("nftearth")
+        .description("Orderbook where order is placed. Example: `nftearth`"),
       source: Joi.string().description(
         "Name of the platform that created the order. Example: `Chimpers Market`"
       ),

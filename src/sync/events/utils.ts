@@ -184,7 +184,7 @@ export const extractAttributionData = async (
       source !== "magically.gg"
     ) {
       // Do not associate OpenSea / Gem direct fills to Reservoir
-      aggregatorSource = await sources.getOrInsert("reservoir.tools");
+      aggregatorSource = await sources.getOrInsert("nftearth.exchange");
     } else if (source === "gem.xyz") {
       // Associate Gem direct fills to Gem
       aggregatorSource = await sources.getOrInsert("gem.xyz");

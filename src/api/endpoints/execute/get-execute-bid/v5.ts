@@ -131,7 +131,7 @@ export const getExecuteBidV5Options: RouteOptions = {
               "flow"
             )
             .default("nftearth")
-            .description("Orderbook where order is placed. Example: `Reservoir`"),
+            .description("Orderbook where order is placed. Example: `nftearth`"),
           orderbookApiKey: Joi.string().description("Optional API key for the target orderbook"),
           automatedRoyalties: Joi.boolean()
             .default(true)
