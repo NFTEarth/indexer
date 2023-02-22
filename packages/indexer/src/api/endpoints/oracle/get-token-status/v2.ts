@@ -5,7 +5,7 @@ import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
 import Joi from "joi";
 
-import { idb, pgp } from "@/common/db";
+import { pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { Signers, addressToSigner } from "@/common/signers";
@@ -73,7 +73,7 @@ export const getTokenStatusOracleV2Options: RouteOptions = {
       tokens = [...new Set(tokens).keys()];
 
       // Fetch details for all tokens
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
           SELECT
             tokens.contract,

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { fromBuffer, toBuffer } from "@/common/utils";
 
 export type Transaction = {
@@ -125,7 +125,7 @@ export const saveTransactions = async (transactions: Transaction[]) => {
 export const getTransaction = async (
   hash: string
 ): Promise<Pick<Transaction, "hash" | "from" | "to" | "value" | "data" | "blockTimestamp">> => {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         transactions.from,

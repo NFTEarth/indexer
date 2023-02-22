@@ -2,7 +2,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis, redlock } from "@/common/redis";
 import { fromBuffer, now, toBuffer } from "@/common/utils";
@@ -33,7 +33,7 @@ if (config.doBackgroundWork) {
     async (job) => {
       const { contract, tokenId } = job.data;
 
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
           SELECT
             tokens.contract,

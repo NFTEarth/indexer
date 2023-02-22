@@ -8,7 +8,7 @@ import Joi from "joi";
 import { logger } from "@/common/logger";
 import { config } from "@/config/index";
 import { fromBuffer, toBuffer } from "@/common/utils";
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { PendingFlagStatusSyncJobs } from "@/models/pending-flag-status-sync-jobs";
 import * as flagStatusProcessQueue from "@/jobs/flag-status/process-queue";
 
@@ -43,7 +43,7 @@ export const postFlagAddressOptions: RouteOptions = {
       );
 
       if (created) {
-        const tokens = await idb.manyOrNone(
+        const tokens = await redb.manyOrNone(
           `
             SELECT nft_balances.contract, nft_balances.token_id, tokens.collection_id, tokens.is_flagged
             FROM nft_balances

@@ -4,7 +4,7 @@ import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 import _ from "lodash";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
@@ -35,7 +35,7 @@ if (config.doBackgroundWork) {
         continuationFilter = `AND token_set_id > '${cursor.tokenSetId}'`;
       }
 
-      const buyOrders = await idb.manyOrNone(
+      const buyOrders = await redb.manyOrNone(
         `
               SELECT DISTINCT o.token_set_id
               FROM orders o 

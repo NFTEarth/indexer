@@ -180,7 +180,7 @@ export const save = async (orderInfos: OrderInfo[]): Promise<SaveResult[]> => {
               },
             });
 
-            let orderResult = await idb.oneOrNone(
+            let orderResult = await redb.oneOrNone(
               `
                 SELECT
                   orders.token_set_id

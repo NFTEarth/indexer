@@ -4,7 +4,7 @@ import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 import _ from "lodash";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { fromBuffer, toBuffer } from "@/common/utils";
@@ -45,7 +45,7 @@ if (config.doBackgroundWork) {
         continuationFilter = `AND (tokens.contract, tokens.token_id) > ($/contract/, $/tokenId/)`;
       }
 
-      const tokens = await idb.manyOrNone(
+      const tokens = await redb.manyOrNone(
         `
             SELECT
             tokens.contract,

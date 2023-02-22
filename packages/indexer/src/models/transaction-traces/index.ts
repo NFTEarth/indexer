@@ -1,6 +1,6 @@
 import { CallTrace } from "@georgeroman/evm-tx-simulator/dist/types";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { toBuffer } from "@/common/utils";
 
 export type TransactionTrace = {
@@ -30,7 +30,7 @@ export const saveTransactionTrace = async (transactionTrace: TransactionTrace) =
 };
 
 export const getTransactionTrace = async (hash: string): Promise<TransactionTrace> => {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         transaction_traces.hash,

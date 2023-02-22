@@ -1,6 +1,6 @@
 import { Log } from "@ethersproject/abstract-provider";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { toBuffer } from "@/common/utils";
 
 export type TransactionLogs = {
@@ -30,7 +30,7 @@ export const saveTransactionLogs = async (transactionLogs: TransactionLogs) => {
 };
 
 export const getTransactionLogs = async (hash: string): Promise<TransactionLogs> => {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         transaction_logs.hash,

@@ -5,7 +5,7 @@ import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 import pLimit from "p-limit";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { redis, redlock } from "@/common/redis";
@@ -33,7 +33,7 @@ if (config.doBackgroundWork && config.chainId === 1) {
     async (job) => {
       const { address } = job.data;
 
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
           SELECT
             sudoswap_pools.address

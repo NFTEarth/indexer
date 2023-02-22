@@ -3,7 +3,7 @@
 import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis, redlock } from "@/common/redis";
 import { config } from "@/config/index";
@@ -45,7 +45,7 @@ if (config.doBackgroundWork) {
         continuationFilter = `AND (collections.id) > ($/collectionId/)`;
       }
 
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
         SELECT 
             collections.id,

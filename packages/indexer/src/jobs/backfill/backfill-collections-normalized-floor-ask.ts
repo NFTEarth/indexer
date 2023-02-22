@@ -3,7 +3,7 @@
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
@@ -25,7 +25,7 @@ if (config.doBackgroundWork) {
   const worker = new Worker(
     QUEUE_NAME,
     async () => {
-      const collection = await idb.oneOrNone(
+      const collection = await redb.oneOrNone(
         `
         SELECT collections.id FROM collections
         WHERE collections.floor_sell_id IS NOT NULL and collections.normalized_floor_sell_id IS NULL

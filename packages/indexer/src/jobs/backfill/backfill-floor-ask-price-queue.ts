@@ -4,7 +4,7 @@ import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 import _ from "lodash";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { fromBuffer } from "@/common/utils";
@@ -45,7 +45,7 @@ if (config.doBackgroundWork) {
         continuationFilter = `AND (o.created_at, o.id) < (to_timestamp($/createdAt/), $/id/)`;
       }
 
-      const sellOrders = await idb.manyOrNone(
+      const sellOrders = await redb.manyOrNone(
         `
           SELECT
             o.id,

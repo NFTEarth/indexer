@@ -7,7 +7,7 @@ import { BidDetails } from "@nftearth/sdk/dist/router/v6/types";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { bn, formatPrice, fromBuffer, now, regex, toBuffer } from "@/common/utils";
@@ -282,7 +282,7 @@ export const getExecuteSellV7Options: RouteOptions = {
       for (const item of items) {
         const [contract, tokenId] = item.token.split(":");
 
-        const tokenResult = await idb.oneOrNone(
+        const tokenResult = await redb.oneOrNone(
           `
             SELECT
               tokens.is_flagged,
@@ -341,7 +341,7 @@ export const getExecuteSellV7Options: RouteOptions = {
 
         // Scenario 2: fill via `orderId`
         if (item.orderId) {
-          const result = await idb.oneOrNone(
+          const result = await redb.oneOrNone(
             `
               SELECT
                 orders.id,
@@ -394,7 +394,7 @@ export const getExecuteSellV7Options: RouteOptions = {
           if (
             ["nftearth-partial", "seaport-partial", "seaport-v1.2-partial"].includes(result.kind)
           ) {
-            const ownerResult = await idb.oneOrNone(
+            const ownerResult = await redb.oneOrNone(
               `
                 SELECT
                   nft_balances.owner
@@ -462,7 +462,7 @@ export const getExecuteSellV7Options: RouteOptions = {
         // Scenario 3: fill via `token`
         if (!item.rawOrder && !item.orderId) {
           // Fetch all matching orders sorted by price
-          const orderResults = await idb.manyOrNone(
+          const orderResults = await redb.manyOrNone(
             `
               SELECT
                 orders.id,
@@ -505,7 +505,7 @@ export const getExecuteSellV7Options: RouteOptions = {
             if (
               ["nftearth-partial", "seaport-partial", "seaport-v1.2-partial"].includes(result.kind)
             ) {
-              const ownerResult = await idb.oneOrNone(
+              const ownerResult = await redb.oneOrNone(
                 `
                   SELECT
                     nft_balances.owner

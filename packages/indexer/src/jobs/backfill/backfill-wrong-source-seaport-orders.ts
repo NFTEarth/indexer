@@ -3,7 +3,7 @@
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { config } from "@/config/index";
@@ -30,7 +30,7 @@ if (config.doBackgroundWork) {
       const limit = 1000;
 
       // There was a period of time when we didn't properly set the source for OpenSea orders
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
           SELECT
             orders.id,

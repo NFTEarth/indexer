@@ -4,7 +4,7 @@ import * as Sdk from "@nftearth/sdk";
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis, redlock } from "@/common/redis";
 import { bn, fromBuffer, toBuffer } from "@/common/utils";
@@ -37,7 +37,7 @@ if (config.doBackgroundWork && config.chainId === 1) {
       const { txHash, logIndex, batchIndex } = job.data;
 
       const limit = 20;
-      const result = await idb.manyOrNone(
+      const result = await redb.manyOrNone(
         `
           SELECT
             fill_events_2.tx_hash,

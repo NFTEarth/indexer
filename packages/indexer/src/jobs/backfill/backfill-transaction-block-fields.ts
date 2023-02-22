@@ -3,7 +3,7 @@
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { redis } from "@/common/redis";
@@ -31,7 +31,7 @@ if (config.doBackgroundWork) {
       const { hash } = job.data;
       const limit = 200;
 
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
           SELECT
             transactions.hash,

@@ -2,7 +2,7 @@ import * as Sdk from "@nftearth/sdk";
 import { generateMerkleTree } from "@nftearth/sdk/dist/common/helpers/merkle";
 import pLimit from "p-limit";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { bn, now, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -341,8 +341,8 @@ export const save = async (orderInfos: OrderInfo[], relayToArweave?: boolean) =>
 };
 
 const checkOrderExistence = async (id: string) => {
-  const orderExists = await idb.oneOrNone(`SELECT 1 FROM orders WHERE orders.id = $/id/`, {
+  const orderExists = await redb.oneOrNone(`SELECT 1 FROM orders WHERE orders.id = $/id/`, {
     id,
   });
-  return orderExists ? true : false;
+  return !!orderExists;
 };

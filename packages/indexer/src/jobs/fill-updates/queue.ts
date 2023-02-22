@@ -1,6 +1,6 @@
 import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { bn, toBuffer } from "@/common/utils";
@@ -35,7 +35,7 @@ if (config.doBackgroundWork) {
         logger.info(QUEUE_NAME, `Updating last sale info: ${JSON.stringify(job.data)}`);
 
         if (orderId) {
-          const result = await idb.oneOrNone(
+          const result = await redb.oneOrNone(
             `
               SELECT
                 orders.token_set_id

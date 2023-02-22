@@ -2,7 +2,7 @@ import { AddressZero } from "@ethersproject/constants";
 import * as Sdk from "@nftearth/sdk";
 import pLimit from "p-limit";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { bn, now, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -44,9 +44,12 @@ export const save = async (
       const id = order.hash();
 
       // Check: order doesn't already exist
-      const orderExists = await idb.oneOrNone(`SELECT 1 FROM "orders" "o" WHERE "o"."id" = $/id/`, {
-        id,
-      });
+      const orderExists = await redb.oneOrNone(
+        `SELECT 1 FROM "orders" "o" WHERE "o"."id" = $/id/`,
+        {
+          id,
+        }
+      );
       if (orderExists) {
         return results.push({
           id,

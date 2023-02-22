@@ -6,7 +6,7 @@ import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { bn, formatPrice, fromBuffer, now, regex, toBuffer } from "@/common/utils";
@@ -144,7 +144,7 @@ export const getExecuteSellV6Options: RouteOptions = {
 
       const [contract, tokenId] = payload.token.split(":");
 
-      const tokenResult = await idb.oneOrNone(
+      const tokenResult = await redb.oneOrNone(
         `
           SELECT
             tokens.is_flagged,
@@ -188,7 +188,7 @@ export const getExecuteSellV6Options: RouteOptions = {
 
       // Scenario 2: explicitly pass an order id to fill
       if (payload.orderId) {
-        orderResult = await idb
+        orderResult = await redb
           .manyOrNone(
             `
               SELECT
@@ -233,7 +233,7 @@ export const getExecuteSellV6Options: RouteOptions = {
           .then((result) => result[0]);
       } else {
         // Scenario 3: fetch the best offer on specified current token
-        orderResult = await idb
+        orderResult = await redb
           .manyOrNone(
             `
               SELECT
@@ -325,7 +325,7 @@ export const getExecuteSellV6Options: RouteOptions = {
       // Partial Seaport orders require knowing the owner
       let owner: string | undefined;
       if (["seaport-partial", "seaport-v1.2-partial"].includes(orderResult.kind)) {
-        const ownerResult = await idb.oneOrNone(
+        const ownerResult = await redb.oneOrNone(
           `
             SELECT
               nft_balances.owner

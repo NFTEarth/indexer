@@ -3,7 +3,7 @@ import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import { logger } from "@/common/logger";
 import { acquireLock, redis, releaseLock } from "@/common/redis";
 import { config } from "@/config/index";
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { randomUUID } from "crypto";
 import { EOL } from "os";
 import AWS from "aws-sdk";
@@ -161,7 +161,7 @@ const getSequenceInfo = async (taskId: number) => {
                    FROM data_export_tasks
                    WHERE id = $/taskId/`;
 
-  return await idb.one(query, { taskId });
+  return await redb.one(query, { taskId });
 };
 
 const setNextSequenceInfo = async (taskId: number, cursor: Record<string, unknown> | null) => {
