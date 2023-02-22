@@ -68,7 +68,19 @@ export const getMarketplaces: RouteOptions = {
         },
         feeBps: 0.025,
         orderbook: null,
-        orderKind: null,
+        orderKind: "treasure",
+        listingEnabled: false,
+      },
+      {
+        name: "Zonic",
+        imageUrl: "https://zonic.app/logo3.svg",
+        fee: {
+          percent: 2.5,
+          bps: 250,
+        },
+        feeBps: 0.025,
+        orderbook: null,
+        orderKind: "zonic",
         listingEnabled: false,
       },
       {

@@ -56,6 +56,8 @@ if (config.doBackgroundWork) {
             CASE
                   WHEN (o.source_id_int IS NOT NULL) THEN o.source_id_int
                   WHEN (o.source_id_int IS NULL AND fill_events_2.order_kind = 'nftearth') THEN 16
+                  WHEN (o.source_id_int IS NULL AND fill_events_2.order_kind = 'treasure') THEN 34
+                  WHEN (o.source_id_int IS NULL AND fill_events_2.order_kind = 'zonic') THEN 36
                   WHEN (o.source_id_int IS NULL AND fill_events_2.order_kind = 'x2y2') THEN 17
                   WHEN (o.source_id_int IS NULL AND fill_events_2.order_kind = 'foundation') THEN 12
                   WHEN (o.source_id_int IS NULL AND fill_events_2.order_kind = 'looks-rare') THEN 3

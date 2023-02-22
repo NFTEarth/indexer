@@ -1,4 +1,3 @@
-import { AddressZero } from "@ethersproject/constants";
 import { keccak256 } from "@ethersproject/solidity";
 import { randomBytes } from "crypto";
 import _ from "lodash";
@@ -91,10 +90,10 @@ export class Sources {
 
   public static getDefaultSource(): SourcesEntity {
     return new SourcesEntity({
-      id: 0,
+      id: 16,
       domain: "nftearth.exchange",
       domainHash: "0xa8f07167",
-      address: AddressZero,
+      address: "0xD55c6B0A208362b18Beb178e1785cF91c4cE937a",
       name: "NFTEarth",
       metadata: {
         icon: "https://nftearth.exchange/nftearth-icon.png",
@@ -144,7 +143,7 @@ export class Sources {
           $/address/,
           $/metadata:json/
         )
-        ON CONFLICT (domain) DO UPDATE SET
+        ON CONFLICT (id) DO UPDATE SET
           metadata = $/metadata:json/,
           domain = $/domain/
       `,

@@ -71,7 +71,7 @@ if (config.doBackgroundWork) {
     logger.error(QUEUE_NAME, `Worker errored: ${error}`);
   });
 
-  if ([10, 42161].includes(config.chainId)) {
+  if (config.chainId === 1) {
     redlock
       .acquire([`${QUEUE_NAME}-lock-1`], 60 * 60 * 24 * 30 * 1000)
       .then(async () => {

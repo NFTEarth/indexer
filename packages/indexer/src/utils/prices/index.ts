@@ -32,8 +32,6 @@ const getUpstreamUSDPrice = async (
     const coingeckoCurrencyId = currency?.metadata?.coingeckoCurrencyId;
     const dexScreenerId = currency?.metadata?.dexScreenerId;
 
-    logger.info("prices", `Trying to get upstream price for currency ${JSON.stringify(currency)}`);
-
     if (coingeckoCurrencyId) {
       const day = date.getDate();
       const month = date.getMonth() + 1;
@@ -51,8 +49,6 @@ const getUpstreamUSDPrice = async (
           timeout: 10 * 1000,
         })
         .then((response) => response.data);
-
-      logger.info("prices", `result price upstream ${url} ${JSON.stringify(result)}`);
 
       const usdPrice = result?.market_data?.current_price?.["usd"];
       if (usdPrice) {
@@ -218,10 +214,6 @@ const getAvailableUSDPrice = async (
   if (!USD_PRICE_MEMORY_CACHE.has(key)) {
     // If the price is not available in the memory cache, use any available database cached price
     let cachedPrice = await getCachedUSDPrice(currencyAddress, timestamp);
-    logger.info(
-      "prices",
-      `Cached Price USD for currency: ${currencyAddress}  data: ${JSON.stringify(cachedPrice)}`
-    );
 
     // Fetch the latest price from upstream if:
     // - we have no price available
