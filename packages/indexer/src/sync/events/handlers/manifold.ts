@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { getStateChange } from "@georgeroman/evm-tx-simulator";
 import * as Sdk from "@nftearth/sdk";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { bn } from "@/common/utils";
 import { config } from "@/config/index";
 import { getEventData } from "@/events-sync/data";
@@ -141,7 +141,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
           baseEventParams,
         });
 
-        const orderResult = await idb.oneOrNone(
+        const orderResult = await redb.oneOrNone(
           ` 
             SELECT 
               raw_data,

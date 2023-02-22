@@ -1,4 +1,4 @@
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { fromBuffer } from "@/common/utils";
 import { Sources } from "@/models/sources";
 import { SourcesEntity } from "@/models/sources/sources-entity";
@@ -10,7 +10,7 @@ export const getRouters = async (forceReload?: boolean): Promise<Map<string, Sou
     return ROUTERS_MEMORY_CACHE;
   }
 
-  const queryResult = await idb.manyOrNone(
+  const queryResult = await redb.manyOrNone(
     `
       SELECT
         routers.address,

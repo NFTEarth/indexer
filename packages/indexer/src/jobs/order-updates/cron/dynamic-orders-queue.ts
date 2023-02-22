@@ -3,7 +3,7 @@ import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import _ from "lodash";
 import cron from "node-cron";
 
-import { idb, pgp } from "@/common/db";
+import { idb, redb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis, redlock } from "@/common/redis";
 import { fromBuffer, now } from "@/common/utils";
@@ -42,7 +42,7 @@ if (config.doBackgroundWork) {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const dynamicOrders: { id: string; kind: string; currency: Buffer; raw_data: any }[] =
-          await idb.manyOrNone(
+          await redb.manyOrNone(
             `
               SELECT
                 orders.id,

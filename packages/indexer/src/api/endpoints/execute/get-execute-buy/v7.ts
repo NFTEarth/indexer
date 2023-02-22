@@ -7,7 +7,7 @@ import { ListingDetails } from "@nftearth/sdk/dist/router/v6/types";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { bn, formatPrice, fromBuffer, now, regex } from "@/common/utils";
@@ -353,7 +353,7 @@ export const getExecuteBuyV7Options: RouteOptions = {
 
         // Scenario 2: fill via `orderId`
         if (item.orderId) {
-          const result = await idb.oneOrNone(
+          const result = await redb.oneOrNone(
             `
               SELECT
                 orders.kind,
@@ -419,7 +419,7 @@ export const getExecuteBuyV7Options: RouteOptions = {
           const [contract, tokenId] = item.token.split(":");
 
           // Fetch all matching orders sorted by price
-          const orderResults = await idb.manyOrNone(
+          const orderResults = await redb.manyOrNone(
             `
               SELECT
                 orders.id,

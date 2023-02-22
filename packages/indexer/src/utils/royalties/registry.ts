@@ -5,7 +5,7 @@ import * as Sdk from "@nftearth/sdk";
 import { baseProvider } from "@/common/provider";
 import { bn, fromBuffer } from "@/common/utils";
 import { config } from "@/config/index";
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { Royalty, updateRoyaltySpec } from "@/utils/royalties";
 
 const DEFAULT_PRICE = "1000000000000000000";
@@ -13,7 +13,7 @@ const DEFAULT_PRICE = "1000000000000000000";
 // Assume there are no per-token royalties but everything is per-contract
 export const refreshRegistryRoyalties = async (collection: string) => {
   // Fetch the collection's contract
-  const collectionResult = await idb.oneOrNone(
+  const collectionResult = await redb.oneOrNone(
     `
       SELECT
         collections.contract
@@ -27,7 +27,7 @@ export const refreshRegistryRoyalties = async (collection: string) => {
   }
 
   // Fetch a random token from the collection
-  const tokenResult = await idb.oneOrNone(
+  const tokenResult = await redb.oneOrNone(
     `
       SELECT
         tokens.token_id

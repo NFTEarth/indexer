@@ -1,7 +1,7 @@
 import * as Sdk from "@nftearth/sdk";
 import pLimit from "p-limit";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { bn, now, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -46,7 +46,7 @@ export const save = async (
       const expirationTime = order.params.expirationTime;
 
       // Check: order doesn't already exist
-      const orderExists = await idb.oneOrNone(`SELECT 1 FROM orders WHERE orders.id = $/id/`, {
+      const orderExists = await redb.oneOrNone(`SELECT 1 FROM orders WHERE orders.id = $/id/`, {
         id,
       });
       if (orderExists) {

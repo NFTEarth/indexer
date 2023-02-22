@@ -8,7 +8,7 @@ import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { regex } from "@/common/utils";
 import { config } from "@/config/index";
@@ -231,7 +231,7 @@ export const postOrderV3Options: RouteOptions = {
               }`
             );
           } else if (config.forwardReservoirApiKeys.includes(request.headers["x-api-key"])) {
-            const orderResult = await idb.oneOrNone(
+            const orderResult = await redb.oneOrNone(
               `
                 SELECT
                   orders.token_set_id
@@ -260,7 +260,7 @@ export const postOrderV3Options: RouteOptions = {
               );
             }
           } else {
-            const collectionResult = await idb.oneOrNone(
+            const collectionResult = await redb.oneOrNone(
               `
                 SELECT
                   collections.new_royalties,
@@ -479,7 +479,7 @@ export const postOrderV3Options: RouteOptions = {
               }`
             );
           } else if (config.forwardReservoirApiKeys.includes(request.headers["x-api-key"])) {
-            const orderResult = await idb.oneOrNone(
+            const orderResult = await redb.oneOrNone(
               `
                 SELECT
                   orders.token_set_id

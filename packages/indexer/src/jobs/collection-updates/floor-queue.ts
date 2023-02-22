@@ -158,7 +158,7 @@ if (config.doBackgroundWork) {
         if (collectionFloorAsk) {
           await redis.del(`collection-floor-ask:${collectionResult.collection_id}`);
 
-          const floorToken = await idb.oneOrNone(
+          const floorToken = await redb.oneOrNone(
             `
               SELECT
                 tokens.contract,

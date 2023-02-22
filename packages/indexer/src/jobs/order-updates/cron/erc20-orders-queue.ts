@@ -1,7 +1,7 @@
 import { Job, Queue, QueueScheduler, Worker } from "bullmq";
 import cron from "node-cron";
 
-import { idb, pgp } from "@/common/db";
+import { idb, redb, pgp } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis, redlock } from "@/common/redis";
 import { fromBuffer, now } from "@/common/utils";
@@ -44,7 +44,7 @@ if (config.doBackgroundWork) {
           currency_price: string;
           currency_value: string;
           currency_normalized_value?: string;
-        }[] = await idb.manyOrNone(
+        }[] = await redb.manyOrNone(
           `
             SELECT
               orders.id,

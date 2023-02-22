@@ -2,7 +2,7 @@ import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import axios from "axios";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { toBuffer } from "@/common/utils";
@@ -26,7 +26,7 @@ export type Currency = {
 const CURRENCY_MEMORY_CACHE: Map<string, Currency> = new Map<string, Currency>();
 export const getCurrency = async (currencyAddress: string): Promise<Currency> => {
   if (!CURRENCY_MEMORY_CACHE.has(currencyAddress)) {
-    const result = await idb.oneOrNone(
+    const result = await redb.oneOrNone(
       `
         SELECT
           currencies.name,

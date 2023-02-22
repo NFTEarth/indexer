@@ -1,4 +1,4 @@
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { fromBuffer, toBuffer } from "@/common/utils";
 
 export type NftxNftPool = {
@@ -32,7 +32,7 @@ export const saveNftxNftPool = async (nftxNftPool: NftxNftPool) => {
 };
 
 export const getNftxNftPool = async (address: string): Promise<NftxNftPool> => {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         nftx_nft_pools.address,
@@ -82,7 +82,7 @@ export const saveNftxFtPool = async (nftxFtPool: NftxFtPool) => {
 };
 
 export const getNftxFtPool = async (address: string): Promise<NftxFtPool> => {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         nftx_ft_pools.address,

@@ -1,7 +1,7 @@
 import { AddressZero } from "@ethersproject/constants";
 import _ from "lodash";
 
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { toBuffer } from "@/common/utils";
 import * as registry from "@/utils/royalties/registry";
 
@@ -15,7 +15,7 @@ export const getRoyalties = async (
   tokenId?: string,
   spec = "default"
 ): Promise<Royalty[]> => {
-  const royaltiesResult = await idb.oneOrNone(
+  const royaltiesResult = await redb.oneOrNone(
     `
       SELECT
         collections.royalties,
@@ -53,7 +53,7 @@ export const getRoyaltiesByTokenSet = async (
   switch (tokenSetIdComponents[0]) {
     case "token":
     case "range": {
-      royaltiesResult = await idb.oneOrNone(
+      royaltiesResult = await redb.oneOrNone(
         `
           SELECT
             collections.royalties,
@@ -75,7 +75,7 @@ export const getRoyaltiesByTokenSet = async (
     }
 
     case "contract": {
-      royaltiesResult = await idb.oneOrNone(
+      royaltiesResult = await redb.oneOrNone(
         `
           SELECT
             collections.royalties,
@@ -93,7 +93,7 @@ export const getRoyaltiesByTokenSet = async (
     }
 
     default: {
-      royaltiesResult = await idb.oneOrNone(
+      royaltiesResult = await redb.oneOrNone(
         `
           SELECT
             collections.royalties,
@@ -143,7 +143,7 @@ export const updateRoyaltySpec = async (
     : undefined;
 
   // Fetch the current royalties
-  const currentRoyalties = await idb.oneOrNone(
+  const currentRoyalties = await redb.oneOrNone(
     `
       SELECT
         COALESCE(collections.new_royalties, '{}') AS royalties
@@ -191,7 +191,7 @@ export const refreshAllRoyaltySpecs = async (
 
 // The default royalties are represented by the max royalties across all royalty specs
 export const refreshDefaultRoyalties = async (collection: string) => {
-  const royaltiesResult = await idb.oneOrNone(
+  const royaltiesResult = await redb.oneOrNone(
     `
       SELECT
         COALESCE(collections.new_royalties, '{}') AS new_royalties

@@ -6,7 +6,7 @@ import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb, redb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { fromBuffer, regex, toBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -92,7 +92,7 @@ export const postSimulateFloorV1Options: RouteOptions = {
       });
 
       if (JSON.parse(response.payload).statusCode === 500) {
-        const floorAsk = await idb.oneOrNone(
+        const floorAsk = await redb.oneOrNone(
           `
             SELECT
               tokens.floor_sell_id,
@@ -162,7 +162,7 @@ export const postSimulateFloorV1Options: RouteOptions = {
       if (success) {
         return { message: "Floor order is fillable" };
       } else {
-        const orderResult = await idb.oneOrNone(
+        const orderResult = await redb.oneOrNone(
           `
             SELECT
               orders.kind,

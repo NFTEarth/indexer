@@ -6,7 +6,7 @@ import { Contract } from "@ethersproject/contracts";
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { baseProvider } from "@/common/provider";
 import { redis, redlock } from "@/common/redis";
@@ -38,7 +38,7 @@ if (config.doBackgroundWork && config.chainId === 1) {
       const { orderId } = job.data;
 
       const limit = 50;
-      const result = await idb.manyOrNone(
+      const result = await redb.manyOrNone(
         `
           SELECT
             orders.id,

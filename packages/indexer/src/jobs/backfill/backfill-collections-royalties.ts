@@ -3,7 +3,7 @@
 import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 
-import { idb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { fromBuffer } from "@/common/utils";
@@ -34,7 +34,7 @@ if (config.doBackgroundWork) {
       const { day30Volume } = job.data;
 
       const limit = 10;
-      const result = await idb.manyOrNone(
+      const result = await redb.manyOrNone(
         `
           SELECT
             collections.contract,

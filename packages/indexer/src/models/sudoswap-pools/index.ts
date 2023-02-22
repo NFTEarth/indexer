@@ -1,4 +1,4 @@
-import { idb } from "@/common/db";
+import { idb, redb } from "@/common/db";
 import { fromBuffer, toBuffer } from "@/common/utils";
 
 export enum SudoswapPoolKind {
@@ -50,7 +50,7 @@ export const saveSudoswapPool = async (sudoswapPool: SudoswapPool) => {
 };
 
 export const getSudoswapPool = async (address: string): Promise<SudoswapPool> => {
-  const result = await idb.oneOrNone(
+  const result = await redb.oneOrNone(
     `
       SELECT
         sudoswap_pools.address,

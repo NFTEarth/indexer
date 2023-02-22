@@ -4,7 +4,7 @@ import { Queue, QueueScheduler, Worker } from "bullmq";
 import { randomUUID } from "crypto";
 import pLimit from "p-limit";
 
-import { idb, pgp } from "@/common/db";
+import { idb, pgp, redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { redis } from "@/common/redis";
 import { fromBuffer, toBuffer } from "@/common/utils";
@@ -31,7 +31,7 @@ if (config.doBackgroundWork) {
       const { timestamp, txHash, logIndex, batchIndex } = job.data;
       const limit = 300;
 
-      const results = await idb.manyOrNone(
+      const results = await redb.manyOrNone(
         `
           SELECT
             fill_events_2.tx_hash,

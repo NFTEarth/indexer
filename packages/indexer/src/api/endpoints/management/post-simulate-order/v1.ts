@@ -5,7 +5,7 @@ import * as Sdk from "@nftearth/sdk";
 import Joi from "joi";
 
 import { inject } from "@/api/index";
-import { idb, redb } from "@/common/db";
+import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { fromBuffer } from "@/common/utils";
 import { config } from "@/config/index";
@@ -87,7 +87,7 @@ export const postSimulateOrderV1Options: RouteOptions = {
     try {
       const id = payload.id;
 
-      const orderResult = await idb.oneOrNone(
+      const orderResult = await redb.oneOrNone(
         `
           SELECT
             orders.kind,
@@ -206,7 +206,7 @@ export const postSimulateOrderV1Options: RouteOptions = {
           return { message: "Order is not fillable" };
         }
       } else {
-        const tokenResult = await idb.oneOrNone(
+        const tokenResult = await redb.oneOrNone(
           `
             SELECT
               nft_balances.owner,
