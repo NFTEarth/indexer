@@ -50,6 +50,7 @@ export const SeaportV12Module: ChainIdToAddress = {
 
 export const NFTEarthModule: ChainIdToAddress = {
   [Network.Optimism]: "0x2140Ea50bc3B6Ac3971F9e9Ea93A1442665670e4",
+  [Network.Arbitrum]: "0x2140Ea50bc3B6Ac3971F9e9Ea93A1442665670e4",
 };
 
 export const SudoswapModule: ChainIdToAddress = {
