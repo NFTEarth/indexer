@@ -177,13 +177,17 @@ export const updateRoyaltySpec = async (
 export const refreshAllRoyaltySpecs = async (
   collection: string,
   customRoyalties?: Royalty[],
+  nftearthRoyalties?: Royalty[],
   openseaRoyalties?: Royalty[]
 ) => {
   // Update custom royalties
   await updateRoyaltySpec(collection, "custom", customRoyalties);
 
+  // Update nftearth royalties
+  await updateRoyaltySpec(collection, "nftearth", nftearthRoyalties);
+
   // Update opensea royalties
-  await updateRoyaltySpec(collection, "nftearth", openseaRoyalties);
+  await updateRoyaltySpec(collection, "opensea", openseaRoyalties);
 
   // Refresh the on-chain royalties
   await registry.refreshRegistryRoyalties(collection);
@@ -213,13 +217,15 @@ export const refreshDefaultRoyalties = async (collection: string) => {
   } else if (
     // TODO: Remove (for backwards-compatibility only)
     Object.keys(royaltiesResult.new_royalties).find(
-      (kind) => !["custom", "nftearth"].includes(kind)
+      (kind) => !["custom", "opensea", "nftearth"].includes(kind)
     )
   ) {
     const oldSpec = Object.keys(royaltiesResult.new_royalties).find(
-      (kind) => !["custom", "nftearth"].includes(kind)
+      (kind) => !["custom", "opensea", "nftearth"].includes(kind)
     );
     defaultRoyalties = royaltiesResult.new_royalties[oldSpec!];
+  } else if (royaltiesResult.new_royalties["opensea"]) {
+    defaultRoyalties = royaltiesResult.new_royalties["opensea"];
   } else if (royaltiesResult.new_royalties["nftearth"]) {
     defaultRoyalties = royaltiesResult.new_royalties["nftearth"];
   }
