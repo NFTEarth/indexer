@@ -174,7 +174,7 @@ export class Sources {
           $/address/,
           $/metadata:json/
         )
-        ON CONFLICT (domain, domain_hash) DO UPDATE SET domain = EXCLUDED.domain
+        ON CONFLICT (domain) DO UPDATE SET domain = EXCLUDED.domain
         RETURNING *
       `,
       {
