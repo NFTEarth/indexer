@@ -164,6 +164,7 @@ if (config.doBackgroundWork) {
         await royalties.refreshAllRoyaltySpecs(
           collection.id,
           collection.royalties as royalties.Royalty[] | undefined,
+          collection.nftearthRoyalties as royalties.Royalty[] | undefined,
           collection.openseaRoyalties as royalties.Royalty[] | undefined
         );
         await royalties.refreshDefaultRoyalties(collection.id);
