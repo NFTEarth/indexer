@@ -9,8 +9,8 @@ import {
 } from "@/jobs/orderbook/post-order-external/api/errors";
 
 // Open Sea default rate limit - 2 requests per second for post apis
-export const RATE_LIMIT_REQUEST_COUNT = 2;
-export const RATE_LIMIT_INTERVAL = 1000;
+export const RATE_LIMIT_REQUEST_COUNT = 10000;
+export const RATE_LIMIT_INTERVAL = 100;
 
 export const postOrder = async (order: Sdk.NFTEarth.Order, _apiKey: string) => {
   //TODO: Store in database instad of calling API
