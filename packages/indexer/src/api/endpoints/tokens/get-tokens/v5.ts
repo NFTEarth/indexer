@@ -202,6 +202,8 @@ export const getTokensV5Options: RouteOptions = {
               timestamp: Joi.number().unsafe().allow(null),
             },
             owner: Joi.string().allow(null),
+            ownerCount: Joi.string(),
+            itemCount: Joi.string(),
             attributes: Joi.array()
               .items(
                 Joi.object({
@@ -308,6 +310,40 @@ export const getTokensV5Options: RouteOptions = {
           LIMIT 1
         ) y ON TRUE
       `;
+    }
+
+    // Include owner count
+    let ownerCountSelectQuery = "";
+    let ownerCountJoinQuery = "";
+    if (query.includeOwnerCount) {
+      ownerCountSelectQuery = ", z.*";
+      ownerCountJoinQuery = `
+          LEFT JOIN LATERAL (
+            SELECT
+              COUNT(DISTINCT(owner)) AS owner_count
+            FROM nft_balances
+            WHERE nft_balances.contract = t.contract
+              AND nft_balances.token_id = t.token_id
+            AND amount > 0
+          ) z ON TRUE
+        `;
+    }
+
+    // Include item count
+    let itemCountSelectQuery = "";
+    let itemCountJoinQuery = "";
+    if (query.includeItemCount) {
+      itemCountSelectQuery = ", ic.*";
+      itemCountJoinQuery = `
+          LEFT JOIN LATERAL (
+            SELECT SUM(nft_balances.amount) AS token_count
+            FROM nft_balances
+            WHERE nft_balances.contract = t.contract
+              AND nft_balances.token_id = t.token_id
+            AND amount > 0
+            GROUP BY nft_balances.contract
+          ) ic ON TRUE
+        `;
     }
 
     // Include attributes
@@ -510,11 +546,15 @@ export const getTokensV5Options: RouteOptions = {
               AND nb.amount > 0
             LIMIT 1
           ) AS owner
+          ${ownerCountSelectQuery}
+          ${itemCountSelectQuery}
           ${selectAttributes}
           ${selectTopBid}
           ${selectIncludeQuantity}
           ${selectIncludeDynamicPricing}
         FROM tokens t
+        ${ownerCountJoinQuery}
+        ${itemCountJoinQuery}
         ${topBidQuery}
         ${sourceQuery}
         ${includeQuantityQuery}
@@ -1046,6 +1086,8 @@ export const getTokensV5Options: RouteOptions = {
               timestamp: r.last_sell_timestamp,
             },
             owner: r.owner ? fromBuffer(r.owner) : null,
+            ownerCount: r.owner_count,
+            itemCount: r.item_count,
             attributes: query.includeAttributes
               ? r.attributes
                 ? _.map(r.attributes, (attribute) => ({

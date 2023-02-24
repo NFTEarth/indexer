@@ -92,6 +92,19 @@ export const getCollectionsV5Options: RouteOptions = {
         .description(
           "If true, owner count will be included in the response. (supported only when filtering to a particular collection using `id` or `slug`)"
         ),
+      includeItemCount: Joi.boolean()
+        .when("id", {
+          is: Joi.exist(),
+          then: Joi.allow(),
+          otherwise: Joi.when("slug", {
+            is: Joi.exist(),
+            then: Joi.allow(),
+            otherwise: Joi.forbidden(),
+          }),
+        })
+        .description(
+          "If true, item count will be included in the response. (supported only when filtering to a particular collection using `id` or `slug`)"
+        ),
       includeSalesCount: Joi.boolean()
         .when("id", {
           is: Joi.exist(),
@@ -323,6 +336,23 @@ export const getCollectionsV5Options: RouteOptions = {
               AND nft_balances.token_id <@ x.token_id_range
             AND amount > 0
           ) z ON TRUE
+        `;
+      }
+
+      // Include item count
+      let itemCountSelectQuery = "";
+      let itemCountJoinQuery = "";
+      if (query.includeItemCount) {
+        itemCountSelectQuery = ", ic.*";
+        itemCountJoinQuery = `
+          LEFT JOIN LATERAL (
+            SELECT SUM(nft_balances.amount) AS token_count
+            FROM nft_balances
+            WHERE nft_balances.contract = x.contract
+              AND nft_balances.token_id <@ x.token_id_range
+            AND amount > 0
+            GROUP BY nft_balances.contract
+          ) ic ON TRUE
         `;
       }
 
@@ -561,6 +591,7 @@ export const getCollectionsV5Options: RouteOptions = {
           x.*,
           y.*
           ${ownerCountSelectQuery}
+          ${itemCountSelectQuery}
           ${attributesSelectQuery}
           ${topBidSelectQuery}
           ${saleCountSelectQuery}
@@ -583,6 +614,7 @@ export const getCollectionsV5Options: RouteOptions = {
            WHERE orders.id = x.floor_sell_id
         ) y ON TRUE
         ${ownerCountJoinQuery}
+        ${itemCountJoinQuery}
         ${attributesJoinQuery}
         ${topBidJoinQuery}
         ${saleCountJoinQuery}
@@ -742,6 +774,7 @@ export const getCollectionsV5Options: RouteOptions = {
               : undefined,
             collectionBidSupported: Number(r.token_count) <= config.maxTokenSetSize,
             ownerCount: query.includeOwnerCount ? Number(r.owner_count) : undefined,
+            itemCount: query.includeItemCount ? Number(r.item_count) : undefined,
             attributes: query.includeAttributes
               ? _.map(_.sortBy(r.attributes, ["rank", "key"]), (attribute) => ({
                   key: attribute.key,
