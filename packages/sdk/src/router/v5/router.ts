@@ -25,11 +25,7 @@ export class Router {
 
   constructor(chainId: number, provider: Provider, options?: SetupOptions) {
     this.chainId = chainId;
-    this.contract = new Contract(
-      Addresses.Router[chainId],
-      RouterAbi,
-      provider
-    );
+    this.contract = new Contract(Addresses.Router[chainId], RouterAbi, provider);
     this.provider = provider;
     this.options = options;
   }
@@ -48,6 +44,7 @@ export class Router {
       skipErrors?: boolean;
       skippedIndexes?: number[];
       partial?: boolean;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       directFillingData?: any;
     }
   ): Promise<TxData> {
@@ -113,10 +110,7 @@ export class Router {
             `https://order-fetcher.vercel.app/api/listing?orderHash=${order.id}&contract=${order.contract}&tokenId=${order.tokenId}&taker=${taker}&chainId=${this.chainId}`
           );
 
-          const fullOrder = new Sdk.Seaport.Order(
-            this.chainId,
-            result.data.order
-          );
+          const fullOrder = new Sdk.Seaport.Order(this.chainId, result.data.order);
           details.push({
             ...detail,
             kind: "seaport",
@@ -190,9 +184,7 @@ export class Router {
         return exchange.fillOrdersTx(
           taker,
           orders,
-          orders.map((order, i) =>
-            order.buildMatching({ amount: details[i].amount })
-          ),
+          orders.map((order, i) => order.buildMatching({ amount: details[i].amount })),
           {
             ...options,
             ...options?.directFillingData,
@@ -208,11 +200,7 @@ export class Router {
     }
 
     // Ensure all listings are in ETH
-    if (
-      !details.every(
-        (d) => d.currency === Sdk.Common.Addresses.Eth[this.chainId]
-      )
-    ) {
+    if (!details.every((d) => d.currency === Sdk.Common.Addresses.Eth[this.chainId])) {
       throw new Error("Only ETH listings are fillable through the router");
     }
 
@@ -223,10 +211,9 @@ export class Router {
       const { kind, contractKind } = details[i];
       switch (kind) {
         case "zeroex-v4": {
-          (contractKind === "erc721"
-            ? zeroexV4Erc721Details
-            : zeroexV4Erc1155Details
-          ).push(details[i]);
+          (contractKind === "erc721" ? zeroexV4Erc721Details : zeroexV4Erc1155Details).push(
+            details[i]
+          );
           break;
         }
       }
@@ -241,9 +228,7 @@ export class Router {
       const exchange = new Sdk.ZeroExV4.Exchange(this.chainId);
       const tx = await exchange.batchBuyTx(
         taker,
-        zeroexV4Erc1155Details.map(
-          (detail) => detail.order as Sdk.ZeroExV4.Order
-        ),
+        zeroexV4Erc1155Details.map((detail) => detail.order as Sdk.ZeroExV4.Order),
         zeroexV4Erc1155Details.map((detail) =>
           (detail.order as Sdk.ZeroExV4.Order).buildMatching({
             amount: detail.amount ?? 1,
@@ -254,35 +239,27 @@ export class Router {
       routerTxs.push({
         from: taker,
         to: this.contract.address,
-        data: this.contract.interface.encodeFunctionData(
-          "batchERC721ListingFill",
-          [
-            tx.data,
-            zeroexV4Erc721Details.map((detail) => detail.contract),
-            zeroexV4Erc721Details.map((detail) => detail.tokenId),
-            taker,
-            fee.recipient,
-            fee.bps,
-          ]
-        ),
-        value: bn(tx.value!)
-          .add(bn(tx.value!).mul(fee.bps).div(10000))
-          .toHexString(),
+        data: this.contract.interface.encodeFunctionData("batchERC721ListingFill", [
+          tx.data,
+          zeroexV4Erc721Details.map((detail) => detail.contract),
+          zeroexV4Erc721Details.map((detail) => detail.tokenId),
+          taker,
+          fee.recipient,
+          fee.bps,
+        ]),
+        value: bn(tx.value!).add(bn(tx.value!).mul(fee.bps).div(10000)).toHexString(),
       });
 
       // Delete any batch-filled orders
       details = details.filter(
-        ({ kind, contractKind }) =>
-          kind !== "zeroex-v4" && contractKind !== "erc721"
+        ({ kind, contractKind }) => kind !== "zeroex-v4" && contractKind !== "erc721"
       );
     }
     if (zeroexV4Erc1155Details.length > 1) {
       const exchange = new Sdk.ZeroExV4.Exchange(this.chainId);
       const tx = await exchange.batchBuyTx(
         taker,
-        zeroexV4Erc1155Details.map(
-          (detail) => detail.order as Sdk.ZeroExV4.Order
-        ),
+        zeroexV4Erc1155Details.map((detail) => detail.order as Sdk.ZeroExV4.Order),
         zeroexV4Erc1155Details.map((detail) =>
           (detail.order as Sdk.ZeroExV4.Order).buildMatching({
             amount: detail.amount ?? 1,
@@ -293,27 +270,21 @@ export class Router {
       routerTxs.push({
         from: taker,
         to: this.contract.address,
-        data: this.contract.interface.encodeFunctionData(
-          "batchERC1155ListingFill",
-          [
-            tx.data,
-            zeroexV4Erc1155Details.map((detail) => detail.contract),
-            zeroexV4Erc1155Details.map((detail) => detail.tokenId),
-            zeroexV4Erc1155Details.map((detail) => detail.amount ?? 1),
-            taker,
-            fee.recipient,
-            fee.bps,
-          ]
-        ),
-        value: bn(tx.value!)
-          .add(bn(tx.value!).mul(fee.bps).div(10000))
-          .toHexString(),
+        data: this.contract.interface.encodeFunctionData("batchERC1155ListingFill", [
+          tx.data,
+          zeroexV4Erc1155Details.map((detail) => detail.contract),
+          zeroexV4Erc1155Details.map((detail) => detail.tokenId),
+          zeroexV4Erc1155Details.map((detail) => detail.amount ?? 1),
+          taker,
+          fee.recipient,
+          fee.bps,
+        ]),
+        value: bn(tx.value!).add(bn(tx.value!).mul(fee.bps).div(10000)).toHexString(),
       });
 
       // Delete any batch-filled orders
       details = details.filter(
-        ({ kind, contractKind }) =>
-          kind !== "zeroex-v4" && contractKind !== "erc1155"
+        ({ kind, contractKind }) => kind !== "zeroex-v4" && contractKind !== "erc1155"
       );
     }
 
@@ -321,8 +292,11 @@ export class Router {
     await Promise.all(
       details.map(async (detail, i) => {
         try {
-          const { tx, exchangeKind, maker, isEscrowed } =
-            await this.generateNativeListingFillTx(detail, taker, options);
+          const { tx, exchangeKind, maker, isEscrowed } = await this.generateNativeListingFillTx(
+            detail,
+            taker,
+            options
+          );
 
           if (detail.contractKind === "erc721") {
             routerTxs.push({
@@ -343,18 +317,15 @@ export class Router {
                         fee.bps,
                       ]
                     )
-                  : this.contract.interface.encodeFunctionData(
-                      "singleERC721ListingFill",
-                      [
-                        tx.data,
-                        exchangeKind,
-                        detail.contract,
-                        detail.tokenId,
-                        taker,
-                        fee.recipient,
-                        fee.bps,
-                      ]
-                    ),
+                  : this.contract.interface.encodeFunctionData("singleERC721ListingFill", [
+                      tx.data,
+                      exchangeKind,
+                      detail.contract,
+                      detail.tokenId,
+                      taker,
+                      fee.recipient,
+                      fee.bps,
+                    ]),
               value: bn(tx.value!)
                 // Add the referrer fee
                 .add(bn(tx.value!).mul(fee.bps).div(10000))
@@ -380,19 +351,16 @@ export class Router {
                         fee.bps,
                       ]
                     )
-                  : this.contract.interface.encodeFunctionData(
-                      "singleERC1155ListingFill",
-                      [
-                        tx.data,
-                        exchangeKind,
-                        detail.contract,
-                        detail.tokenId,
-                        detail.amount ?? 1,
-                        taker,
-                        fee.recipient,
-                        fee.bps,
-                      ]
-                    ),
+                  : this.contract.interface.encodeFunctionData("singleERC1155ListingFill", [
+                      tx.data,
+                      exchangeKind,
+                      detail.contract,
+                      detail.tokenId,
+                      detail.amount ?? 1,
+                      taker,
+                      fee.recipient,
+                      fee.bps,
+                    ]),
               value: bn(tx.value!)
                 // Add the referrer fee
                 .add(bn(tx.value!).mul(fee.bps).div(10000))
@@ -461,11 +429,7 @@ export class Router {
       });
     }
 
-    const { tx, exchangeKind } = await this.generateNativeBidFillTx(
-      detail,
-      taker,
-      options
-    );
+    const { tx, exchangeKind } = await this.generateNativeBidFillTx(detail, taker, options);
 
     // The V5 router does not support filling X2Y2 bids, so we fill directly
     if (exchangeKind === ExchangeKind.X2Y2) {
@@ -498,10 +462,13 @@ export class Router {
               taker,
               this.contract.address,
               detail.tokenId,
-              this.contract.interface.encodeFunctionData(
-                "singleERC721BidFill",
-                [tx.data, exchangeKind, detail.contract, taker, true]
-              ),
+              this.contract.interface.encodeFunctionData("singleERC721BidFill", [
+                tx.data,
+                exchangeKind,
+                detail.contract,
+                taker,
+                true,
+              ]),
             ]
           ) + generateSourceBytes(options?.source),
       };
@@ -518,10 +485,13 @@ export class Router {
               detail.tokenId,
               // TODO: Support selling a quantity greater than 1
               1,
-              this.contract.interface.encodeFunctionData(
-                "singleERC1155BidFill",
-                [tx.data, exchangeKind, detail.contract, taker, true]
-              ),
+              this.contract.interface.encodeFunctionData("singleERC1155BidFill", [
+                tx.data,
+                exchangeKind,
+                detail.contract,
+                taker,
+                true,
+              ]),
             ]
           ) + generateSourceBytes(options?.source),
       };
@@ -583,10 +553,7 @@ export class Router {
       order = order as Sdk.X2Y2.Order;
 
       // X2Y2 requires an API key to fill
-      const exchange = new Sdk.X2Y2.Exchange(
-        this.chainId,
-        String(this.options?.x2y2ApiKey)
-      );
+      const exchange = new Sdk.X2Y2.Exchange(this.chainId, String(this.options?.x2y2ApiKey));
       return {
         tx: await exchange.fillOrderTx(this.contract.address, order, options),
         exchangeKind: ExchangeKind.X2Y2,
@@ -600,11 +567,7 @@ export class Router {
 
       const exchange = new Sdk.ZeroExV4.Exchange(this.chainId);
       return {
-        tx: await exchange.fillOrderTx(
-          this.contract.address,
-          order,
-          matchParams
-        ),
+        tx: await exchange.fillOrderTx(this.contract.address, order, matchParams),
         exchangeKind: ExchangeKind.ZEROEX_V4,
         maker: order.params.maker,
       };
@@ -616,14 +579,9 @@ export class Router {
 
       const exchange = new Sdk.Seaport.Exchange(this.chainId);
       return {
-        tx: await exchange.fillOrderTx(
-          this.contract.address,
-          order,
-          matchParams,
-          {
-            recipient: taker,
-          }
-        ),
+        tx: await exchange.fillOrderTx(this.contract.address, order, matchParams, {
+          recipient: taker,
+        }),
         exchangeKind: ExchangeKind.SEAPORT,
         maker: order.params.offerer,
       };
@@ -761,10 +719,7 @@ export class Router {
     } else if (kind === "x2y2") {
       order = order as Sdk.X2Y2.Order;
 
-      const exchange = new Sdk.X2Y2.Exchange(
-        this.chainId,
-        String(this.options?.x2y2ApiKey)
-      );
+      const exchange = new Sdk.X2Y2.Exchange(this.chainId, String(this.options?.x2y2ApiKey));
       return {
         tx: await exchange.fillOrderTx(taker, order, {
           tokenId,

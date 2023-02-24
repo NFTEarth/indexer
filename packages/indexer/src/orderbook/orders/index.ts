@@ -8,8 +8,8 @@ export * as forward from "@/orderbook/orders/forward";
 export * as foundation from "@/orderbook/orders/foundation";
 export * as looksRare from "@/orderbook/orders/looks-rare";
 export * as seaport from "@/orderbook/orders/seaport";
+export * as seaportV14 from "@/orderbook/orders/seaport-v1.4";
 export * as nftearth from "@/orderbook/orders/nftearth";
-export * as seaportV12 from "@/orderbook/orders/seaport-v1.2";
 export * as sudoswap from "@/orderbook/orders/sudoswap";
 export * as x2y2 from "@/orderbook/orders/x2y2";
 export * as zeroExV4 from "@/orderbook/orders/zeroex-v4";
@@ -45,8 +45,8 @@ export type OrderKind =
   | "foundation"
   | "x2y2"
   | "seaport"
+  | "seaport-v1.4"
   | "nftearth"
-  | "seaport-v1.2"
   | "rarible"
   | "element-erc721"
   | "element-erc1155"
@@ -129,7 +129,7 @@ export const getOrderSourceByOrderKind = async (
       case "nftearth":
         return sources.getOrInsert("nftearth.exchange");
       case "seaport":
-      case "seaport-v1.2":
+      case "seaport-v1.4":
       case "wyvern-v2":
       case "wyvern-v2.3":
         return sources.getOrInsert("opensea.io");
@@ -313,18 +313,18 @@ export const generateListingDetailsV6 = (
       }
     }
 
-    case "seaport-v1.2": {
+    case "seaport-v1.4": {
       if (order.rawData && !order.rawData.partial) {
         return {
-          kind: "seaport-v1.2",
+          kind: "seaport-v1.4",
           ...common,
-          order: new Sdk.SeaportV12.Order(config.chainId, order.rawData),
+          order: new Sdk.SeaportV14.Order(config.chainId, order.rawData),
         };
       } else {
         // Sorry for all the below `any` types
         return {
           // eslint-disable-next-line
-          kind: "seaport-v1.2-partial" as any,
+          kind: "seaport-v1.4-partial" as any,
           ...common,
           order: {
             contract: token.contract,
@@ -535,12 +535,12 @@ export const generateBidDetailsV6 = async (
       }
     }
 
-    case "seaport-v1.2": {
+    case "seaport-v1.4": {
       if (order.rawData && !order.rawData.partial) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const extraArgs: any = {};
 
-        const sdkOrder = new Sdk.SeaportV12.Order(config.chainId, order.rawData);
+        const sdkOrder = new Sdk.SeaportV14.Order(config.chainId, order.rawData);
         if (sdkOrder.params.kind?.includes("token-list")) {
           // When filling a "token-list" order, we also need to pass in the
           // full list of tokens the order was made on (in order to be able
@@ -563,7 +563,7 @@ export const generateBidDetailsV6 = async (
         }
 
         return {
-          kind: "seaport-v1.2",
+          kind: "seaport-v1.4",
           ...common,
           extraArgs,
           order: sdkOrder,
@@ -572,7 +572,7 @@ export const generateBidDetailsV6 = async (
         // Sorry for all the below `any` types
         return {
           // eslint-disable-next-line
-          kind: "seaport-v1.2-partial" as any,
+          kind: "seaport-v1.4-partial" as any,
           ...common,
           order: {
             contract: token.contract,

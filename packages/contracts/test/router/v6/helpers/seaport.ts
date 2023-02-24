@@ -1,6 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
-import * as Sdk from "@reservoir0x/sdk/src";
+import * as Sdk from "@nftearth/sdk/src";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { ethers } from "hardhat";
 

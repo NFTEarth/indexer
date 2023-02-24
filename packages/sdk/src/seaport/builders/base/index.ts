@@ -104,10 +104,7 @@ export abstract class BaseBuilder {
 
   protected baseIsValid(order: Order): boolean {
     for (let i = 0; i < order.params.offer.length; i++) {
-      if (
-        order.params.offer[i].startAmount == "0" ||
-        order.params.offer[i].endAmount == "0"
-      ) {
+      if (order.params.offer[i].startAmount == "0" || order.params.offer[i].endAmount == "0") {
         return false;
       }
     }
@@ -127,5 +124,6 @@ export abstract class BaseBuilder {
   public abstract getInfo(order: Order): BaseOrderInfo | undefined;
   public abstract isValid(order: Order): boolean;
   public abstract build(params: BaseBuildParams): Order;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public abstract buildMatching(order: Order, data: any): Types.MatchParams;
 }

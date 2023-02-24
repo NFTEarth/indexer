@@ -26,7 +26,11 @@ export const getApiKeyDetails: RouteOptions = {
       email: Joi.string().email(),
       active: Joi.bool(),
       tier: Joi.number().unsafe(),
-      permissions: Joi.string().allow(null),
+      permissions: Joi.object({
+        apiKey: Joi.string().description("The api key to update"),
+        overrideCollectionRefreshCooldown: Joi.boolean().required().default(false),
+        assignCollectionToCommunity: Joi.boolean().required().default(false),
+      }),
       createdAt: Joi.string(),
     }).label("getApiKeyRateLimitsResponse"),
     failAction: (_request, _h, error) => {
