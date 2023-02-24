@@ -1,12 +1,12 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther, parseUnits } from "@ethersproject/units";
-import * as Sdk from "@reservoir0x/sdk/src";
+import * as Sdk from "@nftearth/sdk/src";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import Permit2ABI from "@reservoir0x/sdk/src/common/abis/Permit2.json";
-import ERC20ABI from "@reservoir0x/sdk/src/common/abis/Erc20.json";
+import Permit2ABI from "@nftearth/sdk/src/common/abis/Permit2.json";
+import ERC20ABI from "@nftearth/sdk/src/common/abis/Erc20.json";
 
 import { ExecutionInfo } from "../helpers/router";
 import {

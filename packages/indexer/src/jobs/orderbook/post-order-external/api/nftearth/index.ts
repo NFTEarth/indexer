@@ -12,6 +12,7 @@ import {
 export const RATE_LIMIT_REQUEST_COUNT = 10000;
 export const RATE_LIMIT_INTERVAL = 100;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const postOrder = async (order: Sdk.NFTEarth.Order, _apiKey: string) => {
   //TODO: Store in database instad of calling API
   /* eslint-disable */
