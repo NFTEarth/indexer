@@ -1,7 +1,7 @@
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import * as Sdk from "@reservoir0x/sdk/src";
+import * as Sdk from "@nftearth/sdk/src";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers, network } from "hardhat";

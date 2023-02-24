@@ -1,9 +1,9 @@
 import { Contract } from "@ethersproject/contracts";
 import { parseEther, parseUnits } from "@ethersproject/units";
-import * as Sdk from "@reservoir0x/sdk/src";
-import * as SeaportPermit from "@reservoir0x/sdk/src/router/v6/permits/seaport";
-import * as UniswapPermit from "@reservoir0x/sdk/src/router/v6/permits/permit2";
-import { BidDetails, ListingDetails } from "@reservoir0x/sdk/src/router/v6/types";
+import * as Sdk from "@nftearth/sdk/src";
+import * as SeaportPermit from "@nftearth/sdk/src/router/v6/permits/seaport";
+import * as UniswapPermit from "@nftearth/sdk/src/router/v6/permits/permit2";
+import { BidDetails, ListingDetails } from "@nftearth/sdk/src/router/v6/types";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";

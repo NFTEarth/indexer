@@ -1,9 +1,9 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
-import * as Sdk from "@reservoir0x/sdk/src";
+import * as Sdk from "@nftearth/sdk/src";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { ethers } from "hardhat";
-import * as Element from "@reservoir0x/sdk/src/element";
+import * as Element from "@nftearth/sdk/src/element";
 
 import { getChainId, getCurrentTimestamp } from "../../../utils";
 

@@ -16,7 +16,7 @@ import {
 } from "@/common/utils";
 import { Sources } from "@/models/sources";
 import { getJoiPriceObject, JoiPrice } from "@/common/joi";
-import * as Sdk from "@reservoir0x/sdk";
+import * as Sdk from "@nftearth/sdk";
 import { config } from "@/config/index";
 
 const version = "v4";
@@ -231,7 +231,42 @@ export const getTokensFloorAskV4Options: RouteOptions = {
                 .reduce((a, b) => a.add(b), bn(0))
             : bn(0);
 
-          if (r.dynamic && r.order_kind === "seaport") {
+          if (r.dynamic && r.order_kind === "nftearth") {
+            const order = new Sdk.NFTEarth.Order(config.chainId, r.raw_data);
+
+            // Dutch auction
+            dynamicPricing = {
+              kind: "dutch",
+              data: {
+                price: {
+                  start: await getJoiPriceObject(
+                    {
+                      gross: {
+                        amount: bn(order.getMatchingPrice(order.params.startTime))
+                          .add(missingRoyalties)
+                          .toString(),
+                      },
+                    },
+                    floorAskCurrency
+                  ),
+                  end: await getJoiPriceObject(
+                    {
+                      gross: {
+                        amount: bn(order.getMatchingPrice(order.params.endTime))
+                          .add(missingRoyalties)
+                          .toString(),
+                      },
+                    },
+                    floorAskCurrency
+                  ),
+                },
+                time: {
+                  start: order.params.startTime,
+                  end: order.params.endTime,
+                },
+              },
+            };
+          } else if (r.dynamic && r.order_kind === "seaport") {
             const order = new Sdk.Seaport.Order(config.chainId, r.raw_data);
 
             // Dutch auction

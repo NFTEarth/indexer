@@ -1,6 +1,6 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { parseEther } from "@ethersproject/units";
-import * as Cryptopunks from "@reservoir0x/sdk/src/cryptopunks";
+import * as Cryptopunks from "@nftearth/sdk/src/cryptopunks";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers, network } from "hardhat";

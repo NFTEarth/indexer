@@ -1,6 +1,6 @@
-import * as Common from "@reservoir0x/sdk/src/common";
-import { bn, lc } from "@reservoir0x/sdk/src/utils";
-import * as X2Y2 from "@reservoir0x/sdk/src/x2y2";
+import * as Common from "@nftearth/sdk/src/common";
+import { bn, lc } from "@nftearth/sdk/src/utils";
+import * as X2Y2 from "@nftearth/sdk/src/x2y2";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import axios from "axios";
 import { expect } from "chai";

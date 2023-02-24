@@ -1,6 +1,6 @@
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import * as Zora from "@reservoir0x/sdk/src/zora";
+import * as Zora from "@nftearth/sdk/src/zora";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";

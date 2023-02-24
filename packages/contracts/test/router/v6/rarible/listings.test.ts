@@ -1,9 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import * as Sdk from "@reservoir0x/sdk/src";
-import * as Rarible from "@reservoir0x/sdk/src/rarible";
-import { encodeForMatchOrders } from "@reservoir0x/sdk/src/rarible/utils";
+import * as Sdk from "@nftearth/sdk/src";
+import * as Rarible from "@nftearth/sdk/src/rarible";
+import { encodeForMatchOrders } from "@nftearth/sdk/src/rarible/utils";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";

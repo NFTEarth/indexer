@@ -1,11 +1,11 @@
 import { Contract } from "@ethersproject/contracts";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import * as Common from "@reservoir0x/sdk/src/common";
+import * as Common from "@nftearth/sdk/src/common";
 import { expect } from "chai";
 import { parseEther } from "ethers/lib/utils";
 import { ethers } from "hardhat";
 
-import * as Flow from "@reservoir0x/sdk/src/flow";
+import * as Flow from "@nftearth/sdk/src/flow";
 
 import {
   getChainId,

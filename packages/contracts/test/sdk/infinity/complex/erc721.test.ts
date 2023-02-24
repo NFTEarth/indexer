@@ -2,8 +2,8 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumberish, Contract } from "ethers";
 import { parseEther } from "ethers/lib/utils";
 import { ethers } from "hardhat";
-import * as Infinity from "@reservoir0x/sdk/src/infinity";
-import * as Common from "@reservoir0x/sdk/src/common";
+import * as Infinity from "@nftearth/sdk/src/infinity";
+import * as Common from "@nftearth/sdk/src/common";
 
 import {
   getChainId,
@@ -13,7 +13,7 @@ import {
   bn,
 } from "../../../utils";
 import { expect } from "chai";
-import { Weth } from "@reservoir0x/sdk/src/common/helpers";
+import { Weth } from "@nftearth/sdk/src/common/helpers";
 
 describe("Infinity - Complex ERC721", () => {
   const chainId = getChainId();

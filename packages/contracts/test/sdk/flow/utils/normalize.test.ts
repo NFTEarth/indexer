@@ -1,5 +1,5 @@
-import * as Flow from "@reservoir0x/sdk/src/flow";
-import { lc } from "@reservoir0x/sdk/src/utils";
+import * as Flow from "@nftearth/sdk/src/flow";
+import { lc } from "@nftearth/sdk/src/utils";
 import { expect } from "chai";
 
 describe("Flow - Normalize Order Parameters", () => {
