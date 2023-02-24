@@ -2,6 +2,7 @@ import { RouteOptions } from "@hapi/hapi";
 import Joi from "joi";
 
 import { config } from "@/config/index";
+import { getNetworkSettings } from "@/config/network";
 
 type Marketplace = {
   name: string;
@@ -49,7 +50,9 @@ export const getMarketplaces: RouteOptions = {
     const marketplaces: Marketplace[] = [
       {
         name: "NFTEarth",
-        imageUrl: "https://nftearth.exchange/nftearth-icon.png",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/nftearth/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -61,7 +64,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Trove",
-        imageUrl: "https://trove.treasure.lol/favicon.svg",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/treasure/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -73,7 +78,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Zonic",
-        imageUrl: "https://zonic.app/logo3.svg",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/zonic/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -85,7 +92,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Reservoir",
-        imageUrl: "https://api.reservoir.tools/redirect/sources/reservoir/logo/v2",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/reservoir/logo/v2`,
         fee: {
           percent: 0,
           bps: 0,
@@ -97,7 +106,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "OpenSea",
-        imageUrl: "https://api.reservoir.tools/redirect/sources/opensea/logo/v2",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/opensea/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -109,7 +120,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "LooksRare",
-        imageUrl: "https://api.reservoir.tools/redirect/sources/looksrare/logo/v2",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/looksrare/logo/v2`,
         fee: {
           percent: 2,
           bps: 200,
@@ -121,7 +134,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "X2Y2",
-        imageUrl: "https://api.reservoir.tools/redirect/sources/x2y2/logo/v2",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/x2y2/logo/v2`,
         fee: {
           percent: 0.5,
           bps: 50,
@@ -133,7 +148,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Foundation",
-        imageUrl: "https://api.reservoir.tools/redirect/sources/foundation/logo/v2",
+        imageUrl: `https://${
+          getNetworkSettings().subDomain
+        }.${getNetworkSettings().domain}/redirect/sources/foundation/logo/v2`,
         fee: {
           percent: 5,
           bps: 500,
@@ -164,13 +181,17 @@ export const getMarketplaces: RouteOptions = {
           listableOrderbooks = ["nftearth"];
           break;
         }
+        case 137: {
+          listableOrderbooks = ["nftearth"];
+          break;
+        }
         case 42161: {
           listableOrderbooks = ["nftearth"];
           break;
         }
       }
       marketplace.listingEnabled =
-        marketplace.orderbook && listableOrderbooks.includes(marketplace.orderbook) ? true : false;
+        !!(marketplace.orderbook && listableOrderbooks.includes(marketplace.orderbook));
     });
 
     return {

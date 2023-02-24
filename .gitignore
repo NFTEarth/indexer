@@ -14,7 +14,7 @@ tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*
 postgres/
-scripts/
+test*.ts
 
 # Yarn
 .yarn/*
@@ -35,12 +35,8 @@ cache
 # Tenderly
 tenderly.yaml
 
-# Script files
-test*.ts
-
 # OpenZeppelin
 unknown-*
-
 
 # IDE
 *.iml
@@ -49,3 +45,6 @@ unknown-*
 .yarnclean
 ecosystem.config.cjs
 coverage/
+
+# Caches
+.eslintcache

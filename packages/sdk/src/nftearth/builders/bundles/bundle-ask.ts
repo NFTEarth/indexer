@@ -98,6 +98,7 @@ export class BundleAskBuilder extends BaseBundleBuilder {
       const copyOrder = this.build({
         ...order.params,
         ...info,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
 
       if (!copyOrder) {
@@ -192,6 +193,7 @@ export class BundleAskBuilder extends BaseBundleBuilder {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars
   public buildMatching(_order: BundleOrder, _data: any) {
     return {};
   }

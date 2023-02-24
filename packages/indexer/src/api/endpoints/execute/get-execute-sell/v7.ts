@@ -392,7 +392,7 @@ export const getExecuteSellV7Options: RouteOptions = {
           // Partial Seaport orders require knowing the owner
           let owner: string | undefined;
           if (
-            ["nftearth-partial", "seaport-partial", "seaport-v1.2-partial"].includes(result.kind)
+            ["nftearth-partial", "seaport-partial", "seaport-v1.4-partial"].includes(result.kind)
           ) {
             const ownerResult = await redb.oneOrNone(
               `
@@ -420,9 +420,9 @@ export const getExecuteSellV7Options: RouteOptions = {
               "x2y2",
               "nftearth",
               "seaport",
-              "seaport-v1.2",
+              "seaport-v1.4",
               "seaport-partial",
-              "seaport-v1.2-partial",
+              "seaport-v1.4-partial",
             ].includes(result.kind)
           ) {
             if (
@@ -503,7 +503,7 @@ export const getExecuteSellV7Options: RouteOptions = {
             // Partial Seaport orders require knowing the owner
             let owner: string | undefined;
             if (
-              ["nftearth-partial", "seaport-partial", "seaport-v1.2-partial"].includes(result.kind)
+              ["nftearth-partial", "seaport-partial", "seaport-v1.4-partial"].includes(result.kind)
             ) {
               const ownerResult = await redb.oneOrNone(
                 `
@@ -531,9 +531,9 @@ export const getExecuteSellV7Options: RouteOptions = {
                 "x2y2",
                 "nftearth",
                 "seaport",
-                "seaport-v1.2",
+                "seaport-v1.4",
                 "seaport-partial",
-                "seaport-v1.2-partial",
+                "seaport-v1.4-partial",
               ].includes(result.kind)
             ) {
               if (
