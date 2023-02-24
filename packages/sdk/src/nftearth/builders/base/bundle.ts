@@ -97,5 +97,6 @@ export abstract class BaseBundleBuilder {
   public abstract getInfo(order: BundleOrder): BaseBundleOrderInfo | undefined;
   public abstract isValid(order: BundleOrder): boolean;
   public abstract build(params: BaseBundleBuildParams): BundleOrder;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public abstract buildMatching(order: BundleOrder, data: any): Types.MatchParams;
 }

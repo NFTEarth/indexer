@@ -127,6 +127,7 @@ export class Order {
       throw new Error("Could not get order info");
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(info as any).isDynamic) {
       if (info.side === "buy") {
         return bn(info.price);
@@ -169,17 +170,17 @@ export class Order {
     return feeAmount;
   }
 
-  public buildMatching(data?: any) {
+  public buildMatching(data?: object) {
     return this.getBuilder().buildMatching(this, data);
   }
 
   public async checkFillability(provider: Provider) {
     const conduitController = new Contract(
       Addresses.ConduitController[this.chainId],
-      ConduitControllerAbi as any,
+      ConduitControllerAbi,
       provider
     );
-    const exchange = new Contract(Addresses.Exchange[this.chainId], ExchangeAbi as any, provider);
+    const exchange = new Contract(Addresses.Exchange[this.chainId], ExchangeAbi, provider);
 
     const status = await exchange.getOrderStatus(this.hash());
     if (status.isCancelled) {
