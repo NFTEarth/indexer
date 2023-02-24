@@ -1,13 +1,13 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { AddressZero } from "@ethersproject/constants";
 import { Contract } from "@ethersproject/contracts";
-import * as Sdk from "@reservoir0x/sdk/src";
+import * as Sdk from "@nftearth/sdk/src";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { ethers } from "hardhat";
 
 import { bn, getChainId } from "../../../utils";
 
-import FactoryAbi from "@reservoir0x/sdk/src/sudoswap/abis/Factory.json";
+import FactoryAbi from "@nftearth/sdk/src/sudoswap/abis/Factory.json";
 
 // --- Listings ---
 

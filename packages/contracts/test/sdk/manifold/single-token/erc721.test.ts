@@ -1,6 +1,6 @@
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import * as Manifold from "@reservoir0x/sdk/src/manifold";
+import * as Manifold from "@nftearth/sdk/src/manifold";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";

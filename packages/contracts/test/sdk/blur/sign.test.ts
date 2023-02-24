@@ -1,7 +1,7 @@
 import { defaultAbiCoder } from "@ethersproject/abi";
 import { keccak256 } from "@ethersproject/solidity";
 import { verifyTypedData } from "@ethersproject/wallet";
-import * as Blur from "@reservoir0x/sdk/src/blur";
+import * as Blur from "@nftearth/sdk/src/blur";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";

@@ -1,7 +1,7 @@
 import { Contract } from "@ethersproject/contracts";
 import { parseEther } from "@ethersproject/units";
-import * as Common from "@reservoir0x/sdk/src/common";
-import * as Element from "@reservoir0x/sdk/src/element";
+import * as Common from "@nftearth/sdk/src/common";
+import * as Element from "@nftearth/sdk/src/element";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
 import { ethers } from "hardhat";

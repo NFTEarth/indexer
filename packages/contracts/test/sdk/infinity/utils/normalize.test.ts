@@ -1,5 +1,5 @@
-import * as Infinity from "@reservoir0x/sdk/src/infinity";
-import { lc } from "@reservoir0x/sdk/src/utils";
+import * as Infinity from "@nftearth/sdk/src/infinity";
+import { lc } from "@nftearth/sdk/src/utils";
 import { expect } from "chai";
 
 describe("Infinity - Normalize Order Parameters", () => {
