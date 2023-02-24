@@ -2994,16 +2994,6 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@nftearth/sdk@*":
-  version "0.0.322"
-  resolved "https://registry.yarnpkg.com/@nftearth/sdk/-/sdk-0.0.322.tgz#2c9b8d143cd40744867a0f8d40711d5d1ca8e033"
-  integrity sha512-flirox8L3Sy8eoWjEkgjdu9dUGi6P+kd7QWKIFYIs5IBxaEinuQY+qrWSlWT8t2b0fIas5MIkO4ZcaJeZnE/Qg==
-  dependencies:
-    "@uniswap/permit2-sdk" "^1.2.0"
-    "@uniswap/smart-order-router" "^3.0.4"
-    ethers "^5.7.2"
-    merkletreejs "^0.3.9"
-
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@resolver-engine/core/-/core-0.3.3.tgz#590f77d85d45bc7ecc4e06c654f41345db6ca967"
