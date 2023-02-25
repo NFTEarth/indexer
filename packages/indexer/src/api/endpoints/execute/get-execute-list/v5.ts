@@ -257,6 +257,7 @@ export const getExecuteListV5Options: RouteOptions = {
 
           // For now, ERC20 listings are only supported on Seaport
           if (
+            params.orderKind !== "nftearth" &&
             params.orderKind !== "seaport" &&
             params.orderKind !== "seaport-v1.4" &&
             params.currency !== Sdk.Common.Addresses.Eth[config.chainId]
@@ -278,13 +279,13 @@ export const getExecuteListV5Options: RouteOptions = {
           try {
             switch (params.orderKind) {
               case "zeroex-v4": {
-                if (!["reservoir"].includes(params.orderbook)) {
+                if (!["nftearth"].includes(params.orderbook)) {
                   return errors.push({ message: "Unsupported orderbook", orderIndex: i });
                 }
 
                 const order = await zeroExV4SellToken.build({
                   ...params,
-                  orderbook: "reservoir",
+                  orderbook: "nftearth",
                   maker,
                   contract,
                   tokenId,
@@ -561,13 +562,13 @@ export const getExecuteListV5Options: RouteOptions = {
               }
 
               case "seaport": {
-                if (!["reservoir", "opensea"].includes(params.orderbook)) {
+                if (!["nftearth", "opensea"].includes(params.orderbook)) {
                   return errors.push({ message: "Unsupported orderbook", orderIndex: i });
                 }
 
                 const order = await seaportSellToken.build({
                   ...params,
-                  orderbook: params.orderbook as "opensea" | "reservoir",
+                  orderbook: params.orderbook as "opensea" | "nftearth",
                   maker,
                   contract,
                   tokenId,
@@ -637,13 +638,13 @@ export const getExecuteListV5Options: RouteOptions = {
               }
 
               case "seaport-v1.4": {
-                if (!["reservoir", "opensea"].includes(params.orderbook)) {
+                if (!["nftearth", "opensea"].includes(params.orderbook)) {
                   return errors.push({ message: "Unsupported orderbook", orderIndex: i });
                 }
 
                 const order = await seaportV14SellToken.build({
                   ...params,
-                  orderbook: params.orderbook as "reservoir" | "opensea",
+                  orderbook: params.orderbook as "nftearth" | "opensea",
                   maker,
                   contract,
                   tokenId,
@@ -704,7 +705,7 @@ export const getExecuteListV5Options: RouteOptions = {
               }
 
               case "looks-rare": {
-                if (!["reservoir", "looks-rare"].includes(params.orderbook)) {
+                if (!["nftearth", "looks-rare"].includes(params.orderbook)) {
                   return errors.push({ message: "Unsupported orderbook", orderIndex: i });
                 }
                 if (params.fees?.length) {
