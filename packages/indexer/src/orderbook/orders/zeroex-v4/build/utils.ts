@@ -9,7 +9,7 @@ export interface BaseOrderBuildOptions {
   maker: string;
   contract?: string;
   weiPrice: string;
-  orderbook: "reservoir";
+  orderbook: "nftearth";
   quantity?: number;
   nonce?: string;
   fee?: number[];

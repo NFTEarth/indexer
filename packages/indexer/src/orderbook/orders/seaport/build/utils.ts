@@ -15,7 +15,7 @@ export interface BaseOrderBuildOptions {
   maker: string;
   contract?: string;
   weiPrice: string;
-  orderbook: "opensea" | "reservoir";
+  orderbook: "opensea" | "nftearth";
   orderType?: Sdk.Seaport.Types.OrderType;
   currency?: string;
   quantity?: number;
