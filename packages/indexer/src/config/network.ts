@@ -408,7 +408,7 @@ export const getNetworkSettings = (): NetworkSettings => {
         lastBlockLatency: 20,
         backfillBlockBatchSize: 60,
         reorgCheckFrequency: [30],
-        subDomain: "api-polygon",
+        subDomain: "polygon-indexer",
         coingecko: {
           networkId: "polygon-pos",
         },
