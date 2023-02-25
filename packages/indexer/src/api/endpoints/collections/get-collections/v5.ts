@@ -347,7 +347,7 @@ export const getCollectionsV5Options: RouteOptions = {
         itemCountSelectQuery = ", ic.*";
         itemCountJoinQuery = `
           LEFT JOIN LATERAL (
-            SELECT SUM(nft_balances.amount) AS token_count
+            SELECT SUM(nft_balances.amount) AS item_count
             FROM nft_balances
             WHERE nft_balances.contract = x.contract
               AND nft_balances.token_id <@ x.token_id_range
@@ -774,8 +774,8 @@ export const getCollectionsV5Options: RouteOptions = {
                 }
               : undefined,
             collectionBidSupported: Number(r.token_count) <= config.maxTokenSetSize,
-            ownerCount: query.includeOwnerCount ? Number(r.owner_count) : undefined,
-            itemCount: query.includeItemCount ? Number(r.item_count) : undefined,
+            ownerCount: query.includeOwnerCount ? Number(r.owner_count) || 0 : undefined,
+            itemCount: query.includeItemCount ? Number(r.item_count) || 0 : undefined,
             attributes: query.includeAttributes
               ? _.map(_.sortBy(r.attributes, ["rank", "key"]), (attribute) => ({
                   key: attribute.key,
