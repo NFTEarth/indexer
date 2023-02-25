@@ -490,7 +490,7 @@ export const getExecuteBidV5Options: RouteOptions = {
                   const [contract, tokenId] = token.split(":");
                   order = await seaportBuyToken.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     contract,
                     tokenId,
@@ -499,14 +499,14 @@ export const getExecuteBidV5Options: RouteOptions = {
                 } else if (tokenSetId) {
                   order = await seaportBuyAttribute.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     source,
                   });
                 } else if (attribute) {
                   order = await seaportBuyAttribute.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     collection: attribute.collection,
                     attributes: [attribute],
@@ -515,7 +515,7 @@ export const getExecuteBidV5Options: RouteOptions = {
                 } else if (collection) {
                   order = await seaportBuyCollection.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     collection,
                     source,
@@ -586,7 +586,7 @@ export const getExecuteBidV5Options: RouteOptions = {
                   const [contract, tokenId] = token.split(":");
                   order = await seaportV14BuyToken.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     contract,
                     tokenId,
@@ -595,14 +595,14 @@ export const getExecuteBidV5Options: RouteOptions = {
                 } else if (tokenSetId) {
                   order = await seaportV14BuyAttribute.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     source,
                   });
                 } else if (attribute) {
                   order = await seaportV14BuyAttribute.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     collection: attribute.collection,
                     attributes: [attribute],
@@ -611,7 +611,7 @@ export const getExecuteBidV5Options: RouteOptions = {
                 } else if (collection) {
                   order = await seaportV14BuyCollection.build({
                     ...params,
-                    orderbook: params.orderbook as "reservoir" | "opensea",
+                    orderbook: params.orderbook as "nftearth" | "opensea",
                     maker,
                     collection,
                     source,
@@ -673,7 +673,7 @@ export const getExecuteBidV5Options: RouteOptions = {
                   const [contract, tokenId] = token.split(":");
                   order = await zeroExV4BuyToken.build({
                     ...params,
-                    orderbook: "reservoir",
+                    orderbook: "nftearth",
                     maker,
                     contract,
                     tokenId,
@@ -681,13 +681,13 @@ export const getExecuteBidV5Options: RouteOptions = {
                 } else if (tokenSetId) {
                   order = await zeroExV4BuyAttribute.build({
                     ...params,
-                    orderbook: "reservoir",
+                    orderbook: "nftearth",
                     maker,
                   });
                 } else if (attribute) {
                   order = await zeroExV4BuyAttribute.build({
                     ...params,
-                    orderbook: "reservoir",
+                    orderbook: "nftearth",
                     maker,
                     collection: attribute.collection,
                     attributes: [attribute],
@@ -695,7 +695,7 @@ export const getExecuteBidV5Options: RouteOptions = {
                 } else if (collection) {
                   order = await zeroExV4BuyCollection.build({
                     ...params,
-                    orderbook: "reservoir",
+                    orderbook: "nftearth",
                     maker,
                     collection,
                   });
