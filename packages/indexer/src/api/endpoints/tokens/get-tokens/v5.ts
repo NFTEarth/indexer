@@ -155,6 +155,16 @@ export const getTokensV5Options: RouteOptions = {
         .description(
           "If true, quantity filled and quantity remaining will be returned in the response."
         ),
+      includeItemCount: Joi.boolean()
+        .default(false)
+        .description(
+          "If true, item count will be returned in the response."
+        ),
+      includeOwnerCount: Joi.boolean()
+        .default(false)
+        .description(
+          "If true, owner count will be returned in the response."
+        ),
       includeDynamicPricing: Joi.boolean()
         .default(false)
         .description("If true, dynamic pricing data will be returned in the response."),
@@ -336,12 +346,12 @@ export const getTokensV5Options: RouteOptions = {
       itemCountSelectQuery = ", ic.*";
       itemCountJoinQuery = `
           LEFT JOIN LATERAL (
-            SELECT SUM(nft_balances.amount) AS token_count
+            SELECT SUM(nft_balances.amount) AS item_count
             FROM nft_balances
             WHERE nft_balances.contract = t.contract
               AND nft_balances.token_id = t.token_id
             AND amount > 0
-            GROUP BY nft_balances.contract
+            GROUP BY nft_balances.contract, nft_balances.token_id
           ) ic ON TRUE
         `;
     }
