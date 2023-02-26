@@ -55,6 +55,9 @@ export const getOpenApiOptions: RouteOptions = {
           url: "https://indexer.nftearth.exchange",
         },
         {
+          url: "https://polygon-indexer.nftearth.exchange",
+        },
+        {
           url: "https://arb-indexer.nftearth.exchange",
         },
       ];
