@@ -158,7 +158,7 @@ if (config.doBackgroundWork) {
         }
 
         // Set any cached information (eg. floor sell)
-        await tokenRefreshCache.addToQueue(contract, tokenId, !backfill);
+        await tokenRefreshCache.addToQueue(contract, tokenId, backfill);
       } catch (error) {
         logger.error(
           QUEUE_NAME,
@@ -178,7 +178,7 @@ export type MintInfo = {
   contract: string;
   tokenId: string;
   mintedTimestamp: number;
-  backfill: boolean
+  backfill?: boolean
 };
 
 export const addToQueue = async (mintInfos: MintInfo[]) => {

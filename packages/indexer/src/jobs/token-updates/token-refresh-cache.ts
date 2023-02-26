@@ -32,18 +32,18 @@ if (config.doBackgroundWork) {
       await Tokens.recalculateTokenTopBid(contract, tokenId);
 
       // Simulate the floor ask and the top bid on the token
-      await inject({
-        method: "POST",
-        url: `/tokens/simulate-floor/v1`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        payload: {
-          token: `${contract}:${tokenId}`,
-        },
-      });
-
       if (!skipTopBidSimulation) {
+        await inject({
+          method: "POST",
+          url: `/tokens/simulate-floor/v1`,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          payload: {
+            token: `${contract}:${tokenId}`,
+          },
+        });
+
         await inject({
           method: "POST",
           url: `/tokens/simulate-top-bid/v1`,

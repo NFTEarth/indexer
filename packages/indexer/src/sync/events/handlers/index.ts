@@ -63,8 +63,8 @@ export const eventKindToHandler = new Map<
   (e: EnhancedEvent[], d: OnChainData, backfill?: boolean) => Promise<void>
 >([
   ["erc20", (e, d) => erc20.handleEvents(e, d)],
-  ["erc721", (e, d) => erc721.handleEvents(e, d)],
-  ["erc1155", (e, d) => erc1155.handleEvents(e, d)],
+  ["erc721", (e, d, backfill) => erc721.handleEvents(e, d, backfill)],
+  ["erc1155", (e, d, backfill) => erc1155.handleEvents(e, d, backfill)],
   ["blur", (e, d) => blur.handleEvents(e, d)],
   ["cryptopunks", (e, d) => cryptopunks.handleEvents(e, d)],
   ["decentraland", (e, d) => decentraland.handleEvents(e, d)],

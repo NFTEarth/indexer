@@ -55,8 +55,7 @@ if (config.doBackgroundWork) {
         results.map((r) => ({
           contract: fromBuffer(r.contract),
           tokenId: r.token_id,
-          mintedTimestamp: currentTime,
-          backfill: true
+          mintedTimestamp: currentTime
         })),
       );
 
