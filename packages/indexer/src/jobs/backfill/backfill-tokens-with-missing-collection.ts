@@ -56,7 +56,8 @@ if (config.doBackgroundWork) {
           contract: fromBuffer(r.contract),
           tokenId: r.token_id,
           mintedTimestamp: currentTime,
-        }))
+          backfill: true
+        })),
       );
 
       if (results.length >= 50) {
