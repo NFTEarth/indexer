@@ -10,7 +10,7 @@ import * as utils from "@/events-sync/utils";
 import { getOrderSourceByOrderKind } from "@/orderbook/orders";
 import { getUSDAndNativePrices } from "@/utils/prices";
 
-export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChainData) => {
+export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChainData, backfill?: boolean) => {
   // For handling mints as sales
   const mintedTokens = new Map<
     string,
@@ -84,6 +84,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
             contract: baseEventParams.address,
             tokenId,
             mintedTimestamp: baseEventParams.timestamp,
+            backfill
           });
 
           if (!ns.mintsAsSalesBlacklist.includes(baseEventParams.address)) {
@@ -162,6 +163,7 @@ export const handleEvents = async (events: EnhancedEvent[], onChainData: OnChain
               contract: baseEventParams.address,
               tokenId: tokenIds[i],
               mintedTimestamp: baseEventParams.timestamp,
+              backfill
             });
 
             if (!ns.mintsAsSalesBlacklist.includes(baseEventParams.address)) {
