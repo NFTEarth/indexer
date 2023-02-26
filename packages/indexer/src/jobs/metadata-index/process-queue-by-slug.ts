@@ -65,7 +65,7 @@ if (config.doBackgroundWork) {
   const worker = new Worker(
     QUEUE_NAME,
     async () => {
-      const method = "opensea";
+      const method = "simplehash";
       const count = 1; // Default number of tokens to fetch
       let retry = false;
 
