@@ -34,7 +34,7 @@ if (config.doBackgroundWork) {
   const worker = new Worker(
     QUEUE_NAME,
     async (job: Job) => {
-      const { contract, tokenId, mintedTimestamp } = job.data as MintInfo;
+      const { contract, tokenId, mintedTimestamp, backfill } = job.data as MintInfo;
 
       try {
         // First, check the database for any matching collection
@@ -158,7 +158,7 @@ if (config.doBackgroundWork) {
         }
 
         // Set any cached information (eg. floor sell)
-        await tokenRefreshCache.addToQueue(contract, tokenId);
+        await tokenRefreshCache.addToQueue(contract, tokenId, !backfill);
       } catch (error) {
         logger.error(
           QUEUE_NAME,
@@ -178,6 +178,7 @@ export type MintInfo = {
   contract: string;
   tokenId: string;
   mintedTimestamp: number;
+  backfill: boolean
 };
 
 export const addToQueue = async (mintInfos: MintInfo[]) => {
