@@ -6,7 +6,7 @@ import { ChainIdToAddress, Network } from "../../utils";
 export const Router: ChainIdToAddress = {
   [Network.Ethereum]: "0x178a86d36d89c7fdebea90b739605da7b131ff6a",
   [Network.EthereumGoerli]: "0xb35d22a4553ab9d2b85e2a606cbae55f844df50c",
-  [Network.Polygon]: "0x819327e005a3ed85f7b634e195b8f25d4a2a45f8",
+  [Network.Polygon]: "0x7c173d178B437287608d6105886DdC77CD40c089",
   [Network.Optimism]: "0x7c173d178B437287608d6105886DdC77CD40c089",
   [Network.Arbitrum]: "0x7c173d178B437287608d6105886DdC77CD40c089",
 };
@@ -65,6 +65,7 @@ export const SeaportV14Module: ChainIdToAddress = {
 export const NFTEarthModule: ChainIdToAddress = {
   [Network.Optimism]: "0x2140Ea50bc3B6Ac3971F9e9Ea93A1442665670e4",
   [Network.Arbitrum]: "0x2140Ea50bc3B6Ac3971F9e9Ea93A1442665670e4",
+  [Network.Optimism]: "0x2140Ea50bc3B6Ac3971F9e9Ea93A1442665670e4",
 };
 
 export const SudoswapModule: ChainIdToAddress = {
