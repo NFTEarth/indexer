@@ -21,11 +21,11 @@ export const getNetworkName = () => {
     case 10:
       return "optimism";
 
-    case 42161:
-      return "arbitrum";
-
     case 137:
       return "polygon";
+
+    case 42161:
+      return "arbitrum";
 
     default:
       return "unknown";
@@ -403,11 +403,9 @@ export const getNetworkSettings = (): NetworkSettings => {
         metadataMintDelay: 180,
         enableWebSocket: true,
         enableReorgCheck: true,
-        realtimeSyncFrequencySeconds: 10,
-        realtimeSyncMaxBlockLag: 45,
-        lastBlockLatency: 20,
-        backfillBlockBatchSize: 60,
-        reorgCheckFrequency: [30],
+        realtimeSyncFrequencySeconds: 15,
+        realtimeSyncMaxBlockLag: 128,
+        backfillBlockBatchSize: 512,
         subDomain: "polygon-indexer",
         coingecko: {
           networkId: "polygon-pos",
