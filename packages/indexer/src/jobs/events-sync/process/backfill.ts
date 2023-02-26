@@ -36,7 +36,7 @@ if (config.doBackgroundWork && (config.chainId === 137 ? config.doProcessBackfil
       if (batch) {
         try {
           if (batch.id) {
-            await processEventsBatch(batch);
+            await processEventsBatch(batch, batch.backfill);
           } else {
             await processEventsBatch({
               id: randomUUID(),
