@@ -41,7 +41,7 @@ export const postSimulateTopBidV1Options: RouteOptions = {
     },
   },
   handler: async (request: Request) => {
-    if (![1, 10, 42161, 137].includes(config.chainId)) {
+    if (![1, 137].includes(config.chainId)) {
       return { message: "Simulation not supported" };
     }
 

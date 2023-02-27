@@ -98,7 +98,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -189,7 +189,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -284,7 +284,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -378,7 +378,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -465,7 +465,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -559,7 +559,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -661,7 +661,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: fillAmount,
     });
 
@@ -755,7 +755,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -842,7 +842,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -931,7 +931,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: fillAmount,
     });
 
@@ -1021,7 +1021,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -1116,7 +1116,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: fillAmount,
     });
 
@@ -1214,7 +1214,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: mintTokensAmount,
     });
 
@@ -1313,7 +1313,7 @@ describe("Rarible - SingleToken Bids Erc1155", () => {
 
     // Match orders
     await exchange.fillOrder(seller, buyOrder, {
-      referrer: "reservoir.market",
+      source: "nftearth.exchange",
       amount: fillAmount,
     });
 
