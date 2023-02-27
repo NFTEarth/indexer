@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import * as Boom from "@hapi/boom";
 import { Request, RouteOptions } from "@hapi/hapi";
 import * as Sdk from "@nftearth/sdk";
-import * as SeaportPermit from "@nftearth/sdk/dist/router/v6/permits/seaport";
+import * as NFTEarthPermit from "@nftearth/sdk/dist/router/v6/permits/nftearth";
 import { BidDetails } from "@nftearth/sdk/dist/router/v6/types";
 import Joi from "joi";
 
@@ -418,7 +418,6 @@ export const getExecuteSellV7Options: RouteOptions = {
           if (
             [
               "x2y2",
-              "nftearth",
               "seaport",
               "seaport-v1.4",
               "seaport-partial",
@@ -529,7 +528,6 @@ export const getExecuteSellV7Options: RouteOptions = {
             if (
               [
                 "x2y2",
-                "nftearth",
                 "seaport",
                 "seaport-v1.4",
                 "seaport-partial",
@@ -703,7 +701,7 @@ export const getExecuteSellV7Options: RouteOptions = {
         }
       }
 
-      const permitHandler = new SeaportPermit.Handler(config.chainId, baseProvider);
+      const permitHandler = new NFTEarthPermit.Handler(config.chainId, baseProvider);
       if (permits.length) {
         for (const permit of permits) {
           const id = getPermitId(request.payload as object, permit.tokens);
@@ -714,7 +712,7 @@ export const getExecuteSellV7Options: RouteOptions = {
             permit.details = cachedPermit.details;
 
             // If the cached permit has a signature attached to it, we can skip it
-            const hasSignature = (permit.details.data as SeaportPermit.Data).order.signature;
+            const hasSignature = (permit.details.data as NFTEarthPermit.Data).order.signature;
             if (hasSignature) {
               continue;
             }
@@ -724,7 +722,7 @@ export const getExecuteSellV7Options: RouteOptions = {
               id,
               permit,
               // Give a 1 minute buffer for the permit to expire
-              (permit.details.data as SeaportPermit.Data).order.endTime - now() - 60
+              (permit.details.data as NFTEarthPermit.Data).order.endTime - now() - 60
             );
             cachedPermit = permit;
           }
