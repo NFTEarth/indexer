@@ -24,9 +24,9 @@
     "@hapi/hapi": "^20.0.0",
     "@hapi/inert": "^6.0.4",
     "@hapi/vision": "^6.1.0",
+    "@nftearth/sdk": "*",
     "@opensea/stream-js": "^0.0.21-rc.1",
     "@poprank/rankings": "1.1.20",
-    "@nftearth/sdk": "*",
     "@types/date-fns": "^2.6.0",
     "@types/hapi__basic": "^5.1.2",
     "@types/hapi__hapi": "^20.0.9",
@@ -63,7 +63,7 @@
     "module-alias": "^2.2.2",
     "node-cron": "^3.0.0",
     "node-html-parser": "^5.3.3",
-    "node-pg-migrate": "^6.0.0",
+    "node-pg-migrate": "^6.2.2",
     "nodemon": "^2.0.15",
     "p-limit": "^3.0.0",
     "pg": "^8.7.1",
@@ -81,7 +81,8 @@
     "typescript": "^4.6.4",
     "uuid-by-string": "^3.0.7",
     "winston": "^3.3.3",
-    "ws": "^8.10.0"
+    "ws": "^8.10.0",
+    "yargs-parser": "5.0.1"
   },
   "devDependencies": {
     "tsconfig-paths": "^4.1.0"

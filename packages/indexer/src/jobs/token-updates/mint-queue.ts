@@ -206,7 +206,7 @@ export type MintInfo = {
   contract: string;
   tokenId: string;
   mintedTimestamp: number;
-  backfill?: boolean
+  backfill?: boolean;
 };
 
 export const addToQueue = async (mintInfos: MintInfo[]) => {

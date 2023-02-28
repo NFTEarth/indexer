@@ -55,8 +55,8 @@ if (config.doBackgroundWork) {
         results.map((r) => ({
           contract: fromBuffer(r.contract),
           tokenId: r.token_id,
-          mintedTimestamp: currentTime
-        })),
+          mintedTimestamp: currentTime,
+        }))
       );
 
       if (results.length >= 50) {

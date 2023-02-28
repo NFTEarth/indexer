@@ -157,14 +157,10 @@ export const getTokensV5Options: RouteOptions = {
         ),
       includeItemCount: Joi.boolean()
         .default(false)
-        .description(
-          "If true, item count will be returned in the response."
-        ),
+        .description("If true, item count will be returned in the response."),
       includeOwnerCount: Joi.boolean()
         .default(false)
-        .description(
-          "If true, owner count will be returned in the response."
-        ),
+        .description("If true, owner count will be returned in the response."),
       includeDynamicPricing: Joi.boolean()
         .default(false)
         .description("If true, dynamic pricing data will be returned in the response."),

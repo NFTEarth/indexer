@@ -138,6 +138,21 @@ export class Tokens {
     });
   }
 
+  public static async countItemsInCollection(contract: string) {
+    const query = `SELECT SUM(nft_balances.amount) AS count
+            FROM nft_balances
+            WHERE nft_balances.contract = $/contract/\`
+              AND nft_balances.token_id <@ x.token_id_range
+            AND amount > 0
+            GROUP BY nft_balances.contract`;
+
+    return await idb
+      .oneOrNone(query, {
+        contract: toBuffer(contract),
+      })
+      .then((result) => (result ? result.count : 0));
+  }
+
   public static async countTokensInCollection(collectionId: string) {
     const query = `SELECT count(*) AS count
                    FROM tokens
