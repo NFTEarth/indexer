@@ -4,6 +4,7 @@ node_modules
 # Secrets
 .env
 .env.testnet
+.turbo
 
 # Build
 dist
