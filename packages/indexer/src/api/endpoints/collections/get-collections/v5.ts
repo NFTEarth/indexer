@@ -245,7 +245,7 @@ export const getCollectionsV5Options: RouteOptions = {
           },
           collectionBidSupported: Joi.boolean(),
           ownerCount: Joi.number().optional(),
-          itemCount:  Joi.number().optional(),
+          itemCount: Joi.number().optional(),
           attributes: Joi.array()
             .items(
               Joi.object({

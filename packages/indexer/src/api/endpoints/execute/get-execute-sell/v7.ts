@@ -416,13 +416,9 @@ export const getExecuteSellV7Options: RouteOptions = {
 
           // Do not fill X2Y2 and Seaport orders with flagged tokens
           if (
-            [
-              "x2y2",
-              "seaport",
-              "seaport-v1.4",
-              "seaport-partial",
-              "seaport-v1.4-partial",
-            ].includes(result.kind)
+            ["x2y2", "seaport", "seaport-v1.4", "seaport-partial", "seaport-v1.4-partial"].includes(
+              result.kind
+            )
           ) {
             if (
               (tokenToSuspicious.has(item.token) && tokenToSuspicious.get(item.token)) ||

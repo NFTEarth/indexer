@@ -84,6 +84,8 @@ export class Collections {
   public static async updateCollectionCache(contract: string, tokenId: string, community = "") {
     const collection = await MetadataApi.getCollectionMetadata(contract, tokenId, community);
     const tokenCount = await Tokens.countTokensInCollection(collection.id);
+    // TODO: store item count on table collections
+    // const itemCount = await Tokens.countItemsInCollection(collection.id);
 
     const query = `
       UPDATE collections SET

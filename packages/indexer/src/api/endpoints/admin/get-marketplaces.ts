@@ -50,9 +50,9 @@ export const getMarketplaces: RouteOptions = {
     const marketplaces: Marketplace[] = [
       {
         name: "NFTEarth",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/nftearth/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/nftearth/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -64,9 +64,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Trove",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/treasure/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/treasure/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -78,9 +78,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Zonic",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/zonic/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/zonic/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -92,9 +92,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Reservoir",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/reservoir/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/reservoir/logo/v2`,
         fee: {
           percent: 0,
           bps: 0,
@@ -106,9 +106,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "OpenSea",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/opensea/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/opensea/logo/v2`,
         fee: {
           percent: 2.5,
           bps: 250,
@@ -120,9 +120,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "LooksRare",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/looksrare/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/looksrare/logo/v2`,
         fee: {
           percent: 2,
           bps: 200,
@@ -134,9 +134,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "X2Y2",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/x2y2/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/x2y2/logo/v2`,
         fee: {
           percent: 0.5,
           bps: 50,
@@ -148,9 +148,9 @@ export const getMarketplaces: RouteOptions = {
       },
       {
         name: "Foundation",
-        imageUrl: `https://${
-          getNetworkSettings().subDomain
-        }.${getNetworkSettings().domain}/redirect/sources/foundation/logo/v2`,
+        imageUrl: `https://${getNetworkSettings().subDomain}.${
+          getNetworkSettings().domain
+        }/redirect/sources/foundation/logo/v2`,
         fee: {
           percent: 5,
           bps: 500,
@@ -190,8 +190,9 @@ export const getMarketplaces: RouteOptions = {
           break;
         }
       }
-      marketplace.listingEnabled =
-        !!(marketplace.orderbook && listableOrderbooks.includes(marketplace.orderbook));
+      marketplace.listingEnabled = !!(
+        marketplace.orderbook && listableOrderbooks.includes(marketplace.orderbook)
+      );
     });
 
     return {
