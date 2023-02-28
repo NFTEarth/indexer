@@ -20,7 +20,7 @@ export const getLaunchpadsV1Options: RouteOptions = {
   description: "Launchpads",
   notes:
     "Useful for getting multiple launchpads to show in a marketplace, or search for particular creator.",
-  tags: ["api", "Contracts", "Launchpad"],
+  tags: ["api", "Launchpad"],
   plugins: {
     "hapi-swagger": {
       order: 2,

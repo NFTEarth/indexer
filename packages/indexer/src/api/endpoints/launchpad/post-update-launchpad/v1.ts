@@ -14,8 +14,8 @@ import * as Boom from "@hapi/boom";
 const version = "v1";
 
 export const postUpdateLaunchpadV1Options: RouteOptions = {
-  description: "Create Launchpad Contract",
-  tags: ["api", "Contracts", "Launchpad"],
+  description: "Update Launchpad Contract",
+  tags: ["api", "Launchpad"],
   plugins: {
     "hapi-swagger": {
       order: 1,

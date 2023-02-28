@@ -13,7 +13,7 @@ const version = "v1";
 
 export const postCreateLaunchpadV1Options: RouteOptions = {
   description: "Create Launchpad Contract",
-  tags: ["api", "Contracts", "Launchpad"],
+  tags: ["api", "Launchpad"],
   plugins: {
     "hapi-swagger": {
       order: 1,
