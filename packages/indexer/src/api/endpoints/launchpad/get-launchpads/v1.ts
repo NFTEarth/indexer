@@ -6,7 +6,7 @@ import Joi from "joi";
 
 import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
-import { buildContinuation, regex, splitContinuation, toBuffer } from "@/common/utils";
+import { buildContinuation, fromBuffer, regex, splitContinuation, toBuffer } from "@/common/utils";
 import { ApiKeyManager } from "@/models/api-keys";
 import * as Boom from "@hapi/boom";
 
@@ -186,7 +186,7 @@ export const getLaunchpadsV1Options: RouteOptions = {
           return {
             id: r.id,
             constructor_args: r.constructor_args,
-            deployer: r.deployer,
+            deployer: fromBuffer(r.deployer),
             createdAt: new Date(r.created_at).toISOString(),
             name: r.name,
             slug: r.slug,
