@@ -5,8 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "start": "turbo run start",
+    "build": "turbo run build --no-daemon",
+    "start": "turbo run start --no-daemon",
     "commitlint": "commitlint --edit",
     "lint-check": "eslint --cache --max-warnings 0 \"packages/**/src/**/*.+(js|ts|json)\"",
     "format-check": "prettier --cache --check \"packages/**/src/**/*.+(js|ts|json)\"",
