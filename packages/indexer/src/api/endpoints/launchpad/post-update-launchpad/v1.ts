@@ -81,7 +81,7 @@ export const postUpdateLaunchpadV1Options: RouteOptions = {
             name = $/name/,
             slug = $/slug/,
             updated_at = now()
-          WHERE id = $/id/
+          WHERE id = $/id/;
           UPDATE launchpad_contract SET
             allowlists = $/allowlists:json/,
             verified = $/verified/
