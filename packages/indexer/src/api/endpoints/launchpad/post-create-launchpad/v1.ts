@@ -74,11 +74,13 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
           INSERT INTO "collections" (
             "id",
             "name",
+            "slug",
             "contract",
             "minted_timestamp"
           ) VALUES (
             $/id/,
             $/name/,
+            $/slug/,
             $/contract/,
             $/mintedTimestamp/
           ) ON CONFLICT DO NOTHING;
@@ -86,6 +88,7 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
         {
           id: payload.id,
           name: payload.name,
+          slug: "",
           contract: toBuffer(payload.id),
           bytecode: payload.bytecode,
           constructor_args: payload.constructor_args,
