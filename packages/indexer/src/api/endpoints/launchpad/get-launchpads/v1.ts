@@ -72,8 +72,8 @@ export const getLaunchpadsV1Options: RouteOptions = {
       launchpads: Joi.array().items(
         Joi.object({
           id: Joi.string(),
-          constructor_args: Joi.string().required(),
-          deployer: Joi.string().pattern(regex.address).required(),
+          constructor_args: Joi.string().allow("", null),
+          deployer: Joi.string().pattern(regex.address).allow("", null),
           createdAt: Joi.string(),
           name: Joi.string().allow("", null),
           image: Joi.string().allow("", null),
@@ -185,9 +185,11 @@ export const getLaunchpadsV1Options: RouteOptions = {
         results.map(async (r) => {
           return {
             id: r.id,
-            slug: r.slug,
+            constructor_args: r.constructor_args,
+            deployer: r.deployer,
             createdAt: new Date(r.created_at).toISOString(),
             name: r.name,
+            slug: r.slug,
             image: r.image ? r.image : null,
             banner: r.banner,
             discordUrl: r.discord_url,
