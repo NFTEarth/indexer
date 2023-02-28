@@ -70,7 +70,7 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
             $/bytecode/,
             $/constructor_args/,
             $/deployer/
-          ) ON CONFLICT (id) DO UPDATE SET constructor_args = EXCLUDED."constructor_args"
+          ) ON CONFLICT (id) DO UPDATE SET constructor_args = EXCLUDED."constructor_args";
           INSERT INTO "collections" (
             "id",
             "name",
