@@ -75,6 +75,7 @@ export const getLaunchpadsV1Options: RouteOptions = {
           constructor_args: Joi.string().allow("", null),
           deployer: Joi.string().pattern(regex.address).allow("", null),
           createdAt: Joi.string(),
+          slug: Joi.string().allow("", null),
           name: Joi.string().allow("", null),
           image: Joi.string().allow("", null),
           banner: Joi.string().allow("", null),
