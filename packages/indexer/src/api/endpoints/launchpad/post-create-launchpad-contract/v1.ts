@@ -54,11 +54,11 @@ export const postCreateLaunchpadContractV1Options: RouteOptions = {
             $/bytecode/,
             $/constructor_args/,
             $/deployer/,
-          ) ON CONFLICT DO NOTHING;
+          ) ON CONFLICT (id) DO UPDATE SET constructor_args = EXCLUDED."constructor_args";
         `,
         {
           id: payload.id,
-          contract: toBuffer(payload.contract),
+          contract: toBuffer(payload.id),
           bytecode: payload.bytecode,
           constructor_args: payload.constructor_args,
           deployer: toBuffer(payload.deployer),
