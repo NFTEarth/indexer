@@ -31,18 +31,6 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
       deployer: Joi.string().pattern(regex.address).required(),
     }),
   },
-  response: {
-    schema: Joi.object({
-      id: Joi.string(),
-    }).label(`postCreateLaunchpad${version.toUpperCase()}Response`),
-    failAction: (_request, _h, error) => {
-      logger.error(
-        `post-create-launchpad-${version}-handler`,
-        `Wrong response schema: ${error}`
-      );
-      throw error;
-    },
-  },
   handler: async (request: Request) => {
     const payload = request.payload as any;
     const apiKey = await ApiKeyManager.getApiKey(request.headers["x-api-key"]);
@@ -98,10 +86,7 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
       );
       return { message: "Request accepted" };
     } catch (error) {
-      logger.error(
-        `post-create-launchpad-${version}-handler`,
-        `Handler failure: ${error}`
-      );
+      logger.error(`post-create-launchpad-${version}-handler`, `Handler failure: ${error}`);
       throw error;
     }
   },

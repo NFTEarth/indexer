@@ -44,22 +44,8 @@ export const postUpdateLaunchpadV1Options: RouteOptions = {
           .required(),
         bps: Joi.number().required(),
       }),
-      allowlists: Joi.array().items(
-        Joi.string().pattern(regex.address)
-      )
+      allowlists: Joi.array().items(Joi.string().pattern(regex.address)),
     }),
-  },
-  response: {
-    schema: Joi.object({
-      id: Joi.string(),
-    }).label(`postUpdateLaunchpad${version.toUpperCase()}Response`),
-    failAction: (_request, _h, error) => {
-      logger.error(
-        `post-update-launchpad-${version}-handler`,
-        `Wrong response schema: ${error}`
-      );
-      throw error;
-    },
   },
   handler: async (request: Request) => {
     const payload = request.payload as any;
@@ -94,7 +80,7 @@ export const postUpdateLaunchpadV1Options: RouteOptions = {
           constructor_args: payload.constructor_args,
           deployer: toBuffer(payload.deployer),
           allowlists: payload.allowlists,
-          verified: payload.verified
+          verified: payload.verified,
         }
       );
 
@@ -105,10 +91,7 @@ export const postUpdateLaunchpadV1Options: RouteOptions = {
 
       return { message: "Request accepted" };
     } catch (error) {
-      logger.error(
-        `post-update-launchpad-${version}-handler`,
-        `Handler failure: ${error}`
-      );
+      logger.error(`post-update-launchpad-${version}-handler`, `Handler failure: ${error}`);
       throw error;
     }
   },
