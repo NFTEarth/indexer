@@ -519,12 +519,6 @@ export const setupRoutes = (server: Server) => {
     options: launchpadEndpoints.postCreateLaunchpadContractV1Options,
   });
 
-  server.route({
-    method: "POST",
-    path: "/launchpad/verify/v1",
-    options: launchpadEndpoints.postVerifyLaunchpadContractV1Options,
-  });
-
   // Contracts Sets
 
   server.route({
