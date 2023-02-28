@@ -7,6 +7,8 @@ import Joi from "joi";
 import { redb } from "@/common/db";
 import { logger } from "@/common/logger";
 import { buildContinuation, regex, splitContinuation, toBuffer } from "@/common/utils";
+import { ApiKeyManager } from "@/models/api-keys";
+import * as Boom from "@hapi/boom";
 
 const version = "v1";
 
@@ -25,6 +27,9 @@ export const getLaunchpadsV1Options: RouteOptions = {
     },
   },
   validate: {
+    headers: Joi.object({
+      "x-api-key": Joi.string(),
+    }).options({ allowUnknown: true }),
     query: Joi.object({
       id: Joi.string()
         .lowercase()
@@ -100,6 +105,15 @@ export const getLaunchpadsV1Options: RouteOptions = {
   },
   handler: async (request: Request) => {
     const query = request.query as any;
+    const apiKey = await ApiKeyManager.getApiKey(request.headers["x-api-key"]);
+
+    if (_.isNull(apiKey)) {
+      throw Boom.unauthorized("Invalid API key");
+    }
+
+    if (!apiKey.permissions?.override_collection_refresh_cool_down) {
+      throw Boom.unauthorized("Not allowed");
+    }
 
     let selectAllowList = ``;
     if (query.includeAllowList) {

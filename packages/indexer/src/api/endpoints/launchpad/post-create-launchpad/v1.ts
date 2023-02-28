@@ -5,6 +5,9 @@ import Joi from "joi";
 import { logger } from "@/common/logger";
 import { now, regex, toBuffer } from "@/common/utils";
 import { idb } from "@/common/db";
+import { ApiKeyManager } from "@/models/api-keys";
+import _ from "lodash";
+import * as Boom from "@hapi/boom";
 
 const version = "v1";
 
@@ -17,6 +20,9 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
     },
   },
   validate: {
+    headers: Joi.object({
+      "x-api-key": Joi.string(),
+    }).options({ allowUnknown: true }),
     payload: Joi.object({
       id: Joi.string().pattern(regex.address).required(),
       name: Joi.string().required(),
@@ -39,6 +45,15 @@ export const postCreateLaunchpadV1Options: RouteOptions = {
   },
   handler: async (request: Request) => {
     const payload = request.payload as any;
+    const apiKey = await ApiKeyManager.getApiKey(request.headers["x-api-key"]);
+
+    if (_.isNull(apiKey)) {
+      throw Boom.unauthorized("Invalid API key");
+    }
+
+    if (!apiKey.permissions?.override_collection_refresh_cool_down) {
+      throw Boom.unauthorized("Not allowed");
+    }
 
     try {
       await idb.oneOrNone(
