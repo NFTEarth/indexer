@@ -18,19 +18,19 @@ const getNetworkConfig = (chainId?: number) => {
   if (!url) {
     switch (chainId) {
       case 1:
-        url = `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
+        url = `https://eth-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
         break;
       case 5:
-        url = `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
+        url = `https://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
         break;
       case 10:
-        url = `https://opt-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
+        url = `https://opt-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
         break;
       case 137:
-        url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
+        url = `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
         break;
       case 42161:
-        url = `https://arb-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`;
+        url = `https://arb-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`;
         break;
       default:
         throw new Error("Unsupported chain id");
