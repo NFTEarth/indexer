@@ -514,9 +514,21 @@ export const setupRoutes = (server: Server) => {
 
   // Launchpad
   server.route({
+    method: "GET",
+    path: "/launchpads/v1",
+    options: launchpadEndpoints.getLaunchpadsV1Options,
+  });
+
+  server.route({
     method: "POST",
     path: "/launchpad/create/v1",
-    options: launchpadEndpoints.postCreateLaunchpadContractV1Options,
+    options: launchpadEndpoints.postCreateLaunchpadV1Options,
+  });
+
+  server.route({
+    method: "POST",
+    path: "/launchpad/update/v1",
+    options: launchpadEndpoints.postUpdateLaunchpadV1Options,
   });
 
   // Contracts Sets
