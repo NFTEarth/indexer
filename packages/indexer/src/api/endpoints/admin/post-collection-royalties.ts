@@ -6,8 +6,8 @@ import Joi from "joi";
 
 import { logger } from "@/common/logger";
 import { config } from "@/config/index";
-import { idb } from "@/common/db";
-import _ from "lodash";
+import { updateRoyaltySpec } from "@/utils/royalties";
+import * as royalties from "@/utils/royalties";
 
 export const postCollectionRoyalties: RouteOptions = {
   description: "Update collection royalties",
@@ -36,23 +36,10 @@ export const postCollectionRoyalties: RouteOptions = {
     }
 
     const payload = request.payload as any;
-    const id = payload.id;
-    const royalties = payload.royalties;
 
     try {
-      await idb.none(
-        `
-      UPDATE collections SET
-        royalties = $/royalties:json/,
-        royalties_bps = $/royaltiesBps/
-      WHERE collections.id = $/id/
-    `,
-        {
-          id,
-          royalties: royalties,
-          royaltiesBps: _.sumBy(royalties, (royalty: any) => royalty.bps),
-        }
-      );
+      await updateRoyaltySpec(payload.id, "nftearth", payload.royalties);
+      await royalties.refreshDefaultRoyalties(payload.id);
 
       return { message: "Request accepted" };
     } catch (error) {
