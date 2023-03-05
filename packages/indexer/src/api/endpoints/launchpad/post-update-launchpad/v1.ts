@@ -3,7 +3,7 @@
 import { Request, RouteOptions } from "@hapi/hapi";
 import Joi from "joi";
 import { logger } from "@/common/logger";
-import { regex, toBuffer } from "@/common/utils";
+import { regex } from "@/common/utils";
 import { idb } from "@/common/db";
 import { updateRoyaltySpec } from "@/utils/royalties";
 import * as royalties from "@/utils/royalties";
@@ -75,12 +75,11 @@ export const postUpdateLaunchpadV1Options: RouteOptions = {
         `,
         {
           id: payload.id,
-          contract: toBuffer(payload.id),
-          bytecode: payload.bytecode,
-          constructor_args: payload.constructor_args,
-          deployer: toBuffer(payload.deployer),
-          allowlists: payload.allowlists,
-          verified: payload.verified,
+          name: payload.name,
+          slug: payload.slug,
+          allowlists: payload.allowlists || [],
+          verified: payload.verified || false,
+          metadata: payload.metadata
         }
       );
 

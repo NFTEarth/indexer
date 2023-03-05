@@ -690,7 +690,7 @@ export class Router {
 
     const buyInETH = isETH(this.chainId, buyInCurrency);
     if (!buyInETH) {
-      const allSeaport = details.every((c) => ["seaport", "seaport-v1.4"].includes(c.kind));
+      const allSeaport = details.every((c) => ["nftearth", "seaport", "seaport-v1.4"].includes(c.kind));
       if (!allSeaport) {
         throw new Error("Unsupported buy-in currency");
       }
