@@ -79,7 +79,7 @@ export const postUpdateLaunchpadV1Options: RouteOptions = {
           slug: payload.slug,
           allowlists: payload.allowlists || [],
           verified: payload.verified || false,
-          metadata: payload.metadata
+          metadata: payload.metadata,
         }
       );
 

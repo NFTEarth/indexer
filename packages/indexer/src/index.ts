@@ -13,8 +13,9 @@ import { logger } from "@/common/logger";
 import { getNetworkSettings } from "@/config/network";
 import { Sources } from "@/models/sources";
 
-process.on("unhandledRejection", (error) => {
+process.on("unhandledRejection", (error: Error) => {
   logger.error("process", `Unhandled rejection: ${error}`);
+  logger.error("process", `Unhandled rejection stack: ${error.stack}`);
 
   // For now, just skip any unhandled errors
   // process.exit(1);
