@@ -81,7 +81,6 @@ export const config = {
   forwardReservoirApiKeys: process.env.FORWARD_RESERVOIR_API_KEYS
     ? (JSON.parse(process.env.FORWARD_RESERVOIR_API_KEYS) as string[])
     : [],
-
   looksRareApiKey: String(process.env.LOOKSRARE_API_KEY),
   openSeaApiKey: String(process.env.OPENSEA_API_KEY),
   x2y2ApiKey: String(process.env.X2Y2_API_KEY),

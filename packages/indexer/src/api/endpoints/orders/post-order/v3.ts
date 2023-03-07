@@ -493,7 +493,7 @@ export const postOrderV3Options: RouteOptions = {
                 result.id,
                 order.data,
                 "nftearth",
-                config.forwardOpenseaApiKey
+                config.adminApiKey
               );
 
               logger.info(
