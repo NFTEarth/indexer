@@ -38,7 +38,7 @@ export const postOrder = async (order: Sdk.NFTEarth.Order, apiKey: string) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-Api-Key": apiKey || config.openSeaApiKey,
+          "X-Api-Key": config.adminApiKey,
         },
       }
     )
@@ -97,7 +97,7 @@ export const postCollectionOffer = async (
     .post(url, data, {
       headers: {
         "Content-Type": "application/json",
-        "X-Api-Key": apiKey,
+        "X-Api-Key": config.adminApiKey,
       },
     })
     .catch((error) => {
