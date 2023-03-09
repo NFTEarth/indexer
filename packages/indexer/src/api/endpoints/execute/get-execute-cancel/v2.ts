@@ -13,6 +13,7 @@ import { logger } from "@/common/logger";
 import { bn, fromBuffer, regex } from "@/common/utils";
 import { config } from "@/config/index";
 import * as orderUpdatesById from "@/jobs/order-updates/by-id-queue";
+import * as NFTEarthApi from "@/jobs/orderbook/post-order-external/api/nftearth";
 
 const version = "v2";
 
@@ -178,6 +179,8 @@ export const getExecuteCancelV2Options: RouteOptions = {
 
           cancelTx = exchange.cancelOrderTx(maker, order);
           orderSide = order.getInfo()!.side;
+
+          await NFTEarthApi.cancelOrder(order, config.adminApiKey);
 
           break;
         }
