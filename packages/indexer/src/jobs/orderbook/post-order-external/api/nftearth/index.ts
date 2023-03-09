@@ -1,5 +1,6 @@
 import * as Sdk from "@nftearth/sdk";
 import axios from "axios";
+import { parseEther } from "@ethersproject/units";
 
 import { logger } from "@/common/logger";
 import {
@@ -24,7 +25,7 @@ export const postOrder = async (order: Sdk.NFTEarth.Order, apiKey: string) => {
 
   const priceData = await getUSDAndNativePrices(
     order.params[isListing ? "consideration" : "offer"][0].token,
-    order.params[isListing ? "consideration" : "offer"][0].startAmount.toString(),
+    parseEther(order.params[isListing ? "consideration" : "offer"][0].startAmount).toString(),
     order.params.startTime
   );
 
@@ -76,7 +77,7 @@ export const cancelOrder = async (order: Sdk.NFTEarth.Order, apiKey: string) => 
 
   const priceData = await getUSDAndNativePrices(
     order.params[isListing ? "consideration" : "offer"][0].token,
-    order.params[isListing ? "consideration" : "offer"][0].startAmount.toString(),
+    parseEther(order.params[isListing ? "consideration" : "offer"][0].startAmount).toString(),
     order.params.startTime
   );
 
@@ -141,7 +142,7 @@ export const postCollectionOffer = async (
 
   const priceData = await getUSDAndNativePrices(
     order.params[isListing ? "consideration" : "offer"][0].token,
-    order.params[isListing ? "consideration" : "offer"][0].startAmount.toString(),
+    parseEther(order.params[isListing ? "consideration" : "offer"][0].startAmount).toString(),
     order.params.startTime
   );
 
