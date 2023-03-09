@@ -179,7 +179,7 @@ if (config.doBackgroundWork) {
 const getOrderbookDefaultApiKey = (orderbook: string) => {
   switch (orderbook) {
     case "nftearth":
-      return null;
+      return config.adminApiKey;
     case "opensea":
       return config.openSeaApiKey;
     case "looks-rare":
