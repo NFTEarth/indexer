@@ -354,8 +354,8 @@ export const getNetworkSettings = (): NetworkSettings => {
     case 42161: {
       return {
         ...defaultNetworkSettings,
-        enableWebSocket: true,
-        enableReorgCheck: true,
+        enableWebSocket: false,
+        enableReorgCheck: false,
         realtimeSyncFrequencySeconds: 10,
         realtimeSyncMaxBlockLag: 128,
         backfillBlockBatchSize: 512,
