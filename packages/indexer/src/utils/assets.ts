@@ -30,7 +30,7 @@ export class Assets {
   }
 
   public static addImageParams(image: string, query: MergeRefs<ReqRefDefaults>["Query"]): string {
-    const splitImage = image.split(`?`);
+    const splitImage = (image || "").split(`?`);
     const baseUrl = splitImage[0];
     const url = new URL(image);
     const queryParams = new URLSearchParams();
