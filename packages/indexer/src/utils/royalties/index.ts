@@ -177,14 +177,10 @@ export const updateRoyaltySpec = async (
 export const refreshAllRoyaltySpecs = async (
   collection: string,
   customRoyalties?: Royalty[],
-  nftearthRoyalties?: Royalty[],
   openseaRoyalties?: Royalty[]
 ) => {
   // Update custom royalties
   await updateRoyaltySpec(collection, "custom", customRoyalties);
-
-  // Update nftearth royalties
-  await updateRoyaltySpec(collection, "nftearth", nftearthRoyalties);
 
   // Update opensea royalties
   await updateRoyaltySpec(collection, "opensea", openseaRoyalties);

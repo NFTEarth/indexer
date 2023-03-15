@@ -10,7 +10,7 @@ import {
 import { now } from "@/common/utils";
 import { getUSDAndNativePrices } from "@/utils/prices";
 
-// Open Sea default rate limit - 2 requests per second for post apis
+// NFTEarth default rate limit - 2 requests per second for post apis
 export const RATE_LIMIT_REQUEST_COUNT = 10000;
 export const RATE_LIMIT_INTERVAL = 100;
 
@@ -37,7 +37,7 @@ export const postOrder = async (order: Sdk.NFTEarth.Order, apiKey: string) => {
           type: isListing ? "listing" : "offer",
           ...order.params,
           totalOriginalConsiderationItems: order.params.consideration.length,
-          nativeValue: priceData,
+          nativeValue: priceData?.nativePrice,
         },
         chainId: order.chainId,
         signature: order.params.signature!,

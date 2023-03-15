@@ -144,7 +144,7 @@ export const isNonceCancelled = async (
     }
   );
 
-  return nonceCancelResult ? true : false;
+  return !!nonceCancelResult;
 };
 
 export const isOrderCancelled = async (orderId: string): Promise<boolean> => {
@@ -157,7 +157,7 @@ export const isOrderCancelled = async (orderId: string): Promise<boolean> => {
     { orderId }
   );
 
-  return cancelResult ? true : false;
+  return !!cancelResult;
 };
 
 export const getQuantityFilled = async (orderId: string): Promise<BigNumber> => {
