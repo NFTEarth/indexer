@@ -164,6 +164,7 @@ if (config.doBackgroundWork) {
           if (
             attributeKeysIdsMap.has(key) &&
             kind == "number" &&
+            attributeKeysIdsMap.get(key)?.info !== null &&
             (attributeKeysIdsMap.get(key)?.info.min_range > value ||
               attributeKeysIdsMap.get(key)?.info.max_range < value)
           ) {
@@ -201,7 +202,7 @@ if (config.doBackgroundWork) {
           }
 
           // This is a new key, insert it and return the ID
-          if (!attributeKeysIdsMap.has(key)) {
+          if (!attributeKeysIdsMap.has(key) || attributeKeysIdsMap.get(key)?.info === null) {
             let info = null;
             if (kind == "number") {
               info = { min_range: Number(value), max_range: Number(value) };
