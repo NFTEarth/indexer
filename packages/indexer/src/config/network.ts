@@ -27,6 +27,9 @@ export const getNetworkName = () => {
     case 324:
       return "zksync";
 
+    case 1101:
+      return "zkevm";
+
     case 42161:
       return "arbitrum";
 
@@ -353,7 +356,7 @@ export const getNetworkSettings = (): NetworkSettings => {
         },
       };
     }
-    // zkEVM
+    // zkSync
     case 324: {
       return {
         ...defaultNetworkSettings,
@@ -375,6 +378,48 @@ export const getNetworkSettings = (): NetworkSettings => {
         },
         coingecko: {
           networkId: "zksync",
+        },
+        onStartup: async () => {
+          // Insert the native currency
+          await Promise.all([
+            idb.none(
+              `
+                INSERT INTO currencies (
+                  contract,
+                  name,
+                  symbol,
+                  decimals,
+                  metadata
+                ) VALUES (
+                  '\\x0000000000000000000000000000000000000000',
+                  'Ether',
+                  'ETH',
+                  18,
+                  '{"coingeckoCurrencyId": "ethereum", "image": "https://assets.coingecko.com/coins/images/279/large/ethereum.png"}'
+                ) ON CONFLICT DO NOTHING
+              `
+            ),
+          ]);
+        },
+      };
+    }
+    // zkEVM
+    case 1101: {
+      return {
+        ...defaultNetworkSettings,
+        enableWebSocket: true,
+        enableReorgCheck: false,
+        realtimeSyncFrequencySeconds: 15,
+        realtimeSyncMaxBlockLag: 128,
+        backfillBlockBatchSize: 512,
+        subDomain: "zkevm-indexer",
+        enableMetadataAutoRefresh: true,
+        mintsAsSalesBlacklist: [
+          // Uniswap V3: Positions NFT
+          "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+        ],
+        coingecko: {
+          networkId: "zkevm",
         },
         onStartup: async () => {
           // Insert the native currency

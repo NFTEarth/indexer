@@ -8,7 +8,7 @@ export const Eth: ChainIdToAddress = {
   [Network.Optimism]: AddressZero,
   [Network.Gnosis]: AddressZero,
   [Network.Polygon]: AddressZero,
-  [Network.ZKSync]: AddressZero,
+  [Network.zkEVM]: AddressZero,
   [Network.Arbitrum]: AddressZero,
   [Network.AvalancheFuji]: AddressZero,
   [Network.Avalanche]: AddressZero,
@@ -21,7 +21,7 @@ export const Weth: ChainIdToAddress = {
   [Network.Optimism]: "0x4200000000000000000000000000000000000006",
   [Network.Gnosis]: "0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1",
   [Network.Arbitrum]: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
-  [Network.ZKSync]: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+  [Network.zkEVM]: "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9",
   // Polygon: Wrapped MATIC
   [Network.Polygon]: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
   [Network.PolygonMumbai]: "0x9c3c9283d3e44854697cd22d3faa240cfb032889",
@@ -35,7 +35,7 @@ export const Usdc: ChainIdToAddress = {
   [Network.Ethereum]: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
   [Network.Optimism]: "0x7f5c764cbc14f9669b88837ca1490cca17c31607",
   [Network.Arbitrum]: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
-  [Network.ZKSync]: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
+  [Network.zkEVM]: "0xA8CE8aee21bC2A48a5EF670afCc9274C7bbbC035",
 };
 
 export const RoyaltyRegistry: ChainIdToAddress = {
@@ -55,5 +55,5 @@ export const Permit2: ChainIdToAddress = {
   [Network.Optimism]: "0x000000000022d473030f116ddee9f6b43ac78ba3",
   [Network.Arbitrum]: "0x000000000022d473030f116ddee9f6b43ac78ba3",
   [Network.Polygon]: "0x000000000022d473030f116ddee9f6b43ac78ba3",
-  [Network.ZKSync]: "0x000000000022d473030f116ddee9f6b43ac78ba3",
+  [Network.zkEVM]: "0x000000000022d473030f116ddee9f6b43ac78ba3",
 };

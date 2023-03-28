@@ -96,7 +96,9 @@ export enum Network {
   Polygon = 137,
   PolygonMumbai = 80001,
   // ZKSync
-  ZKSync = 324,
+  zkSync = 324,
+  // zkEVM
+  zkEVM = 1101,
   // Arbitrum
   Arbitrum = 42161,
   // Avalanche

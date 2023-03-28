@@ -77,7 +77,7 @@ if (config.doBackgroundWork) {
       const tokenUrlGoerli = getTokenUrl(html, url, "goerli");
       const tokenUrlOptimism = getTokenUrl(html, url, "optimism");
       const tokenUrlArbitrum = getTokenUrl(html, url, "arbitrum");
-      const tokenUrlZkSync = getTokenUrl(html, url, "zksync");
+      const tokenUrlzkEVM = getTokenUrl(html, url, "zkevm");
 
       // Update the source data
       const sources = await Sources.getInstance();
@@ -90,7 +90,7 @@ if (config.doBackgroundWork) {
         tokenUrlGoerli,
         tokenUrlOptimism,
         tokenUrlArbitrum,
-        tokenUrlZkSync,
+        tokenUrlzkEVM,
       });
     },
     {

@@ -99,7 +99,7 @@ export class Sources {
         icon: "https://nftearth.exchange/nftearth-icon.png",
         tokenUrlOptimism: "https://nftearth.exchange/collection/optimism/${contract}/${tokenId}",
         tokenUrlArbitrum: "https://nftearth.exchange/collection/arbitrum/${contract}/${tokenId}",
-        tokenUrlZkSync: "https://nftearth.exchange/collection/zksync/${contract}/${tokenId}",
+        tokenUrlzkEVM: "https://nftearth.exchange/collection/zkevm/${contract}/${tokenId}",
       },
       optimized: true,
       createdAt: "2023-01-29 20:51:06.23 +0700",
@@ -390,10 +390,10 @@ export class Sources {
 
         return _.replace(sourceEntity.metadata.url, "${tokenId}", tokenId);
       }
-    } else if (config.chainId == 324) {
-      if (sourceEntity.metadata.tokenUrlZkSync && contract && tokenId) {
+    } else if (config.chainId == 1101) {
+      if (sourceEntity.metadata.tokenUrlzkEVM && contract && tokenId) {
         sourceEntity.metadata.url = _.replace(
-          sourceEntity.metadata.tokenUrlZkSync,
+          sourceEntity.metadata.tokenUrlzkEVM,
           "${contract}",
           contract
         );
