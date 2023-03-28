@@ -30,7 +30,7 @@ if (config.doBackgroundWork) {
       const { id } = job.data as Info;
 
       try {
-        if (Number(id) > ([10, 42161].includes(config.chainId) ? 43818574 : 116212)) {
+        if (Number(id) > (config.chainId === 1 ? 43818574 : 116212)) {
           return;
         }
 
