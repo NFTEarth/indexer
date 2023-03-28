@@ -77,6 +77,7 @@ if (config.doBackgroundWork) {
       const tokenUrlGoerli = getTokenUrl(html, url, "goerli");
       const tokenUrlOptimism = getTokenUrl(html, url, "optimism");
       const tokenUrlArbitrum = getTokenUrl(html, url, "arbitrum");
+      const tokenUrlZkSync = getTokenUrl(html, url, "zksync");
 
       // Update the source data
       const sources = await Sources.getInstance();
@@ -89,6 +90,7 @@ if (config.doBackgroundWork) {
         tokenUrlGoerli,
         tokenUrlOptimism,
         tokenUrlArbitrum,
+        tokenUrlZkSync,
       });
     },
     {
@@ -106,7 +108,7 @@ function getTokenUrl(html: HTMLElement, domain: string, network: string) {
   let tokenUrl;
 
   // Get the custom reservoir token URL tag for mainnet
-  const reservoirTokenUrl = html.querySelector(`meta[property='reservoir:token-url-${network}']`);
+  const reservoirTokenUrl = html.querySelector(`meta[property='nftearth:token-url-${network}']`);
 
   if (reservoirTokenUrl) {
     tokenUrl = reservoirTokenUrl.getAttribute("content");

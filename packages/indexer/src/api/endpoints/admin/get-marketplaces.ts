@@ -185,6 +185,10 @@ export const getMarketplaces: RouteOptions = {
           listableOrderbooks = ["nftearth"];
           break;
         }
+        case 324: {
+          listableOrderbooks = ["nftearth"];
+          break;
+        }
         case 42161: {
           listableOrderbooks = ["nftearth"];
           break;

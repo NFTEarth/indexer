@@ -42,7 +42,7 @@ if (config.doBackgroundWork) {
       const { orderId, orderData, orderbook, retry } = job.data as PostOrderExternalParams;
       let orderbookApiKey = job.data.orderbookApiKey;
 
-      if (![1, 4, 5, 10, 42161].includes(config.chainId)) {
+      if (![1, 4, 5, 10, 324, 42161].includes(config.chainId)) {
         throw new Error("Unsupported network");
       }
 

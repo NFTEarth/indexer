@@ -92,7 +92,8 @@
     "data": {
       "icon": "https://nftearth.exchange/nftearth-icon.png",
       "tokenUrlOptimism": "https://nftearth.exchange/collection/optimism/${contract}/${tokenId}",
-      "tokenUrlArbitrum": "https://nftearth.exchange/collection/arbitrum/${contract}/${tokenId}"
+      "tokenUrlArbitrum": "https://nftearth.exchange/collection/arbitrum/${contract}/${tokenId}",
+      "tokenUrlZkSync": "https://nftearth.exchange/collection/zksync/${contract}/${tokenId}"
     }
   },
   "34": {
