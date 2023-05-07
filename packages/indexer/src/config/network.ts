@@ -48,6 +48,9 @@ export const getOpenseaNetworkName = () => {
 
     case 137:
       return "matic";
+      
+    case 42161:
+      return "arbitrum";
 
     default:
       return "ethereum";
@@ -455,14 +458,46 @@ export const getNetworkSettings = (): NetworkSettings => {
         realtimeSyncMaxBlockLag: 128,
         backfillBlockBatchSize: 512,
         subDomain: "arb-indexer",
+        whitelistedCurrencies new Map ([
+          [
+            "0x912CE59144191C1204E64559FE8253a0e49E6548", // MUST BE LOWERCASE
+            {
+              contract: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+              name: "Arbitrum",
+              symbol: “ARB”,
+              decimals: 18,
+              metadata: { // OPTIONAL
+                image:
+                  "{https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg?1680097630}", 
+              },
+            },
+          ],
+          [
+            "0xb261104a83887ae92392fb5ce5899fcfe5481456", // MUST BE LOWERCASE
+            {
+              contract: "0xb261104a83887ae92392fb5ce5899fcfe5481456",
+              name: “NFTEarth”,
+              symbol: “NFTE”,
+              decimals: 18,
+              metadata: { // OPTIONAL
+                image:
+                  "{https://assets.coingecko.com/coins/images/29116/small/20230223_224134.jpg?1677224110}", 
+              },
+            },
+          ],
+        ]), 
         mintsAsSalesBlacklist: [
           // Uniswap V3: Positions NFT
           "0xc36442b4a4522e871399cd717abdd847ab11fe88",
         ],
         supportedBidCurrencies: {
           ...defaultNetworkSettings.supportedBidCurrencies,
-          // ARBY
-          "0x9D575a9bF57a5e24a99D29724B86ca021A2b0435": true,
+          // Arbitrum
+          "0x912CE59144191C1204E64559FE8253a0e49E6548": true,
+        },
+        {
+          // NFTEarth
+          "0xb261104a83887ae92392fb5ce5899fcfe5481456": true,
         },
         coingecko: {
           networkId: "arbitrum-one",
